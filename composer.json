@@ -1,0 +1,53 @@
+{
+    "name": "mvdnbrk/warehouse-framework",
+    "description": "Warehouse Framework",
+    "keywords": [
+        "laravel",
+        "warehouse"
+    ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Mark van den Broek",
+            "email": "mvdnbrk@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^7.2",
+        "illuminate/support": "5.8.*"
+    },
+    "require-dev": {
+        "nunomaduro/collision": "^3.0",
+        "nunomaduro/larastan": "^0.3",
+        "orchestra/testbench": "^3.8",
+        "phpunit/phpunit": "^8.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Just\\Warehouse\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Just\\Warehouse\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Just\\Warehouse\\WarehouseServiceProvider"
+            ],
+            "aliases": {
+                "JustWarehouse": "Just\\Warehouse\\WarehouseFacade"
+            }
+        }
+    }
+}
