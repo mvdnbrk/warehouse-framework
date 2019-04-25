@@ -24,6 +24,8 @@ class WarehouseServiceProvider extends ServiceProvider
                 __DIR__.'/../config/warehouse.php' => config_path('warehouse.php'),
             ], 'warehouse-config');
 
+            $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
+
             // Publishing the views.
             /*$this->publishes([
                 __DIR__.'/../resources/views' => resource_path('views/vendor/lawhse'),
