@@ -2,6 +2,7 @@
 
 namespace Just\Warehouse\Tests;
 
+use Just\Warehouse\WarehouseServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
 
 abstract class TestCase extends Orchestra
@@ -23,5 +24,18 @@ abstract class TestCase extends Orchestra
             'database' => ':memory:',
             'prefix' => '',
         ]);
+    }
+
+    /**
+     * Get package providers.
+     *
+     * @param  \Illuminate\Foundation\Application  $app
+     * @return array
+     */
+    protected function getPackageProviders($app)
+    {
+        return [
+            WarehouseServiceProvider::class,
+        ];
     }
 }
