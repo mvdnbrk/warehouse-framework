@@ -51,8 +51,9 @@ class WarehouseServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        // Automatically apply the package configuration
-        $this->mergeConfigFrom(__DIR__.'/../config/warehouse.php', 'warehouse-config');
+        $this->mergeConfigFrom(
+            __DIR__.'/../config/warehouse.php', 'warehouse'
+        );
 
         // Register the main class to use with the facade
         $this->app->singleton('warehouse', function () {
