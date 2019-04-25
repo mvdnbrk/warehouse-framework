@@ -1,3 +1,3 @@
 # Changelog
 
-All notable changes to `lawhse` will be documented in this file.
+All notable changes to `warehouse-framework` will be documented in this file.
