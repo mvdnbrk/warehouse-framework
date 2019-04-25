@@ -1,16 +1,19 @@
-# Very short description of the package
+# Laravel Warehouse Framework
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/mvdnbrk/lawhse.svg?style=flat-square)](https://packagist.org/packages/mvdnbrk/lawhse)
-[![Build Status](https://img.shields.io/travis/mvdnbrk/lawhse/master.svg?style=flat-square)](https://travis-ci.org/mvdnbrk/lawhse)
-[![Quality Score](https://img.shields.io/scrutinizer/g/mvdnbrk/lawhse.svg?style=flat-square)](https://scrutinizer-ci.com/g/mvdnbrk/lawhse)
-[![Total Downloads](https://img.shields.io/packagist/dt/mvdnbrk/lawhse.svg?style=flat-square)](https://packagist.org/packages/mvdnbrk/lawhse)
+[![Latest Version on Packagist][ico-version]][link-packagist]
+[![Software License][ico-license]](LICENSE.md)
+[![Build Status][ico-travis]][link-travis]
+[![Coverage Status][ico-scrutinizer]][link-scrutinizer]
+[![Quality Score][ico-code-quality]][link-code-quality]
+[![StyleCI][ico-style-ci]][link-style-ci]
+[![Total Downloads][ico-downloads]][link-downloads]
 
 ## Installation
 
 You can install the package via composer:
 
 ```bash
-composer require mvdnbrk/lawhse
+composer require mvdnbrk/warehouse-framework
 ```
 
 ## Usage
@@ -39,9 +42,27 @@ If you discover any security related issues, please email mvdnbrk@gmail.com inst
 
 ## Credits
 
-- [Mark van den Broek](https://github.com/mvdnbrk)
-- [All Contributors](../../contributors)
+- [Mark van den Broek][link-author]
+- [All Contributors][link-contributors]
 
 ## License
 
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
+
+[ico-version]: https://img.shields.io/packagist/v/mvdnbrk/warehouse-framework.svg?style=flat-square
+[ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
+[ico-travis]: https://img.shields.io/travis/mvdnbrk/warehouse-framework/master.svg?style=flat-square
+[ico-scrutinizer]: https://img.shields.io/scrutinizer/coverage/g/mvdnbrk/warehouse-framework.svg?style=flat-square
+[ico-code-quality]: https://img.shields.io/scrutinizer/g/mvdnbrk/warehouse-framework.svg?style=flat-square
+[ico-style-ci]: https://styleci.io/repos/149487979/shield?branch=master
+[ico-downloads]: https://img.shields.io/packagist/dt/mvdnbrk/warehouse-framework.svg?style=flat-square
+
+[link-packagist]: https://packagist.org/packages/mvdnbrk/warehouse-framework
+[link-travis]: https://travis-ci.org/mvdnbrk/warehouse-framework
+[link-scrutinizer]: https://scrutinizer-ci.com/g/mvdnbrk/warehouse-framework/code-structure
+[link-code-quality]: https://scrutinizer-ci.com/g/mvdnbrk/warehouse-framework
+[link-style-ci]: https://styleci.io/repos/...
+[link-downloads]: https://packagist.org/packages/mvdnbrk/warehouse-framework
+[link-author]: https://github.com/mvdnbrk
+[link-contributors]: ../../contributors
+
