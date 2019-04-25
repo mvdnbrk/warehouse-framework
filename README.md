@@ -61,7 +61,7 @@ The MIT License (MIT). Please see [License File](LICENSE.md) for more informatio
 [link-travis]: https://travis-ci.org/mvdnbrk/warehouse-framework
 [link-scrutinizer]: https://scrutinizer-ci.com/g/mvdnbrk/warehouse-framework/code-structure
 [link-code-quality]: https://scrutinizer-ci.com/g/mvdnbrk/warehouse-framework
-[link-style-ci]: https://styleci.io/repos/...
+[link-style-ci]: https://styleci.io/repos/183472123
 [link-downloads]: https://packagist.org/packages/mvdnbrk/warehouse-framework
 [link-author]: https://github.com/mvdnbrk
 [link-contributors]: ../../contributors
