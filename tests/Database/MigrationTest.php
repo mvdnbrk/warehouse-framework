@@ -4,12 +4,9 @@ namespace Just\Warehouse\Tests\Database;
 
 use Just\Warehouse\Tests\TestCase;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class MigrationTest extends TestCase
 {
-    use RefreshDatabase;
-
     /** @test */
     public function it_runs_the_locations_migration()
     {
