@@ -7,6 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 class Location extends Model
 {
     /**
+     * The attributes that aren't mass assignable.
+     *
+     * @var array
+     */
+    protected $guarded = [];
+
+    /**
      * Get the current connection name for the model.
      *
      * @return string
