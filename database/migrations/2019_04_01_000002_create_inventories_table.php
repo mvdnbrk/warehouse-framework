@@ -7,16 +7,6 @@ use Illuminate\Database\Migrations\Migration;
 class CreateInventoriesTable extends Migration
 {
     /**
-     * Get the migration connection name.
-     *
-     * @return string
-     */
-    public function getConnection()
-    {
-        return config('warehouse.database_connection');
-    }
-
-    /**
      * Run the migrations.
      *
      * @return void
