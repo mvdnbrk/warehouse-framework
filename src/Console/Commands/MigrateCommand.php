@@ -3,7 +3,6 @@
 namespace Just\Warehouse\Console\Commands;
 
 use Illuminate\Console\Command;
-use Just\Warehouse\Models\Location;
 
 class MigrateCommand extends Command
 {
