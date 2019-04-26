@@ -22,7 +22,8 @@
         "nunomaduro/collision": "^3.0",
         "nunomaduro/larastan": "^0.3",
         "orchestra/testbench": "^3.8",
-        "phpunit/phpunit": "^8.0"
+        "phpunit/phpunit": "^8.0",
+        "scrutinizer/ocular": "^1.5"
     },
     "autoload": {
         "psr-4": {
