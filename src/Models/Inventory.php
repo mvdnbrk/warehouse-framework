@@ -2,7 +2,6 @@
 
 namespace Just\Warehouse\Models;
 
-use Just\Warehouse\Models\Location;
 use Illuminate\Database\Eloquent\Model;
 
 class Inventory extends Model
