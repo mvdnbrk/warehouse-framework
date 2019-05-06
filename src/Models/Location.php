@@ -3,6 +3,7 @@
 namespace Just\Warehouse\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Just\Warehouse\Exceptions\InvalidGtinException;
 
 class Location extends Model
 {
@@ -31,5 +32,44 @@ class Location extends Model
     public function inventory()
     {
         return $this->hasMany(Inventory::class);
+    }
+
+    /**
+     * Add inventory to this location.
+     *
+     * @param  string  $value
+     * @return \Just\Warehouse\Models\Inventory
+     * @throws \Just\Warehouse\Exceptions\InvalidGtinException
+     */
+    public function addInventory($value)
+    {
+        if (! is_gtin($value)) {
+            throw new InvalidGtinException($value);
+        }
+
+        return $this->inventory()->create([
+            'gtin' => $value,
+        ]);
+    }
+
+    /**
+     * Delete inventory from this location.
+     *
+     * @param  string  $gtin
+     * @return bool
+     * @throws \Just\Warehouse\Exceptions\InvalidGtinException
+     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+     */
+    public function removeInventory($value)
+    {
+        if (! is_gtin($value)) {
+            throw new InvalidGtinException($value);
+        }
+
+        if (! $model = $this->inventory()->whereGtin($value)->oldest()->first()) {
+            throw (new \Illuminate\Database\Eloquent\ModelNotFoundException($value))->setModel($this);
+        }
+
+        return $model->delete();
     }
 }
