@@ -22,13 +22,13 @@ composer require mvdnbrk/warehouse-framework
 // Usage description here
 ```
 
-### Testing
+## Testing
 
 ``` bash
 composer test
 ```
 
-### Changelog
+## Changelog
 
 Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recently.
 
