@@ -31,5 +31,8 @@ class MigrateCommand extends Command
             '--database' => config('warehouse.database_connection'),
             '--path' => 'vendor/mvdnbrk/warehouse-framework/database/migrations',
         ]);
+
+        $this->line('');
+        $this->info('Your warehouse is ready for use!');
     }
 }
