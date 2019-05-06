@@ -28,6 +28,7 @@ class WarehouseServiceProvider extends ServiceProvider
         );
 
         $this->commands([
+            Console\Commands\InstallCommand::class,
             Console\Commands\MigrateCommand::class,
             Console\Commands\MakeLocationCommand::class,
         ]);
