@@ -18,8 +18,28 @@ composer require mvdnbrk/warehouse-framework
 
 ## Usage
 
+### Locations
+
+You can retrieve all locations using the `Just\Warehouse\Models\Location` model:
+
 ``` php
-// Usage description here
+Location::all();
+```
+
+### Inventory
+
+Add inventory to a location with a GTIN:
+
+``` php
+$location = Location::find(1);
+$location->addInventory('123456000000');
+```
+
+Remove inventory from a location:
+
+``` php
+$location = Location::find(1);
+$location->removeInventory('123456000000');
 ```
 
 ## Testing
