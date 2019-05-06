@@ -25,6 +25,9 @@
         "scrutinizer/ocular": "^1.5"
     },
     "autoload": {
+        "files": [
+            "src/Support/helpers.php"
+        ],
         "psr-4": {
             "Just\\Warehouse\\": "src"
         }
