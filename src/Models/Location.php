@@ -55,7 +55,7 @@ class Location extends Model
     /**
      * Delete inventory from this location.
      *
-     * @param  string  $gtin
+     * @param  string  $value
      * @return bool
      * @throws \Just\Warehouse\Exceptions\InvalidGtinException
      * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
