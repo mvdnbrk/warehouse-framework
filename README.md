@@ -16,6 +16,22 @@ You can install the package via composer:
 composer require mvdnbrk/warehouse-framework
 ```
 
+Run the install command:
+
+```bash
+php artisan warehouse:install
+```
+
+This package uses it's own database.
+By default we assume that you will prepare a connection called "warehouse" in your `config/database.php` file.
+If you would like to use a different connection you can do so by setting `WAREHOUSE_DB_CONNECTION` in your `.env` file.
+
+Now you can run the migrations for this package with:
+
+```
+php artisan warehouse:migrate
+```
+
 ## Usage
 
 ### Locations
