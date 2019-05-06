@@ -53,7 +53,7 @@ class Location extends Model
     }
 
     /**
-     * Delete inventory from this location.
+     * Remove inventory from this location.
      *
      * @param  string  $value
      * @return bool
