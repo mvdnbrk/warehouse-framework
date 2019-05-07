@@ -10,6 +10,8 @@ class InstallCommandTest extends TestCase
     public function it_can_install_the_package()
     {
         $this->artisan('warehouse:install')
+            ->expectsOutput('Publishing configuration...')
+            ->expectsOutput('Warehouse was installed successfully.')
             ->assertExitCode(0);
     }
 }

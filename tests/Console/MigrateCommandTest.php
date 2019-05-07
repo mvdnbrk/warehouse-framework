@@ -10,6 +10,7 @@ class MigrateCommandTest extends TestCase
     public function it_can_run_the_migration()
     {
         $this->artisan('warehouse:migrate')
+            ->expectsOutput('Your warehouse is ready for use!')
             ->assertExitCode(0);
     }
 }
