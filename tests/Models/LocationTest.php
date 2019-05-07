@@ -115,4 +115,22 @@ class LocationTest extends TestCase
 
         $this->fail('Removing inventory succeeded altough that inventory item does not exist.');
     }
+
+    /** @test */
+    public function it_can_remove_all_inventory()
+    {
+        $location = factory(Location::class)->create();
+        $location->addInventory('1300000000000');
+        $location->addInventory('1300000000000');
+
+        $otherLocation = factory(Location::class)->create();
+        $otherLocation->addInventory('1300000000000');
+        $otherLocation->addInventory('1300000000000');
+
+        $this->assertCount(4, Inventory::all());
+
+        $this->assertEquals(2, $location->removeAllInventory());
+
+        $this->assertCount(2, Inventory::all());
+    }
 }

@@ -58,6 +58,13 @@ $location = Location::find(1);
 $location->removeInventory('123456000000');
 ```
 
+Remove **all** inventory from a location:
+
+``` php
+$location = Location::find(1);
+$location->removeAllInventory();
+```
+
 ## Testing
 
 ``` bash

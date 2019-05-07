@@ -72,4 +72,14 @@ class Location extends Model
 
         return $model->delete();
     }
+
+    /**
+     * Remove all inventory from this location.
+     *
+     * @return int
+     */
+    public function removeAllInventory()
+    {
+        return $this->inventory()->delete();
+    }
 }
