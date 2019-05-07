@@ -11,12 +11,12 @@ class MakeLocationCommandTest extends TestCase
     public function it_makes_a_new_location()
     {
         $this->artisan('warehouse:make:location')
-            ->expectsQuestion('What is the name of the location?', '1')
+            ->expectsQuestion('What is the name of the location?', 'test-name')
             ->assertExitCode(0);
 
         $this->assertCount(1, Location::all());
         tap(Location::first(), function ($location) {
-            $this->assertEquals('1', $location->name);
+            $this->assertEquals('test-name', $location->name);
         });
     }
 }
