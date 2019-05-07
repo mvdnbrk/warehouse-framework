@@ -8,6 +8,8 @@ class WarehouseServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap the application services.
+     *
+     * @return void
      */
     public function boot()
     {
@@ -20,6 +22,8 @@ class WarehouseServiceProvider extends ServiceProvider
 
     /**
      * Register the application services.
+     *
+     * @return void
      */
     public function register()
     {
