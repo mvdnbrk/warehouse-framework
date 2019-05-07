@@ -12,6 +12,7 @@ class MakeLocationCommandTest extends TestCase
     {
         $this->artisan('warehouse:make:location')
             ->expectsQuestion('What is the name of the location?', 'test-name')
+            ->expectsOutput('Location <comment>test-name</comment> created successfully.')
             ->assertExitCode(0);
 
         $this->assertCount(1, Location::all());
