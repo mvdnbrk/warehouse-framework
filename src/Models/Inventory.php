@@ -7,6 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 class Inventory extends Model
 {
     /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    protected $dates = [
+        'reserved_at',
+    ];
+
+    /**
      * The attributes that aren't mass assignable.
      *
      * @var array
@@ -31,5 +40,25 @@ class Inventory extends Model
     public function location()
     {
         return $this->belongsTo(Location::class);
+    }
+
+    /**
+     * Release this item.
+     *
+     * @return bool
+     */
+    public function release()
+    {
+        return $this->update(['reserved_at' => null]);
+    }
+
+    /**
+     * Reserve this item.
+     *
+     * @return bool
+     */
+    public function reserve()
+    {
+        return $this->update(['reserved_at' => now()]);
     }
 }

@@ -17,6 +17,7 @@ class CreateInventoriesTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('location_id');
             $table->string('gtin', 14);
+            $table->datetime('reserved_at')->nullable();
             $table->timestamps();
 
             $table->foreign('location_id')->references('id')->on('locations');

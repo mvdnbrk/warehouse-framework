@@ -23,4 +23,26 @@ class InventoryTest extends TestCase
 
         $this->assertInstanceOf(Location::class, $inventory->location);
     }
+
+    /** @test */
+    public function it_can_be_reserved()
+    {
+        $inventory = factory(Inventory::class)->create();
+        $this->assertNull($inventory->reserved_at);
+
+        $this->assertTrue($inventory->reserve());
+
+        $this->assertNotNull($inventory->fresh()->reserved_at);
+    }
+
+    /** @test */
+    public function it_can_be_released()
+    {
+        $inventory = factory(Inventory::class)->states('reserved')->create();
+        $this->assertNotNull($inventory->reserved_at);
+
+        $this->assertTrue($inventory->release());
+
+        $this->assertNull($inventory->fresh()->reserved_at);
+    }
 }

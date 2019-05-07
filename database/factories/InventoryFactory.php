@@ -12,3 +12,9 @@ $factory->define(Inventory::class, function (Faker $faker) {
         },
     ];
 });
+
+$factory->state(Inventory::class, 'reserved', function () {
+    return [
+        'reserved_at' => now(),
+    ];
+});

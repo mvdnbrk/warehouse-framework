@@ -29,6 +29,7 @@ class MigrationTest extends TestCase
             'id',
             'location_id',
             'gtin',
+            'reserved_at',
             'created_at',
             'updated_at',
         ], $columns);
