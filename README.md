@@ -28,7 +28,7 @@ If you would like to use a different connection you can do so by setting `WAREHO
 
 Now you can run the migrations for this package with:
 
-```
+```bash
 php artisan warehouse:migrate
 ```
 
@@ -40,6 +40,12 @@ You can retrieve all locations using the `Just\Warehouse\Models\Location` model:
 
 ``` php
 Location::all();
+```
+
+Create a location with this artisan command:
+
+```bash
+php artisan warehouse:make:location
 ```
 
 ### Inventory
