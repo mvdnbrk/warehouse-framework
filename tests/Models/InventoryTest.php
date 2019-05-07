@@ -11,7 +11,7 @@ class InventoryTest extends TestCase
     /** @test */
     public function it_uses_the_warehouse_database_connection()
     {
-        $inventory = factory(Inventory::class)->make();
+        $inventory = factory(Inventory::class)->make(['location_id' => null]);
 
         $this->assertEquals('warehouse', $inventory->getConnectionName());
     }
