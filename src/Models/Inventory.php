@@ -2,9 +2,7 @@
 
 namespace Just\Warehouse\Models;
 
-use Illuminate\Database\Eloquent\Model;
-
-class Inventory extends Model
+class Inventory extends AbstractModel
 {
     /**
      * The attributes that should be mutated to dates.
@@ -14,23 +12,6 @@ class Inventory extends Model
     protected $dates = [
         'reserved_at',
     ];
-
-    /**
-     * The attributes that aren't mass assignable.
-     *
-     * @var array
-     */
-    protected $guarded = [];
-
-    /**
-     * Get the current connection name for the model.
-     *
-     * @return string
-     */
-    public function getConnectionName()
-    {
-        return config('warehouse.database_connection');
-    }
 
     /**
      * It has a location.

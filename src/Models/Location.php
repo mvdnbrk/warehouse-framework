@@ -2,28 +2,10 @@
 
 namespace Just\Warehouse\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Just\Warehouse\Exceptions\InvalidGtinException;
 
-class Location extends Model
+class Location extends AbstractModel
 {
-    /**
-     * The attributes that aren't mass assignable.
-     *
-     * @var array
-     */
-    protected $guarded = [];
-
-    /**
-     * Get the current connection name for the model.
-     *
-     * @return string
-     */
-    public function getConnectionName()
-    {
-        return config('warehouse.database_connection');
-    }
-
     /**
      * The inventory associated with this location.
      *
