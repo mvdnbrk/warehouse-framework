@@ -17,6 +17,16 @@ class InventoryTest extends TestCase
     }
 
     /** @test */
+    public function it_mutates_the_reserved_at_column_to_a_date()
+    {
+        $inventory = factory(Inventory::class)->make(['location_id' => null]);
+
+        $this->assertTrue(
+            in_array('reserved_at', $inventory->getDates())
+        );
+    }
+
+    /** @test */
     public function it_has_a_location()
     {
         $inventory = factory(Inventory::class)->create();
