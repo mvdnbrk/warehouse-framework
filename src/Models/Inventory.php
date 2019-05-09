@@ -2,8 +2,12 @@
 
 namespace Just\Warehouse\Models;
 
+use Illuminate\Database\Eloquent\SoftDeletes;
+
 class Inventory extends AbstractModel
 {
+    use SoftDeletes;
+
     /**
      * The attributes that should be mutated to dates.
      *

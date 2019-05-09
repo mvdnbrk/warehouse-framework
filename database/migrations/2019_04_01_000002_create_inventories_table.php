@@ -19,6 +19,7 @@ class CreateInventoriesTable extends Migration
             $table->string('gtin', 14);
             $table->datetime('reserved_at')->nullable();
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('location_id')->references('id')->on('locations');
         });
