@@ -45,6 +45,7 @@ class MigrationTest extends TestCase
             'id',
             'order_number',
             'meta',
+            'status',
             'created_at',
             'updated_at',
         ], $columns);
