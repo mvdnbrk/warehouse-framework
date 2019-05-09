@@ -35,4 +35,29 @@ class MigrationTest extends TestCase
             'deleted_at',
         ], $columns);
     }
+
+    /** @test */
+    public function it_runs_the_orders_migration()
+    {
+        $columns = Schema::connection('warehouse')->getColumnListing('orders');
+
+        $this->assertEquals([
+            'id',
+            'meta',
+            'created_at',
+            'updated_at',
+        ], $columns);
+    }
+
+    /** @test */
+    public function it_runs_the_order_lines_migration()
+    {
+        $columns = Schema::connection('warehouse')->getColumnListing('order_lines');
+
+        $this->assertEquals([
+            'id',
+            'order_id',
+            'gtin',
+        ], $columns);
+    }
 }
