@@ -43,6 +43,7 @@ class MigrationTest extends TestCase
 
         $this->assertEquals([
             'id',
+            'order_number',
             'meta',
             'created_at',
             'updated_at',
