@@ -17,7 +17,7 @@ class CreateReservationTable extends Migration
             $table->primary(['inventory_id', 'order_line_id']);
 
             $table->unsignedBigInteger('inventory_id');
-            $table->unsignedBigInteger('order_line_id');
+            $table->unsignedBigInteger('order_line_id')->nullable();
             $table->timestamps();
 
             $table->foreign('inventory_id')->references('id')->on('inventories');
