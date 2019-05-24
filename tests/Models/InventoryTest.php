@@ -19,7 +19,7 @@ class InventoryTest extends TestCase
     /** @test */
     public function it_has_a_location()
     {
-        $inventory = factory(Inventory::class)->create();
+        $inventory = factory(Inventory::class)->make();
 
         $this->assertInstanceOf(Location::class, $inventory->location);
     }

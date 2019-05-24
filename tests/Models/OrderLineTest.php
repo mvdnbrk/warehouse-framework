@@ -19,7 +19,7 @@ class OrderLineTest extends TestCase
     /** @test */
     public function it_belongs_to_an_order()
     {
-        $line = factory(OrderLine::class)->create();
+        $line = factory(OrderLine::class)->make();
 
         $this->assertInstanceOf(Order::class, $line->order);
     }
