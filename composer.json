@@ -16,7 +16,7 @@
     "require": {
         "php": "^7.2",
         "illuminate/support": "5.8.*",
-        "mvdnbrk/gtin": "^2.1"
+        "mvdnbrk/gtin": "^2.2"
     },
     "require-dev": {
         "nunomaduro/collision": "^3.0",
