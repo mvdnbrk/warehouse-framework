@@ -61,4 +61,17 @@ class MigrationTest extends TestCase
             'gtin',
         ], $columns);
     }
+
+    /** @test */
+    public function it_runs_the_reservation_migration()
+    {
+        $columns = Schema::connection('warehouse')->getColumnListing('reservation');
+
+        $this->assertEquals([
+            'inventory_id',
+            'order_line_id',
+            'created_at',
+            'updated_at',
+        ], $columns);
+    }
 }
