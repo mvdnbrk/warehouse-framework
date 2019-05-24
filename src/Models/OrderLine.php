@@ -2,6 +2,9 @@
 
 namespace Just\Warehouse\Models;
 
+use Just\Warehouse\Models\Inventory;
+use Just\Warehouse\Models\Reservation;
+
 class OrderLine extends AbstractModel
 {
     /**
@@ -19,5 +22,17 @@ class OrderLine extends AbstractModel
     public function order()
     {
         return $this->belongsTo(Order::class);
+    }
+
+    public function inventory()
+    {
+        return $this->hasOneThrough(
+            Inventory::class,
+            Reservation::class,
+            'order_line_id',
+            'id',
+            'id',
+            'inventory_id'
+        );
     }
 }

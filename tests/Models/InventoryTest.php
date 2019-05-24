@@ -5,6 +5,7 @@ namespace Just\Warehouse\Tests\Model;
 use Just\Warehouse\Tests\TestCase;
 use Just\Warehouse\Models\Location;
 use Just\Warehouse\Models\Inventory;
+use Just\Warehouse\Models\Reservation;
 
 class InventoryTest extends TestCase
 {
@@ -22,5 +23,18 @@ class InventoryTest extends TestCase
         $inventory = factory(Inventory::class)->make();
 
         $this->assertInstanceOf(Location::class, $inventory->location);
+    }
+
+    /** @test */
+    public function it_has_a_reservation()
+    {
+        $inventory = factory(Inventory::class)->create();
+
+        $this->assertInstanceOf(Reservation::class, $inventory->reservation);
+        $this->assertFalse($inventory->reservation->exists);
+
+        $inventory->reservation->save();
+
+        $this->assertTrue($inventory->fresh()->reservation->exists);
     }
 }
