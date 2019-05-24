@@ -2,9 +2,6 @@
 
 namespace Just\Warehouse\Models;
 
-use Just\Warehouse\Models\Inventory;
-use Just\Warehouse\Models\Reservation;
-
 class OrderLine extends AbstractModel
 {
     /**

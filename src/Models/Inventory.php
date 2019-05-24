@@ -2,7 +2,6 @@
 
 namespace Just\Warehouse\Models;
 
-use Just\Warehouse\Models\Reservation;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Inventory extends AbstractModel
