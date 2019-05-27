@@ -39,7 +39,7 @@ class InventoryTest extends TestCase
         $inventory = factory(Inventory::class)->create(['id' => '1234']);
         $this->assertFalse($inventory->reservation->exists);
 
-        $inventory->reserve();
+        $this->assertTrue($inventory->reserve());
 
         $this->assertTrue($inventory->fresh()->reservation->exists);
         $this->assertCount(1, Reservation::all());
@@ -55,7 +55,7 @@ class InventoryTest extends TestCase
         $inventory = factory(Inventory::class)->create();
         $inventory->reserve();
 
-        $inventory->release();
+        $this->assertEquals(1, $inventory->release());
 
         $this->assertFalse($inventory->fresh()->reservation->exists);
         $this->assertCount(0, Reservation::all());

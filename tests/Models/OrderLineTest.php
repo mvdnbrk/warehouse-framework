@@ -40,7 +40,7 @@ class OrderLineTest extends TestCase
         $line = factory(OrderLine::class)->create(['id' => '1234']);
         $this->assertFalse($line->reservation->exists);
 
-        $line->reserve();
+        $this->assertTrue($line->reserve());
 
         $this->assertTrue($line->fresh()->reservation->exists);
         $this->assertCount(1, Reservation::all());
@@ -56,7 +56,7 @@ class OrderLineTest extends TestCase
         $line = factory(OrderLine::class)->create();
         $line->reserve();
 
-        $line->release();
+        $this->assertEquals(1, $line->release());
 
         $this->assertFalse($line->fresh()->reservation->exists);
     }
