@@ -4,6 +4,9 @@ namespace Just\Warehouse\Models\Concerns;
 
 use Just\Warehouse\Models\Reservation;
 
+/**
+ * @property \Just\Warehouse\Models\Reservation $reservation
+ */
 trait Reservable
 {
     /**
