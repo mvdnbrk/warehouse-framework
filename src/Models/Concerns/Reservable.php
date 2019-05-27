@@ -16,13 +16,23 @@ trait Reservable
         return $this->hasOne(Reservation::class)->withDefault();
     }
 
+    /**
+     * Reserve the model.
+     *
+     * @return bool
+     */
     public function reserve()
     {
-        $this->reservation->save();
+        return $this->reservation->save();
     }
 
+    /**
+     * Release the model from being reserved.
+     *
+     * @return int
+     */
     public function release()
     {
-        $this->reservation->delete();
+        return $this->reservation->delete();
     }
 }
