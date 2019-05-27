@@ -4,6 +4,8 @@ namespace Just\Warehouse\Models;
 
 class OrderLine extends AbstractModel
 {
+    use Concerns\Reservable;
+
     /**
      * Indicates if the model should be timestamped.
      *

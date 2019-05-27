@@ -27,6 +27,41 @@ class OrderLineTest extends TestCase
     }
 
     /** @test */
+    public function it_has_a_reservation()
+    {
+        $line = factory(OrderLine::class)->create();
+
+        $this->assertInstanceOf(Reservation::class, $line->reservation);
+    }
+
+    /** @test */
+    public function it_can_be_reserved()
+    {
+        $line = factory(OrderLine::class)->create(['id' => '1234']);
+        $this->assertFalse($line->reservation->exists);
+
+        $line->reserve();
+
+        $this->assertTrue($line->fresh()->reservation->exists);
+        $this->assertCount(1, Reservation::all());
+        tap(Reservation::first(), function ($reservation) {
+            $this->assertEquals('1234', $reservation->order_line_id);
+            $this->assertNull($reservation->inventory_id);
+        });
+    }
+
+    /** @test */
+    public function it_can_be_released()
+    {
+        $line = factory(OrderLine::class)->create();
+        $line->reserve();
+
+        $line->release();
+
+        $this->assertFalse($line->fresh()->reservation->exists);
+    }
+
+    /** @test */
     public function it_has_a_reserved_inventory_item()
     {
         $line = factory(OrderLine::class)->create([
