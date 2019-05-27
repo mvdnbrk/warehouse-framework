@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
 
 class Reservation extends Pivot
 {
-    /**
+     /**
      * The name of the foreign key column.
      *
      * @var string
