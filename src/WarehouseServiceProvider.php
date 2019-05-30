@@ -31,10 +31,22 @@ class WarehouseServiceProvider extends ServiceProvider
             __DIR__.'/../config/warehouse.php', 'warehouse'
         );
 
-        $this->commands([
-            Console\Commands\InstallCommand::class,
-            Console\Commands\MigrateCommand::class,
-            Console\Commands\MakeLocationCommand::class,
-        ]);
+        $this->registerCommands();
+    }
+
+    /**
+     * Register the Warehouse Artisan commands.
+     *
+     * @return void
+     */
+    protected function registerCommands()
+    {
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                Console\Commands\InstallCommand::class,
+                Console\Commands\MigrateCommand::class,
+                Console\Commands\MakeLocationCommand::class,
+            ]);
+        }
     }
 }
