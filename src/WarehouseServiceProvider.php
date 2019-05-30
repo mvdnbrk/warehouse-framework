@@ -27,11 +27,20 @@ class WarehouseServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->configure();
+        $this->registerCommands();
+    }
+
+    /**
+     * Setup the configuration for Warehouse.
+     *
+     * @return void
+     */
+    protected function configure()
+    {
         $this->mergeConfigFrom(
             __DIR__.'/../config/warehouse.php', 'warehouse'
         );
-
-        $this->registerCommands();
     }
 
     /**
