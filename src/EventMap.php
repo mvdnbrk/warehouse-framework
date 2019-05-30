@@ -10,5 +10,7 @@ trait EventMap
      * @var array
      */
     protected $events = [
+        Events\InventoryCreated::class => [
+        ],
     ];
 }
