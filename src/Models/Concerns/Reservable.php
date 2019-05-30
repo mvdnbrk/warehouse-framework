@@ -48,4 +48,14 @@ trait Reservable
     {
         return $this->reservation->exists === false;
     }
+
+    /**
+     * Determine if the model is reserved.
+     *
+     * @return bool
+     */
+    public function isReserved()
+    {
+        return $this->reservation->exists;
+    }
 }

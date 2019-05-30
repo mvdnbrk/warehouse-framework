@@ -71,4 +71,15 @@ class InventoryTest extends TestCase
 
         $this->assertFalse($inventory->isAvailable());
     }
+
+    /** @test */
+    public function it_can_determine_if_it_is_reserved()
+    {
+        $inventory = factory(Inventory::class)->create();
+        $this->assertFalse($inventory->isReserved());
+
+        $inventory->reserve();
+
+        $this->assertTrue($inventory->isReserved());
+    }
 }
