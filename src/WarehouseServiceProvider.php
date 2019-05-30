@@ -13,11 +13,7 @@ class WarehouseServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        if ($this->app->runningInConsole()) {
-            $this->publishes([
-                __DIR__.'/../config/warehouse.php' => config_path('warehouse.php'),
-            ], 'warehouse-config');
-        }
+        //
     }
 
     /**
@@ -28,6 +24,7 @@ class WarehouseServiceProvider extends ServiceProvider
     public function register()
     {
         $this->configure();
+        $this->offerPublishing();
         $this->registerCommands();
     }
 
@@ -41,6 +38,20 @@ class WarehouseServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(
             __DIR__.'/../config/warehouse.php', 'warehouse'
         );
+    }
+
+    /**
+     * Setup the resource publishing for Warehouse.
+     *
+     * @return void
+     */
+    protected function offerPublishing()
+    {
+        if ($this->app->runningInConsole()) {
+            $this->publishes([
+                __DIR__.'/../config/warehouse.php' => config_path('warehouse.php'),
+            ], 'warehouse-config');
+        }
     }
 
     /**
