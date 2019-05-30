@@ -3,6 +3,7 @@
 namespace Just\Warehouse;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Contracts\Events\Dispatcher;
 
 class WarehouseServiceProvider extends ServiceProvider
 {
