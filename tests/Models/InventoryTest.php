@@ -5,7 +5,9 @@ namespace Just\Warehouse\Tests\Model;
 use Just\Warehouse\Tests\TestCase;
 use Just\Warehouse\Models\Location;
 use Just\Warehouse\Models\Inventory;
+use Illuminate\Support\Facades\Event;
 use Just\Warehouse\Models\Reservation;
+use Just\Warehouse\Events\InventoryCreated;
 
 class InventoryTest extends TestCase
 {
@@ -31,6 +33,17 @@ class InventoryTest extends TestCase
         $inventory = factory(Inventory::class)->create();
 
         $this->assertInstanceOf(Reservation::class, $inventory->reservation);
+    }
+
+    /** @test */
+    public function it_dispatches_an_inventory_created_event_when_it_is_created()
+    {
+        Event::fake();
+        $inventory = factory(Inventory::class)->create();
+
+        Event::assertDispatched(InventoryCreated::class, function ($event) use ($inventory) {
+            return $event->inventory->is($inventory);
+        });
     }
 
     /** @test */
