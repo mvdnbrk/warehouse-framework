@@ -38,4 +38,14 @@ trait Reservable
     {
         return $this->reservation->delete();
     }
+
+    /**
+     * Determine if the model is available.
+     *
+     * @return bool
+     */
+    public function isAvailable()
+    {
+        return $this->reservation->exists === false;
+    }
 }

@@ -60,4 +60,15 @@ class InventoryTest extends TestCase
         $this->assertFalse($inventory->fresh()->reservation->exists);
         $this->assertCount(0, Reservation::all());
     }
+
+    /** @test */
+    public function it_can_determine_if_it_is_available()
+    {
+        $inventory = factory(Inventory::class)->create();
+        $this->assertTrue($inventory->isAvailable());
+
+        $inventory->reserve();
+
+        $this->assertFalse($inventory->isAvailable());
+    }
 }
