@@ -38,11 +38,9 @@ class OrderLineTest extends TestCase
     public function it_can_be_reserved()
     {
         $line = factory(OrderLine::class)->create(['id' => '1234']);
-        $this->assertFalse($line->reservation->exists);
 
         $this->assertTrue($line->reserve());
 
-        $this->assertTrue($line->fresh()->reservation->exists);
         $this->assertCount(1, Reservation::all());
         tap(Reservation::first(), function ($reservation) {
             $this->assertEquals('1234', $reservation->order_line_id);
@@ -58,7 +56,7 @@ class OrderLineTest extends TestCase
 
         $this->assertEquals(1, $line->release());
 
-        $this->assertFalse($line->fresh()->reservation->exists);
+        $this->assertCount(0, Reservation::all());
     }
 
     /** @test */

@@ -50,11 +50,9 @@ class InventoryTest extends TestCase
     public function it_can_be_reserved()
     {
         $inventory = factory(Inventory::class)->create(['id' => '1234']);
-        $this->assertFalse($inventory->reservation->exists);
 
         $this->assertTrue($inventory->reserve());
 
-        $this->assertTrue($inventory->fresh()->reservation->exists);
         $this->assertCount(1, Reservation::all());
         tap(Reservation::first(), function ($reservation) {
             $this->assertEquals('1234', $reservation->inventory_id);
@@ -70,7 +68,6 @@ class InventoryTest extends TestCase
 
         $this->assertEquals(1, $inventory->release());
 
-        $this->assertFalse($inventory->fresh()->reservation->exists);
         $this->assertCount(0, Reservation::all());
     }
 
@@ -78,21 +75,25 @@ class InventoryTest extends TestCase
     public function it_can_determine_if_it_is_available()
     {
         $inventory = factory(Inventory::class)->create();
-        $this->assertTrue($inventory->isAvailable());
-
         $inventory->reserve();
 
         $this->assertFalse($inventory->isAvailable());
+
+        $inventory->release();
+
+        $this->assertTrue($inventory->fresh()->isAvailable());
     }
 
     /** @test */
     public function it_can_determine_if_it_is_reserved()
     {
         $inventory = factory(Inventory::class)->create();
-        $this->assertFalse($inventory->isReserved());
-
         $inventory->reserve();
 
         $this->assertTrue($inventory->isReserved());
+
+        $inventory->release();
+
+        $this->assertFalse($inventory->fresh()->isReserved());
     }
 }
