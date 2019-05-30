@@ -6,6 +6,8 @@ use Illuminate\Support\ServiceProvider;
 
 class WarehouseServiceProvider extends ServiceProvider
 {
+    use EventMap;
+
     /**
      * Bootstrap the application services.
      *
@@ -13,7 +15,23 @@ class WarehouseServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        $this->registerEvents();
+    }
+
+    /**
+     * Register the Warhouse events.
+     *
+     * @return void
+     */
+    protected function registerEvents()
+    {
+        $events = $this->app->make(Dispatcher::class);
+
+        foreach ($this->events as $event => $listeners) {
+            foreach ($listeners as $listener) {
+                $events->listen($event, $listener);
+            }
+        }
     }
 
     /**
