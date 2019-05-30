@@ -5,6 +5,8 @@ namespace Just\Warehouse\Tests\Model;
 use Just\Warehouse\Tests\TestCase;
 use Just\Warehouse\Models\Location;
 use Just\Warehouse\Models\Inventory;
+use Illuminate\Support\Facades\Event;
+use Just\Warehouse\Events\InventoryCreated;
 use Just\Warehouse\Exceptions\InvalidGtinException;
 
 class LocationTest extends TestCase
@@ -28,6 +30,7 @@ class LocationTest extends TestCase
     /** @test */
     public function it_can_add_inventory()
     {
+        Event::fake();
         $location = factory(Location::class)->create();
 
         $inventory = $location->addInventory('1300000000000');
@@ -35,11 +38,15 @@ class LocationTest extends TestCase
         $this->assertCount(1, $location->inventory);
         $this->assertEquals($location->id, $inventory->location_id);
         $this->assertEquals('1300000000000', $inventory->gtin);
+        Event::assertDispatched(InventoryCreated::class, function ($event) use ($inventory) {
+            return $event->inventory->is($inventory);
+        });
     }
 
     /** @test */
     public function adding_inventory_with_an_invalid_gtin_throws_an_exception()
     {
+        Event::fake();
         $location = factory(Location::class)->create();
 
         try {
@@ -47,6 +54,7 @@ class LocationTest extends TestCase
         } catch (InvalidGtinException $e) {
             $this->assertEquals('invalid-gtin', $e->getMessage());
             $this->assertCount(0, $location->inventory);
+            Event::assertNotDispatched(InventoryCreated::class);
 
             return;
         }
