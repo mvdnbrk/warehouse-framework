@@ -58,4 +58,14 @@ trait Reservable
     {
         return $this->reservation->exists;
     }
+
+    /**
+     * Determine if the reservation is fulfilled.
+     *
+     * @return bool
+     */
+    public function isFulfilled()
+    {
+        return ! is_null($this->reservation->inventory_id) && ! is_null($this->reservation->order_line_id);
+    }
 }
