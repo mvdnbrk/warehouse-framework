@@ -37,9 +37,9 @@ class OrderLine extends AbstractModel
     }
 
     /**
-     * The inventory item that was reserved for this order line.
+     * It has an inventory item through a reservation.
      *
-     * @return \Just\Warehouse\Models\Inventory
+     * @return \Illuminate\Database\Eloquent\Relations\HasOneThrough
      */
     public function inventory()
     {
