@@ -23,6 +23,11 @@ class OrderLine extends AbstractModel
         return $this->belongsTo(Order::class);
     }
 
+    /**
+     * The inventory item that was reserved for this order line.
+     *
+     * @return \Just\Warehouse\Models\Inventory
+     */
     public function inventory()
     {
         return $this->hasOneThrough(
