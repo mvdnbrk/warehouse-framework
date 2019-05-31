@@ -38,6 +38,7 @@ class InventoryTest extends TestCase
     /** @test */
     public function it_can_be_reserved()
     {
+        Event::fake();
         $inventory = factory(Inventory::class)->create(['id' => '1234']);
 
         $this->assertTrue($inventory->reserve());
@@ -52,6 +53,7 @@ class InventoryTest extends TestCase
     /** @test */
     public function it_can_be_released()
     {
+        Event::fake();
         $inventory = factory(Inventory::class)->create();
         $inventory->reserve();
 
