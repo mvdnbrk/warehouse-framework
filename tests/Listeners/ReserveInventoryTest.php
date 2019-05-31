@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\Bus;
 use Just\Warehouse\Models\Inventory;
 use Illuminate\Support\Facades\Event;
 use Just\Warehouse\Events\InventoryCreated;
-use Just\Warehouse\Listeners\CheckForUnfulfilledOrderLine;
 
 class ReserveInventoryTest extends TestCase
 {

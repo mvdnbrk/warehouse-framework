@@ -7,7 +7,6 @@ use Just\Warehouse\Tests\TestCase;
 use Just\Warehouse\Models\Inventory;
 use Just\Warehouse\Models\OrderLine;
 use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Facades\Queue;
 use Just\Warehouse\Models\Reservation;
 
 class CheckForUnfulfilledOrderLineTest extends TestCase
