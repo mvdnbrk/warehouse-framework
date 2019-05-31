@@ -28,8 +28,10 @@ class InstallCommand extends Command
     public function handle()
     {
         $this->comment('Publishing configuration...');
-        $this->callSilent('vendor:publish', ['--tag' => 'warehouse-config']);
 
+        $this->call('vendor:publish', ['--tag' => 'warehouse-config']);
+
+        $this->line('');
         $this->info('Warehouse was installed successfully.');
     }
 }
