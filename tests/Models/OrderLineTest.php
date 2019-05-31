@@ -6,6 +6,7 @@ use Just\Warehouse\Models\Order;
 use Just\Warehouse\Tests\TestCase;
 use Just\Warehouse\Models\Inventory;
 use Just\Warehouse\Models\OrderLine;
+use Illuminate\Support\Facades\Event;
 use Just\Warehouse\Models\Reservation;
 
 class OrderLineTest extends TestCase
@@ -62,23 +63,25 @@ class OrderLineTest extends TestCase
     /** @test */
     public function it_has_a_reserved_inventory_item()
     {
+        Event::fake();
         $line = factory(OrderLine::class)->create([
             'gtin' => '1300000000000',
         ]);
-
         $inventory = factory(Inventory::class)->create([
             'id' => '1234',
             'gtin' => '1300000000000',
         ]);
+        $this->assertFalse($line->isFulfilled());
 
         factory(Reservation::class)->create([
             'inventory_id' => $inventory->id,
             'order_line_id' => $line->id,
         ]);
 
-        tap($line->inventory, function ($inventory) {
-            $this->assertInstanceOf(Inventory::class, $inventory);
-            $this->assertEquals('1234', $inventory->id);
+        tap($line->fresh(), function ($line) {
+            $this->assertTrue($line->isFulfilled());
+            $this->assertInstanceOf(Inventory::class, $line->inventory);
+            $this->assertEquals('1234', $line->inventory->id);
         });
     }
 }
