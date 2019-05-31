@@ -25,7 +25,7 @@ class AttemptToFulfillOrderline implements ShouldQueue
 
         if (! is_null($inventory)) {
             $event->line->reservation->fill([
-                'inventory_id' => $inventory->id
+                'inventory_id' => $inventory->id,
             ]);
         }
 
