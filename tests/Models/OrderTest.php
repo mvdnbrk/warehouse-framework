@@ -4,6 +4,8 @@ namespace Just\Warehouse\Tests\Model;
 
 use Just\Warehouse\Models\Order;
 use Just\Warehouse\Tests\TestCase;
+use Illuminate\Support\Facades\Event;
+use Just\Warehouse\Events\OrderLineCreated;
 use Just\Warehouse\Exceptions\InvalidGtinException;
 
 class OrderTest extends TestCase
@@ -35,6 +37,7 @@ class OrderTest extends TestCase
     /** @test */
     public function it_can_add_an_order_line()
     {
+        Event::fake();
         $order = factory(Order::class)->create();
 
         $line = $order->addLine('1300000000000');
@@ -42,6 +45,9 @@ class OrderTest extends TestCase
         $this->assertCount(1, $order->lines);
         $this->assertEquals($order->id, $line->order_id);
         $this->assertEquals('1300000000000', $line->gtin);
+        Event::assertDispatched(OrderLineCreated::class, function ($event) use ($line) {
+            return $event->line->is($line);
+        });
     }
 
     /** @test */
