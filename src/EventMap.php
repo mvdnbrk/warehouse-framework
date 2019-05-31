@@ -12,5 +12,8 @@ trait EventMap
     protected $events = [
         Events\InventoryCreated::class => [
         ],
+
+        Events\OrderLineCreated::class => [
+        ],
     ];
 }
