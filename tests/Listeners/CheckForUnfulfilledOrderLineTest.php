@@ -99,7 +99,6 @@ class CheckForUnfulfilledOrderLineTest extends TestCase
         ]);
 
         $inventory = factory(Inventory::class)->create([
-            'location_id' => 1,
             'id' => 1,
             'gtin' => '1300000000000',
         ]);
