@@ -3,9 +3,10 @@
 namespace Just\Warehouse\Models;
 
 use Just\Warehouse\Events\InventoryCreated;
+use Just\Warehouse\Contracts\StorableEntity;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Inventory extends AbstractModel
+class Inventory extends AbstractModel implements StorableEntity
 {
     use SoftDeletes,
         Concerns\Reservable;
