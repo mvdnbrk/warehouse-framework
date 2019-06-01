@@ -26,7 +26,7 @@ class Location extends AbstractModel
     public function addInventory($value)
     {
         if (! is_gtin($value)) {
-            throw new InvalidGtinException($value);
+            throw new InvalidGtinException;
         }
 
         return $this->inventory()->create([
