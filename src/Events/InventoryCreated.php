@@ -19,6 +19,7 @@ class InventoryCreated
     /**
      * Create a new event instance.
      *
+     * @param  \Just\Warehouse\Models\Inventory  $inventory
      * @return void
      */
     public function __construct(Inventory $inventory)

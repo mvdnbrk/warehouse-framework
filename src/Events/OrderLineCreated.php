@@ -19,6 +19,7 @@ class OrderLineCreated
     /**
      * Create a new event instance.
      *
+     * @param  \Just\Warehouse\Models\OrderLine  $line
      * @return void
      */
     public function __construct(OrderLine $line)
