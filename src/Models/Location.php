@@ -45,7 +45,7 @@ class Location extends AbstractModel
     public function removeInventory($value)
     {
         if (! is_gtin($value)) {
-            throw new InvalidGtinException($value);
+            throw new InvalidGtinException;
         }
 
         if (! $model = $this->inventory()->whereGtin($value)->oldest()->first()) {
