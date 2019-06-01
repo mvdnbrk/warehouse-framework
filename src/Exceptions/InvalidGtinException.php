@@ -2,9 +2,7 @@
 
 namespace Just\Warehouse\Exceptions;
 
-use InvalidArgumentException;
-
-class InvalidGtinException extends InvalidArgumentException
+class InvalidGtinException extends ValidationException
 {
     //
 }

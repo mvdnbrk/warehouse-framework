@@ -58,7 +58,7 @@ class OrderTest extends TestCase
         try {
             $order->addLine('invalid-gtin');
         } catch (InvalidGtinException $e) {
-            $this->assertEquals('invalid-gtin', $e->getMessage());
+            $this->assertEquals('The given data was invalid.', $e->getMessage());
             $this->assertCount(0, $order->lines);
 
             return;
