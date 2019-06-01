@@ -54,14 +54,14 @@ Add inventory to a location with a GTIN:
 
 ``` php
 $location = Location::find(1);
-$location->addInventory('123456000000');
+$location->addInventory('1234567890005');
 ```
 
 Remove inventory from a location:
 
 ``` php
 $location = Location::find(1);
-$location->removeInventory('123456000000');
+$location->removeInventory('1234567890005');
 ```
 
 Remove **all** inventory from a location:
@@ -69,6 +69,23 @@ Remove **all** inventory from a location:
 ``` php
 $location = Location::find(1);
 $location->removeAllInventory();
+```
+
+### Orders
+
+Create a new order:
+
+```php
+$order = Order::create([
+    'order_number' => 'my-first-order-0001',
+]);
+```
+
+Add order lines:
+
+```php
+$order->addLine('1234567890005');
+$order->addLine(...);
 ```
 
 ## Testing
