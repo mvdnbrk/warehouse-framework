@@ -35,6 +35,14 @@ class OrderTest extends TestCase
     }
 
     /** @test */
+    public function it_gets_a_created_status()
+    {
+        $order = factory(Order::class)->create();
+
+        $this->assertEquals('created', $order->fresh()->status);
+    }
+
+    /** @test */
     public function it_can_add_an_order_line()
     {
         Event::fake();
