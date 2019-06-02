@@ -29,6 +29,6 @@ class InventoryObserver
      */
     public function created(Inventory $inventory)
     {
-        InventoryCreated::disptach($inventory);
+        InventoryCreated::dispatch($inventory);
     }
 }
