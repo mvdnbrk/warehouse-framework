@@ -80,11 +80,11 @@ class WarehouseServiceProvider extends ServiceProvider
      */
     protected function registerEvents()
     {
-        $events = $this->app->make(Dispatcher::class);
+        $dispatcher = $this->app->make(Dispatcher::class);
 
         foreach ($this->events as $event => $listeners) {
             foreach ($listeners as $listener) {
-                $events->listen($event, $listener);
+                $diapatcher->listen($event, $listener);
             }
         }
     }
