@@ -44,7 +44,6 @@ class InventoryTest extends TestCase
             $inventory = factory(Inventory::class)->create([
                 'gtin' => null,
             ]);
-
          } catch (\Just\Warehouse\Exceptions\ValidationException $e) {
             $this->assertCount(0, Inventory::all());
             Event::assertNotDispatched(InventoryCreated::class);
@@ -111,7 +110,7 @@ class InventoryTest extends TestCase
     /** @test */
     public function it_dispatches_an_inventory_created_event_when_it_is_created()
     {
-        Event::fake();
+        Event::fake(InventoryCreated::class);
         $inventory = factory(Inventory::class)->create();
 
         Event::assertDispatched(InventoryCreated::class, function ($event) use ($inventory) {

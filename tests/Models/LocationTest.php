@@ -30,7 +30,7 @@ class LocationTest extends TestCase
     /** @test */
     public function it_can_add_inventory()
     {
-        Event::fake();
+        Event::fake(InventoryCreated::class);
         $location = factory(Location::class)->create();
 
         $inventory = $location->addInventory('1300000000000');
