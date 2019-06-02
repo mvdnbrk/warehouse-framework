@@ -58,6 +58,17 @@ class InventoryTest extends TestCase
     }
 
     /** @test */
+    public function it_dispatches_an_inventory_created_event_when_it_is_created()
+    {
+        Event::fake(InventoryCreated::class);
+        $inventory = factory(Inventory::class)->create();
+
+        Event::assertDispatched(InventoryCreated::class, function ($event) use ($inventory) {
+            return $event->inventory->is($inventory);
+        });
+    }
+
+    /** @test */
     public function it_can_be_reserved()
     {
         Event::fake();
@@ -108,17 +119,6 @@ class InventoryTest extends TestCase
         $inventory->release();
 
         $this->assertFalse($inventory->fresh()->isReserved());
-    }
-
-    /** @test */
-    public function it_dispatches_an_inventory_created_event_when_it_is_created()
-    {
-        Event::fake(InventoryCreated::class);
-        $inventory = factory(Inventory::class)->create();
-
-        Event::assertDispatched(InventoryCreated::class, function ($event) use ($inventory) {
-            return $event->inventory->is($inventory);
-        });
     }
 
     /** @test */
