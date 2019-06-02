@@ -57,6 +57,13 @@ $location = Location::find(1);
 $location->addInventory('1234567890005');
 ```
 
+Move inventory to another location:
+
+```php
+$inventory = Inventory::first();
+$inventory->moveTo($location);
+```
+
 Remove inventory from a location:
 
 ``` php

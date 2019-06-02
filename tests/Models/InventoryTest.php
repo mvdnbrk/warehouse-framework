@@ -2,6 +2,7 @@
 
 namespace Just\Warehouse\Tests\Model;
 
+use LogicException;
 use Just\Warehouse\Tests\TestCase;
 use Just\Warehouse\Models\Location;
 use Just\Warehouse\Models\Inventory;
@@ -118,5 +119,61 @@ class InventoryTest extends TestCase
         Event::assertDispatched(InventoryCreated::class, function ($event) use ($inventory) {
             return $event->inventory->is($inventory);
         });
+    }
+
+    /** @test */
+    public function it_can_be_moved_to_another_location()
+    {
+        $location1 = factory(Location::class)->create();
+        $inventory = $location1->addInventory('1300000000000');
+        $location2 = factory(Location::class)->create();
+
+        $this->assertTrue($inventory->moveTo($location2));
+
+        $this->assertCount(1, Inventory::all());
+        $this->assertCount(0, $location1->fresh()->inventory);
+        tap($location2->fresh(), function ($location2) {
+            $this->assertCount(1, $location2->fresh()->inventory);
+            $this->assertEquals('1300000000000', $location2->inventory->first()->gtin);
+            $this->assertFalse($location2->inventory->first()->trashed());
+        });
+    }
+
+    /** @test */
+    public function it_can_not_be_moved_to_its_own_location()
+    {
+        $location = factory(Location::class)->create();
+        $inventory = $location->addInventory('1300000000000');
+
+        try {
+            $inventory->moveTo($location);
+        } catch (LogicException $e) {
+            $this->assertSame("Inventory can not be be moved to it's own location.", $e->getMessage());
+            $this->assertCount(1, $location->fresh()->inventory);
+
+            return;
+        }
+
+        $this->fail("Trying to move inventory to it's own location succeeded.");
+    }
+
+    /** @test */
+    public function it_can_not_be_moved_to_a_location_that_does_not_exist()
+    {
+        $location1 = factory(Location::class)->create();
+        $inventory = $location1->addInventory('1300000000000');
+        $location2 = factory(Location::class)->make();
+        $this->assertFalse($location2->exists);
+
+        try {
+            $inventory->moveTo($location2);
+        } catch (LogicException $e) {
+            $this->assertSame("Location does not exist.", $e->getMessage());
+            $this->assertCount(1, $location1->fresh()->inventory);
+
+            return;
+        }
+
+        $this->fail("Trying to move inventory to a location that does not exist succeeded.");
     }
 }
