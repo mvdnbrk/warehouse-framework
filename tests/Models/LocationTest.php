@@ -46,6 +46,26 @@ class LocationTest extends TestCase
         $this->fail('Location was deleted altough it has inventory items.');
     }
 
+
+    /** @test */
+    public function it_can_not_be_deleted_if_it_has_soft_deleted_inventory()
+    {
+        $location = factory(Location::class)->create();
+        $inventory = $location->addInventory('1300000000000');
+        $inventory->delete();
+
+        try {
+            $location->delete();
+        } catch (LogicException $e) {
+            $this->assertEquals('Location can not be deleted because it has inventory.', $e->getMessage());
+            $this->assertCount(1, Location::all());
+
+            return;
+        }
+
+        $this->fail('Location was deleted altough it has inventory items.');
+    }
+
     /** @test */
     public function it_can_add_inventory()
     {
