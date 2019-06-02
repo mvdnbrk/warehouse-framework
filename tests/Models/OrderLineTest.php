@@ -88,6 +88,27 @@ class OrderLineTest extends TestCase
     }
 
     /** @test */
+    public function once_it_has_been_created_the_order_id_can_not_be_altered()
+    {
+        $line = factory(OrderLine::class)->create([
+            'order_id' => 111,
+        ]);
+
+        try {
+            $line->update([
+                'order_id' => 222,
+            ]);
+        } catch (LogicException $e) {
+            $this->assertEquals('The order ID attribute can not be changed.', $e->getMessage());
+            $this->assertSame(111, $line->fresh()->order_id);
+
+            return;
+        }
+
+        $this->fail('The order ID attribute has changed.');
+    }
+
+    /** @test */
     public function it_can_be_reserved()
     {
         $line = factory(OrderLine::class)->create(['id' => '1234']);
