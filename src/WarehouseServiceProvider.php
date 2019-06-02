@@ -7,7 +7,7 @@ use Illuminate\Contracts\Events\Dispatcher;
 
 class WarehouseServiceProvider extends ServiceProvider
 {
-    use EventMap;
+    use EventMap, ObserverMap;
 
     /**
      * Bootstrap the application services.
@@ -17,6 +17,7 @@ class WarehouseServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerEvents();
+        $this->registerObservers();
     }
 
     /**
@@ -87,5 +88,17 @@ class WarehouseServiceProvider extends ServiceProvider
                 $diapatcher->listen($event, $listener);
             }
         }
+    }
+
+    /**
+     * Register the Warhouse model observers.
+     *
+     * @return void
+     */
+    public function registerObservers()
+    {
+        collect($this->observers)->each(function ($observer, $model) {
+            $model::observe($observer);
+        });
     }
 }
