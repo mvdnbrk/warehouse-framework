@@ -7,6 +7,7 @@ use Just\Warehouse\Tests\TestCase;
 use Illuminate\Support\Facades\Event;
 use Just\Warehouse\Events\OrderLineCreated;
 use Just\Warehouse\Exceptions\InvalidGtinException;
+use Just\Warehouse\Exceptions\InvalidOrderNumberException;
 
 class OrderTest extends TestCase
 {
@@ -40,6 +41,23 @@ class OrderTest extends TestCase
         $order = factory(Order::class)->create();
 
         $this->assertEquals('created', $order->fresh()->status);
+    }
+
+    /** @test */
+    public function creating_an_order_without_an_order_number_throws_an_exception()
+    {
+        try {
+            $order = factory(Order::class)->create([
+                'order_number' => null,
+            ]);
+         } catch (InvalidOrderNumberException $e) {
+            $this->assertEquals('The given data was invalid.', $e->getMessage());
+            $this->assertCount(0, Order::all());
+
+            return;
+        }
+
+        $this->fail('Creating an order without an order number succeeded.');
     }
 
     /** @test */
