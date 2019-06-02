@@ -15,7 +15,7 @@ class OrderObserver
      */
     public function creating(Order $order)
     {
-        if (is_null($order->order_number)) {
+        if (empty($order->order_number)) {
             throw new InvalidOrderNumberException;
         }
     }

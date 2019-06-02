@@ -48,7 +48,7 @@ class OrderTest extends TestCase
     {
         try {
             $order = factory(Order::class)->create([
-                'order_number' => null,
+                'order_number' => '',
             ]);
         } catch (InvalidOrderNumberException $e) {
             $this->assertEquals('The given data was invalid.', $e->getMessage());
