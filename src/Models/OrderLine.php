@@ -7,6 +7,15 @@ class OrderLine extends AbstractModel
     use Concerns\Reservable;
 
     /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'order_id' => 'integer',
+    ];
+
+    /**
      * Indicates if the model should be timestamped.
      *
      * @var bool
