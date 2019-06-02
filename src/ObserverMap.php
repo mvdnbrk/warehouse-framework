@@ -10,5 +10,6 @@ trait ObserverMap
      * @var array
      */
     protected $observers = [
+        Models\Inventory::class => Observers\InventoryObserver::class,
     ];
 }
