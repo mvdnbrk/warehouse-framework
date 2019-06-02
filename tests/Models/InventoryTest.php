@@ -36,6 +36,26 @@ class InventoryTest extends TestCase
     }
 
     /** @test */
+    public function creating_inventory_without_a_gtin_throws_an_exception()
+    {
+        Event::fake(InventoryCreated::class);
+
+        try {
+            $inventory = factory(Inventory::class)->create([
+                'gtin' => null,
+            ]);
+
+         } catch (\Just\Warehouse\Exceptions\ValidationException $e) {
+            $this->assertCount(0, Inventory::all());
+            Event::assertNotDispatched(InventoryCreated::class);
+
+            return;
+        }
+
+        $this->fail('Creating inventory without a GTIN succeeded.');
+    }
+
+    /** @test */
     public function it_can_be_reserved()
     {
         Event::fake();

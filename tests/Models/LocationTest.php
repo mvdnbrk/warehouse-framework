@@ -46,7 +46,7 @@ class LocationTest extends TestCase
     /** @test */
     public function adding_inventory_with_an_invalid_gtin_throws_an_exception()
     {
-        Event::fake();
+        Event::fake(InventoryCreated::class);
         $location = factory(Location::class)->create();
 
         try {
