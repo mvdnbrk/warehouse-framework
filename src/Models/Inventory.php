@@ -3,7 +3,6 @@
 namespace Just\Warehouse\Models;
 
 use LogicException;
-use Just\Warehouse\Models\Location;
 use Just\Warehouse\Contracts\StorableEntity;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -32,7 +31,7 @@ class Inventory extends AbstractModel implements StorableEntity
     public function moveTo(Location $location)
     {
         if (! $location->exists) {
-            throw new LogicException("Location does not exist.");
+            throw new LogicException('Location does not exist.');
         }
 
         if ($this->location_id === $location->id) {

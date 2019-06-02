@@ -168,12 +168,12 @@ class InventoryTest extends TestCase
         try {
             $inventory->moveTo($location2);
         } catch (LogicException $e) {
-            $this->assertSame("Location does not exist.", $e->getMessage());
+            $this->assertSame('Location does not exist.', $e->getMessage());
             $this->assertCount(1, $location1->fresh()->inventory);
 
             return;
         }
 
-        $this->fail("Trying to move inventory to a location that does not exist succeeded.");
+        $this->fail('Trying to move inventory to a location that does not exist succeeded.');
     }
 }
