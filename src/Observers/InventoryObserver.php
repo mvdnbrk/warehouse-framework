@@ -11,7 +11,7 @@ class InventoryObserver
     /**
      * Handle the Inventory "creating" event.
      *
-     * @param  Just\Warehouse\Models\Inventory  $inventory
+     * @param  \Just\Warehouse\Models\Inventory  $inventory
      * @return void
      */
     public function creating(Inventory $inventory)
@@ -24,7 +24,7 @@ class InventoryObserver
     /**
      * Handle the Inventory "created" event.
      *
-     * @param  Just\Warehouse\Models\Inventory  $inventory
+     * @param  \Just\Warehouse\Models\Inventory  $inventory
      * @return void
      */
     public function created(Inventory $inventory)
