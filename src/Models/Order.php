@@ -2,8 +2,6 @@
 
 namespace Just\Warehouse\Models;
 
-use Just\Warehouse\Exceptions\InvalidGtinException;
-
 class Order extends AbstractModel
 {
     /**
