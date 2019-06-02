@@ -2,6 +2,7 @@
 
 namespace Just\Warehouse\Tests\Model;
 
+use LogicException;
 use Just\Warehouse\Tests\TestCase;
 use Just\Warehouse\Models\Location;
 use Just\Warehouse\Models\Inventory;
@@ -25,6 +26,24 @@ class LocationTest extends TestCase
         $location = factory(Location::class)->create();
 
         $this->assertInstanceOf(\Illuminate\Database\Eloquent\Collection::class, $location->inventory);
+    }
+
+    /** @test */
+    public function it_can_not_be_deleted_if_it_has_inventory()
+    {
+        $location = factory(Location::class)->create();
+        $location->addInventory('1300000000000');
+
+        try {
+            $location->delete();
+        } catch (LogicException $e) {
+            $this->assertEquals('Location can not be deleted because it has inventory.', $e->getMessage());
+            $this->assertCount(1, Location::all());
+
+            return;
+        }
+
+        $this->fail('Location was deleted altough it has inventory items.');
     }
 
     /** @test */
