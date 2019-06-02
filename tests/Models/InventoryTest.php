@@ -38,6 +38,17 @@ class InventoryTest extends TestCase
     }
 
     /** @test */
+    public function it_dispatches_an_inventory_created_event_when_it_is_created()
+    {
+        Event::fake(InventoryCreated::class);
+        $inventory = factory(Inventory::class)->create();
+
+        Event::assertDispatched(InventoryCreated::class, function ($event) use ($inventory) {
+            return $event->inventory->is($inventory);
+        });
+    }
+
+    /** @test */
     public function creating_inventory_without_a_gtin_throws_an_exception()
     {
         Event::fake(InventoryCreated::class);
@@ -58,14 +69,24 @@ class InventoryTest extends TestCase
     }
 
     /** @test */
-    public function it_dispatches_an_inventory_created_event_when_it_is_created()
+    public function once_it_has_been_created_the_gtin_can_not_be_altered()
     {
-        Event::fake(InventoryCreated::class);
-        $inventory = factory(Inventory::class)->create();
+        $inventory = factory(Inventory::class)->create([
+            'gtin' => '1300000000000',
+        ]);
 
-        Event::assertDispatched(InventoryCreated::class, function ($event) use ($inventory) {
-            return $event->inventory->is($inventory);
-        });
+        try {
+            $inventory->update([
+                'gtin' => '14000000000003',
+            ]);
+        } catch (LogicException $e) {
+            $this->assertEquals('The GTIN attribute can not be changed.', $e->getMessage());
+            $this->assertEquals('1300000000000', $inventory->fresh()->gtin);
+
+            return;
+        }
+
+        $this->fail('The GTIN attribute has changed.');
     }
 
     /** @test */

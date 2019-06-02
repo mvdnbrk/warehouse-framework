@@ -2,12 +2,15 @@
 
 namespace Just\Warehouse\Tests\Model;
 
+use LogicException;
 use Just\Warehouse\Models\Order;
 use Just\Warehouse\Tests\TestCase;
 use Just\Warehouse\Models\Inventory;
 use Just\Warehouse\Models\OrderLine;
 use Illuminate\Support\Facades\Event;
 use Just\Warehouse\Models\Reservation;
+use Just\Warehouse\Events\OrderLineCreated;
+use Just\Warehouse\Exceptions\InvalidGtinException;
 
 class OrderLineTest extends TestCase
 {
@@ -33,6 +36,55 @@ class OrderLineTest extends TestCase
         $line = factory(OrderLine::class)->create();
 
         $this->assertInstanceOf(Reservation::class, $line->reservation);
+    }
+
+    /** @test */
+    public function it_dispatches_an_inventory_created_event_when_it_is_created()
+    {
+        Event::fake(OrderLineCreated::class);
+        $line = factory(OrderLine::class)->create();
+
+        Event::assertDispatched(OrderLineCreated::class, function ($event) use ($line) {
+            return $event->line->is($line);
+        });
+    }
+
+    /** @test */
+    public function creating_an_order_line_without_a_gtin_throws_an_exception()
+    {
+        try {
+            $line = factory(OrderLine::class)->create([
+                'gtin' => null,
+            ]);
+        } catch (InvalidGtinException $e) {
+            $this->assertEquals('The given data was invalid.', $e->getMessage());
+            $this->assertCount(0, OrderLine::all());
+
+            return;
+        }
+
+        $this->fail('Creating an order line without a GTIN succeeded.');
+    }
+
+    /** @test */
+    public function once_it_has_been_created_the_gtin_can_not_be_altered()
+    {
+        $line = factory(OrderLine::class)->create([
+            'gtin' => '1300000000000',
+        ]);
+
+        try {
+            $line->update([
+                'gtin' => '14000000000003',
+            ]);
+        } catch (LogicException $e) {
+            $this->assertEquals('The GTIN attribute can not be changed.', $e->getMessage());
+            $this->assertEquals('1300000000000', $line->fresh()->gtin);
+
+            return;
+        }
+
+        $this->fail('The GTIN attribute has changed.');
     }
 
     /** @test */
