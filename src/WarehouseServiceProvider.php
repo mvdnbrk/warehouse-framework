@@ -20,22 +20,6 @@ class WarehouseServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register the Warhouse events.
-     *
-     * @return void
-     */
-    protected function registerEvents()
-    {
-        $events = $this->app->make(Dispatcher::class);
-
-        foreach ($this->events as $event => $listeners) {
-            foreach ($listeners as $listener) {
-                $events->listen($event, $listener);
-            }
-        }
-    }
-
-    /**
      * Register the application services.
      *
      * @return void
@@ -86,6 +70,22 @@ class WarehouseServiceProvider extends ServiceProvider
                 Console\Commands\MigrateCommand::class,
                 Console\Commands\MakeLocationCommand::class,
             ]);
+        }
+    }
+
+    /**
+     * Register the Warhouse events.
+     *
+     * @return void
+     */
+    protected function registerEvents()
+    {
+        $events = $this->app->make(Dispatcher::class);
+
+        foreach ($this->events as $event => $listeners) {
+            foreach ($listeners as $listener) {
+                $events->listen($event, $listener);
+            }
         }
     }
 }
