@@ -8,6 +8,7 @@ use Just\Warehouse\Models\Inventory;
 use Illuminate\Support\Facades\Event;
 use Just\Warehouse\Models\Reservation;
 use Just\Warehouse\Events\InventoryCreated;
+use Just\Warehouse\Exceptions\InvalidGtinException;
 
 class InventoryTest extends TestCase
 {
@@ -44,7 +45,8 @@ class InventoryTest extends TestCase
             $inventory = factory(Inventory::class)->create([
                 'gtin' => null,
             ]);
-         } catch (\Just\Warehouse\Exceptions\ValidationException $e) {
+         } catch (InvalidGtinException $e) {
+            $this->assertEquals('The given data was invalid.', $e->getMessage());
             $this->assertCount(0, Inventory::all());
             Event::assertNotDispatched(InventoryCreated::class);
 
