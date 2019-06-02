@@ -85,7 +85,7 @@ class WarehouseServiceProvider extends ServiceProvider
 
         foreach ($this->events as $event => $listeners) {
             foreach ($listeners as $listener) {
-                $diapatcher->listen($event, $listener);
+                $dispatcher->listen($event, $listener);
             }
         }
     }
