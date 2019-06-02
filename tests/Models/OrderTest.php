@@ -63,7 +63,7 @@ class OrderTest extends TestCase
     /** @test */
     public function it_can_add_an_order_line()
     {
-        Event::fake();
+        Event::fake(OrderLineCreated::class);
         $order = factory(Order::class)->create();
 
         $line = $order->addLine('1300000000000');

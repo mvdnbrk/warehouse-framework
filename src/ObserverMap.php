@@ -12,5 +12,6 @@ trait ObserverMap
     protected $observers = [
         Models\Order::class => Observers\OrderObserver::class,
         Models\Inventory::class => Observers\InventoryObserver::class,
+        Models\OrderLine::class => Observers\OrderLineObserver::class,
     ];
 }

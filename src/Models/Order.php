@@ -34,10 +34,6 @@ class Order extends AbstractModel
      */
     public function addLine($value)
     {
-        if (! is_gtin($value)) {
-            throw new InvalidGtinException;
-        }
-
         return $this->lines()->create([
             'gtin' => $value,
         ]);

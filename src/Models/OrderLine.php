@@ -2,8 +2,6 @@
 
 namespace Just\Warehouse\Models;
 
-use Just\Warehouse\Events\OrderLineCreated;
-
 class OrderLine extends AbstractModel
 {
     use Concerns\Reservable;
@@ -14,17 +12,6 @@ class OrderLine extends AbstractModel
      * @var bool
      */
     public $timestamps = false;
-
-    /**
-     * The event map for the model.
-     *
-     * Allows for object-based events for native Eloquent events.
-     *
-     * @var array
-     */
-    protected $dispatchesEvents = [
-        'created' => OrderLineCreated::class,
-    ];
 
     /**
      * It beliongs to an order.
