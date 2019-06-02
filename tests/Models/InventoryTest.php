@@ -45,7 +45,7 @@ class InventoryTest extends TestCase
             $inventory = factory(Inventory::class)->create([
                 'gtin' => null,
             ]);
-         } catch (InvalidGtinException $e) {
+        } catch (InvalidGtinException $e) {
             $this->assertEquals('The given data was invalid.', $e->getMessage());
             $this->assertCount(0, Inventory::all());
             Event::assertNotDispatched(InventoryCreated::class);
