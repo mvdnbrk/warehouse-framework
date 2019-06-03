@@ -7,6 +7,16 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
 class Reservation extends Pivot
 {
     /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'inventory_id' => 'integer',
+        'order_line_id' => 'integer',
+    ];
+
+    /**
      * The name of the foreign key column.
      *
      * @var string
