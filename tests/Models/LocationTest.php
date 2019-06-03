@@ -46,7 +46,6 @@ class LocationTest extends TestCase
         $this->fail('Location was deleted altough it has inventory items.');
     }
 
-
     /** @test */
     public function it_can_not_be_deleted_if_it_has_soft_deleted_inventory()
     {
