@@ -73,7 +73,7 @@ class LocationTest extends TestCase
 
         $inventory = $location->addInventory('1300000000000');
 
-        $this->assertCount(1, $location->inventory);
+        $this->assertCount(1, Inventory::all());
         $this->assertEquals($location->id, $inventory->location_id);
         $this->assertEquals('1300000000000', $inventory->gtin);
         Event::assertDispatched(InventoryCreated::class, function ($event) use ($inventory) {
@@ -91,7 +91,7 @@ class LocationTest extends TestCase
             $location->addInventory('invalid-gtin');
         } catch (InvalidGtinException $e) {
             $this->assertEquals('The given data was invalid.', $e->getMessage());
-            $this->assertCount(0, $location->inventory);
+            $this->assertCount(0, Inventory::all());
             Event::assertNotDispatched(InventoryCreated::class);
 
             return;
@@ -109,7 +109,7 @@ class LocationTest extends TestCase
 
         $this->assertTrue($location->removeInventory('1300000000000'));
 
-        $this->assertCount(1, $location->inventory);
+        $this->assertCount(1, Inventory::all());
     }
 
     /** @test */
@@ -125,7 +125,7 @@ class LocationTest extends TestCase
 
         $location->removeInventory('1300000000000');
 
-        $this->assertCount(1, $location->inventory);
+        $this->assertCount(1, Inventory::all());
         $this->assertTrue($inventory->is(Inventory::first()));
     }
 
@@ -154,7 +154,7 @@ class LocationTest extends TestCase
         try {
             $location->removeInventory('1234560000005');
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
-            $this->assertCount(1, $location->inventory);
+            $this->assertCount(1, Inventory::all());
 
             return;
         }
