@@ -10,6 +10,7 @@ use Just\Warehouse\Models\OrderLine;
 use Illuminate\Support\Facades\Event;
 use Just\Warehouse\Models\Reservation;
 use Just\Warehouse\Events\OrderLineCreated;
+use Just\Warehouse\Events\OrderLineCanceled;
 use Just\Warehouse\Exceptions\InvalidGtinException;
 
 class OrderLineTest extends TestCase
@@ -91,13 +92,14 @@ class OrderLineTest extends TestCase
     /** @test */
     public function once_it_has_been_created_the_order_id_can_not_be_altered()
     {
-        $line = factory(OrderLine::class)->create([
-            'order_id' => 111,
+        $order = factory(Order::class)->create([
+            'id' => 111,
         ]);
+        $line = $order->addLine('1300000000000');
 
         try {
             $line->update([
-                'order_id' => 222,
+                'order_id' => 999,
             ]);
         } catch (LogicException $e) {
             $this->assertEquals('The order ID attribute can not be changed.', $e->getMessage());
