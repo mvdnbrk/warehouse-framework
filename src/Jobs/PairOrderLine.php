@@ -16,7 +16,7 @@ class PairOrderLine implements ShouldQueue
     /**
      * The order line to be paired with an inventory item.
      *
-     * @var  \Just\Warehouse\Models\Inventory
+     * @var  \Just\Warehouse\Models\OrderLine
      */
     public $line;
 
