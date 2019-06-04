@@ -30,6 +30,8 @@ class InventoryObserver
      */
     public function created(Inventory $inventory)
     {
+        $inventory->reserve();
+
         InventoryCreated::dispatch($inventory);
     }
 
