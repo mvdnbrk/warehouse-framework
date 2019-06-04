@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Event;
 use Just\Warehouse\Jobs\PairInventory;
 use Just\Warehouse\Models\Reservation;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Just\Warehouse\Events\InventoryCreated;
 
 class PairInventoryTest extends TestCase
 {
@@ -26,27 +27,38 @@ class PairInventoryTest extends TestCase
     /** @test */
     public function it_becomes_available_if_there_is_no_order_line_to_be_fulfilled()
     {
-        $inventory = factory(Inventory::class)->create();
+        Event::fakeFor(function() {
+            factory(Inventory::class)->create();
+        }, [InventoryCreated::class]);
 
-        $this->assertTrue($inventory->fresh()->isAvailable());
+        tap(Inventory::first(), function ($inventory) {
+            $this->assertFalse($inventory->isAvailable());
+
+            PairInventory::dispatch($inventory);
+
+            $this->assertCount(0, Reservation::all());
+            $this->assertTrue($inventory->fresh()->isAvailable());
+        });
     }
 
     /** @test */
     public function it_gets_reservered_for_an_order_line_that_needs_to_be_fulfilled()
     {
-        $line = factory(OrderLine::class)->create([
+        factory(OrderLine::class)->create([
             'id' => 1234,
             'gtin' => '1300000000000',
         ]);
+        Event::fakeFor(function() {
+            factory(Inventory::class)->create([
+                'id' => 5678,
+                'gtin' => '1300000000000',
+            ]);
+        }, [InventoryCreated::class]);
 
-        $inventory = factory(Inventory::class)->create([
-            'location_id' => 1,
-            'id' => 5678,
-            'gtin' => '1300000000000',
-        ]);
+        PairInventory::dispatch(Inventory::first());
 
         $this->assertCount(1, Reservation::all());
-        tap($inventory->fresh(), function ($inventory) {
+        tap(Inventory::first(), function ($inventory) {
             $this->assertEquals('5678', $inventory->reservation->inventory_id);
             $this->assertEquals('1234', $inventory->reservation->order_line_id);
         });
@@ -81,7 +93,6 @@ class PairInventoryTest extends TestCase
         ]);
 
         $inventory = factory(Inventory::class)->create([
-            'location_id' => 1,
             'id' => 5678,
             'gtin' => '1300000000000',
         ]);
