@@ -2,12 +2,16 @@
 
 namespace Just\Warehouse\Listeners;
 
+use Illuminate\Bus\Queueable;
 use Just\Warehouse\Models\Inventory;
+use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Just\Warehouse\Events\OrderLineCreated;
 
 class AttemptToFulfillOrderline implements ShouldQueue
 {
+    use SerializesModels, Queueable;
+
     /**
      * Handle the event.
      *

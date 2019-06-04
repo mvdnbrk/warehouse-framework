@@ -3,12 +3,11 @@
 namespace Just\Warehouse\Events;
 
 use Just\Warehouse\Models\OrderLine;
-use Illuminate\Queue\SerializesModels;
 use Illuminate\Foundation\Events\Dispatchable;
 
 class OrderLineCreated
 {
-    use Dispatchable, SerializesModels;
+    use Dispatchable;
 
     /**
      * The order line model that was created.

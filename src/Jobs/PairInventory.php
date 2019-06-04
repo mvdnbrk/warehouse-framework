@@ -2,6 +2,7 @@
 
 namespace Just\Warehouse\Jobs;
 
+use Illuminate\Bus\Queueable;
 use Just\Warehouse\Models\Inventory;
 use Just\Warehouse\Models\OrderLine;
 use Illuminate\Queue\SerializesModels;
@@ -10,7 +11,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 
 class PairInventory implements ShouldQueue
 {
-    use Dispatchable, SerializesModels;
+    use Dispatchable, SerializesModels, Queueable;
 
     /**
      * The inventory to be paired with an order line..
