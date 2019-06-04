@@ -15,7 +15,7 @@ trait EventMap
         ],
 
         Events\OrderLineCreated::class => [
-            Listeners\AttemptToFulfillOrderline::class,
+            Listeners\ScheduleOrderLinePairing::class,
         ],
     ];
 }
