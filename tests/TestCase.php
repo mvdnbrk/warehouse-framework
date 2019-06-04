@@ -2,6 +2,7 @@
 
 namespace Just\Warehouse\Tests;
 
+use Illuminate\Support\Facades\DB;
 use Just\Warehouse\WarehouseServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
 
@@ -19,6 +20,10 @@ abstract class TestCase extends Orchestra
         $this->withFactories(__DIR__.'/../database/factories');
 
         $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
+
+        if (config('database.connections.warehouse.driver') == 'sqlite'){
+            DB::connection('warehouse')->getSchemaBuilder()->enableForeignKeyConstraints();
+        }
     }
 
     /**
