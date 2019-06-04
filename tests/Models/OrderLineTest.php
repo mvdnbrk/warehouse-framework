@@ -10,7 +10,6 @@ use Just\Warehouse\Models\OrderLine;
 use Illuminate\Support\Facades\Event;
 use Just\Warehouse\Models\Reservation;
 use Just\Warehouse\Events\OrderLineCreated;
-use Just\Warehouse\Events\OrderLineCanceled;
 use Just\Warehouse\Exceptions\InvalidGtinException;
 
 class OrderLineTest extends TestCase

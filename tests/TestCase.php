@@ -21,7 +21,7 @@ abstract class TestCase extends Orchestra
 
         $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
 
-        if (config('database.connections.warehouse.driver') == 'sqlite'){
+        if (config('database.connections.warehouse.driver') == 'sqlite') {
             DB::connection('warehouse')->getSchemaBuilder()->enableForeignKeyConstraints();
         }
     }
