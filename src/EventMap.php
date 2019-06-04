@@ -11,7 +11,7 @@ trait EventMap
      */
     protected $events = [
         Events\InventoryCreated::class => [
-            Listeners\CheckForUnfulfilledOrderLine::class,
+            Listeners\ScheduleInventoryPairing::class,
         ],
 
         Events\OrderLineCreated::class => [
