@@ -4,6 +4,12 @@ namespace Just\Warehouse\Models;
 
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
+/**
+ * @property int $inventory_id
+ * @property int $order_line_id
+ * @property \Illuminate\Support\Carbon $created_at
+ * @property \Illuminate\Support\Carbon $updated_at
+ */
 class Reservation extends Pivot
 {
     /**
