@@ -4,6 +4,7 @@ namespace Just\Warehouse\Tests\Model;
 
 use Just\Warehouse\Models\Order;
 use Just\Warehouse\Tests\TestCase;
+use Just\Warehouse\Models\OrderLine;
 use Illuminate\Support\Facades\Event;
 use Just\Warehouse\Events\OrderLineCreated;
 use Just\Warehouse\Exceptions\InvalidGtinException;
@@ -68,7 +69,7 @@ class OrderTest extends TestCase
 
         $line = $order->addLine('1300000000000');
 
-        $this->assertCount(1, $order->lines);
+        $this->assertCount(1, OrderLine::all());
         $this->assertEquals($order->id, $line->order_id);
         $this->assertEquals('1300000000000', $line->gtin);
         Event::assertDispatched(OrderLineCreated::class, function ($event) use ($line) {
@@ -85,7 +86,7 @@ class OrderTest extends TestCase
             $order->addLine('invalid-gtin');
         } catch (InvalidGtinException $e) {
             $this->assertEquals('The given data was invalid.', $e->getMessage());
-            $this->assertCount(0, $order->lines);
+            $this->assertCount(0, OrderLine::all());
 
             return;
         }
