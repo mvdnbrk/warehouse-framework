@@ -14,7 +14,7 @@ class PairInventory implements ShouldQueue
     use Dispatchable, SerializesModels, Queueable;
 
     /**
-     * The inventory to be paired with an order line..
+     * The inventory to be paired with an order line.
      *
      * @var  \Just\Warehouse\Models\Inventory
      */
