@@ -44,6 +44,7 @@ class OrderLineTest extends TestCase
         Event::fake(OrderLineCreated::class);
         $line = factory(OrderLine::class)->create();
 
+        $this->assertCount(1, OrderLine::all());
         Event::assertDispatched(OrderLineCreated::class, function ($event) use ($line) {
             return $event->line->is($line);
         });
