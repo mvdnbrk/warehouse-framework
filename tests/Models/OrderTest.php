@@ -2,10 +2,15 @@
 
 namespace Just\Warehouse\Tests\Model;
 
+use LogicException;
 use Just\Warehouse\Models\Order;
 use Just\Warehouse\Tests\TestCase;
 use Just\Warehouse\Models\OrderLine;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Queue;
+use Just\Warehouse\Jobs\PairOrderLine;
+use Just\Warehouse\Models\Reservation;
+use Just\Warehouse\Jobs\ReleaseOrderLine;
 use Just\Warehouse\Events\OrderLineCreated;
 use Just\Warehouse\Exceptions\InvalidGtinException;
 use Just\Warehouse\Exceptions\InvalidOrderNumberException;
@@ -92,5 +97,100 @@ class OrderTest extends TestCase
         }
 
         $this->fail('Adding an order line succeeded with an invalid gtin.');
+    }
+
+    /** @test */
+    public function it_can_be_soft_deleted()
+    {
+        $order = factory(Order::class)->create();
+        $line = $order->addLine('1300000000000');
+
+        $this->assertTrue($order->delete());
+
+        $this->assertCount(0, Order::all());
+        $this->assertCount(0, Reservation::all());
+        $this->assertCount(1, Order::withTrashed()->get());
+        $this->assertEquals('deleted', $order->fresh()->status);
+        tap($line->fresh(), function ($line) {
+            $this->assertFalse($line->isReserved());
+            $this->assertFalse($line->isFulfilled());
+        });
+    }
+
+    /** @test */
+    public function it_can_be_soft_deleted_and_dispatches_jobs_to_release_the_order_lines()
+    {
+        $order = factory(Order::class)->create();
+        $line1 = $order->addLine('1300000000000');
+        $line2 = $order->addLine('1300000000000');
+
+        Queue::fake();
+        $this->assertTrue($order->delete());
+
+        Queue::assertPushed(ReleaseOrderLine::class, function ($job) use ($line1) {
+            return $job->line->is($line1);
+        });
+        Queue::assertPushed(ReleaseOrderLine::class, function ($job) use ($line2) {
+            return $job->line->is($line2);
+        });
+        $this->assertCount(0, Order::all());
+        $this->assertCount(1, Order::withTrashed()->get());
+    }
+
+    /** @test */
+    public function it_can_be_restored()
+    {
+        $order = factory(Order::class)->create();
+        $line = $order->addLine('1300000000000');
+        $order->delete();
+
+        $this->assertTrue($order->restore());
+
+        $this->assertEquals('created', $order->fresh()->status);
+        $this->assertCount(1, Order::all());
+        $this->assertCount(1, Reservation::all());
+        $this->assertCount(0, Order::onlyTrashed()->get());
+        tap($line->fresh(), function ($line) {
+            $this->assertTrue($line->isReserved());
+            $this->assertFalse($line->isFulfilled());
+        });
+    }
+
+    /** @test */
+    public function it_can_be_restored_and_dispatches_jobs_to_pair_the_order_lines()
+    {
+        $order = factory(Order::class)->create();
+        $line1 = $order->addLine('1300000000000');
+        $line2 = $order->addLine('1300000000000');
+        $order->delete();
+
+        Queue::fake();
+        $this->assertTrue($order->restore());
+
+        Queue::assertPushed(PairOrderLine::class, function ($job) use ($line1) {
+            return $job->line->is($line1);
+        });
+        Queue::assertPushed(PairOrderLine::class, function ($job) use ($line2) {
+            return $job->line->is($line2);
+        });
+        $this->assertCount(1, Order::all());
+        $this->assertCount(0, Order::onlyTrashed()->get());
+    }
+
+    /** @test */
+    public function it_can_not_be_force_deleted()
+    {
+        $order = factory(Order::class)->create();
+
+        try {
+            $order->forceDelete();
+        } catch (LogicException $e) {
+            $this->assertEquals('An order can not be force deleted.', $e->getMessage());
+            $this->assertCount(1, Order::all());
+
+            return;
+        }
+
+        $this->fail('Force deleting an order succceeded.');
     }
 }
