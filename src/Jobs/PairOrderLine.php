@@ -23,6 +23,7 @@ class PairOrderLine implements ShouldQueue
     /**
      * Create a new job instance.
      *
+     * @param  \Just\Warehouse\Models\OrderLine  $line
      * @return void
      */
     public function __construct(OrderLine $line)

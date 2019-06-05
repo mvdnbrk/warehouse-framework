@@ -23,6 +23,7 @@ class PairInventory implements ShouldQueue
     /**
      * Create a new job instance.
      *
+     * @param  \Just\Warehouse\Models\Inventory  $inventory
      * @return void
      */
     public function __construct(Inventory $inventory)
