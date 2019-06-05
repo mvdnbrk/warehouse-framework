@@ -2,6 +2,13 @@
 
 namespace Just\Warehouse\Models;
 
+/**
+ * @property int $id
+ * @property int $order_id
+ * @property string $gtin
+ * @property \Just\Warehouse\Models\Order $order
+ * @property \Just\Warehouse\Models\Inventory $inventory
+ */
 class OrderLine extends AbstractModel
 {
     use Concerns\Reservable;

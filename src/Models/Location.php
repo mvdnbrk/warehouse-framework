@@ -4,6 +4,12 @@ namespace Just\Warehouse\Models;
 
 use Just\Warehouse\Exceptions\InvalidGtinException;
 
+/**
+ * @property int $id
+ * @property string $name
+ * @property \Illuminate\Support\Carbon $created_at
+ * @property \Illuminate\Support\Carbon $updated_at
+ */
 class Location extends AbstractModel
 {
     /**

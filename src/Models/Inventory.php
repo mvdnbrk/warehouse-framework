@@ -6,6 +6,15 @@ use LogicException;
 use Just\Warehouse\Contracts\StorableEntity;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+/**
+ * @property int $id
+ * @property string $gtin
+ * @property int $location_id
+ * @property \Just\Warehouse\Models\Location $location
+ * @property \Illuminate\Support\Carbon $created_at
+ * @property \Illuminate\Support\Carbon $updated_at
+ * @property \Illuminate\Support\Carbon $deleted_at
+ */
 class Inventory extends AbstractModel implements StorableEntity
 {
     use SoftDeletes,

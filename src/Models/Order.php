@@ -4,6 +4,16 @@ namespace Just\Warehouse\Models;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+/**
+ * @property int $id
+ * @property array %meta
+ * @property string $status
+ * @property string $order_number
+ * @property \Illuminate\Support\Carbon $created_at
+ * @property \Illuminate\Support\Carbon $updated_at
+ * @property \Illuminate\Support\Carbon $deleted_at
+ * @property \Illuminate\Database\Eloquent\Collection $lines
+ */
 class Order extends AbstractModel
 {
     use SoftDeletes;
