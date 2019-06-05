@@ -2,8 +2,12 @@
 
 namespace Just\Warehouse\Models;
 
+use Illuminate\Database\Eloquent\SoftDeletes;
+
 class Order extends AbstractModel
 {
+    use SoftDeletes;
+
     /**
      * The attributes that should be cast to native types.
      *
