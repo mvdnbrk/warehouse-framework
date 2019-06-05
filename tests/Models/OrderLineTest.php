@@ -12,7 +12,6 @@ use Illuminate\Support\Facades\Queue;
 use Just\Warehouse\Jobs\PairInventory;
 use Just\Warehouse\Models\Reservation;
 use Just\Warehouse\Events\OrderLineCreated;
-use Just\Warehouse\Events\OrderLineCanceled;
 use Just\Warehouse\Exceptions\InvalidGtinException;
 
 class OrderLineTest extends TestCase

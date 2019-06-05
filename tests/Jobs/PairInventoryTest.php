@@ -27,7 +27,7 @@ class PairInventoryTest extends TestCase
     /** @test */
     public function it_becomes_available_if_there_is_no_order_line_to_be_fulfilled()
     {
-        Event::fakeFor(function() {
+        Event::fakeFor(function () {
             factory(Inventory::class)->create();
         }, [InventoryCreated::class]);
 
@@ -48,7 +48,7 @@ class PairInventoryTest extends TestCase
             'id' => 1234,
             'gtin' => '1300000000000',
         ]);
-        Event::fakeFor(function() {
+        Event::fakeFor(function () {
             factory(Inventory::class)->create([
                 'id' => 5678,
                 'gtin' => '1300000000000',
