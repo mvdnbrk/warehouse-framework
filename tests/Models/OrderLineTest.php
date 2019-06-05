@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Queue;
 use Just\Warehouse\Jobs\PairInventory;
 use Just\Warehouse\Models\Reservation;
+use Just\Warehouse\Jobs\ReleaseOrderLine;
 use Just\Warehouse\Events\OrderLineCreated;
 use Just\Warehouse\Exceptions\InvalidGtinException;
 
@@ -122,26 +123,7 @@ class OrderLineTest extends TestCase
         $this->assertTrue($line->delete());
 
         $this->assertCount(0, Reservation::all());
-        Queue::assertNotPushed(PairInventory::class);
-    }
-
-    /** @test */
-    public function it_queues_a_job_to_pair_inventory_if_the_order_line_was_fulfilled()
-    {
-        $line = factory(OrderLine::class)->create([
-            'gtin' => '1300000000000',
-        ]);
-        $inventory = factory(Inventory::class)->create([
-            'gtin' => '1300000000000',
-        ]);
-        $this->assertTrue($line->isFulfilled());
-
-        Queue::fake();
-        $line->delete();
-
-        Queue::assertPushed(PairInventory::class, function ($job) use ($inventory) {
-            return $job->inventory->is($inventory);
-        });
+        Queue::assertNotPushed(ReleaseOrderLine::class);
     }
 
     /** @test */
