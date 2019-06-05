@@ -5,7 +5,6 @@ namespace Just\Warehouse\Jobs;
 use Illuminate\Bus\Queueable;
 use Just\Warehouse\Models\OrderLine;
 use Illuminate\Queue\SerializesModels;
-use Just\Warehouse\Jobs\PairInventory;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 
