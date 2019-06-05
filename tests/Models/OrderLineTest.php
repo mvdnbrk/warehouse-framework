@@ -9,7 +9,6 @@ use Just\Warehouse\Models\Inventory;
 use Just\Warehouse\Models\OrderLine;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Queue;
-use Just\Warehouse\Jobs\PairInventory;
 use Just\Warehouse\Models\Reservation;
 use Just\Warehouse\Jobs\ReleaseOrderLine;
 use Just\Warehouse\Events\OrderLineCreated;

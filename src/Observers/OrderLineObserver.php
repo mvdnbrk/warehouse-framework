@@ -4,7 +4,6 @@ namespace Just\Warehouse\Observers;
 
 use LogicException;
 use Just\Warehouse\Models\OrderLine;
-use Just\Warehouse\Jobs\PairInventory;
 use Just\Warehouse\Jobs\ReleaseOrderLine;
 use Just\Warehouse\Events\OrderLineCreated;
 use Just\Warehouse\Exceptions\InvalidGtinException;
