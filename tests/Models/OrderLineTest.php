@@ -8,6 +8,8 @@ use Just\Warehouse\Tests\TestCase;
 use Just\Warehouse\Models\Inventory;
 use Just\Warehouse\Models\OrderLine;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Queue;
+use Just\Warehouse\Jobs\PairInventory;
 use Just\Warehouse\Models\Reservation;
 use Just\Warehouse\Events\OrderLineCreated;
 use Just\Warehouse\Events\OrderLineCanceled;
@@ -109,6 +111,38 @@ class OrderLineTest extends TestCase
         }
 
         $this->fail('The order ID attribute has changed.');
+    }
+
+    /** @test */
+    public function it_can_be_deleted()
+    {
+        $line = factory(OrderLine::class)->create();
+        $this->assertCount(1, Reservation::all());
+
+        Queue::fake();
+        $this->assertTrue($line->delete());
+
+        $this->assertCount(0, Reservation::all());
+        Queue::assertNotPushed(PairInventory::class);
+    }
+
+    /** @test */
+    public function it_queues_a_job_to_pair_inventory_if_the_order_line_was_fulfilled()
+    {
+        $line = factory(OrderLine::class)->create([
+            'gtin' => '1300000000000',
+        ]);
+        $inventory = factory(Inventory::class)->create([
+            'gtin' => '1300000000000',
+        ]);
+        $this->assertTrue($line->isFulfilled());
+
+        Queue::fake();
+        $line->delete();
+
+        Queue::assertPushed(PairInventory::class, function ($job) use ($inventory) {
+            return $job->inventory->is($inventory);
+        });
     }
 
     /** @test */
