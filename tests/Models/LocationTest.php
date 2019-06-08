@@ -47,6 +47,16 @@ class LocationTest extends TestCase
     }
 
     /** @test */
+    public function it_can_be_deleted()
+    {
+        $location = factory(Location::class)->create();
+
+        $this->assertTrue($location->delete());
+
+        $this->assertCount(0, Location::all());
+    }
+
+    /** @test */
     public function it_can_not_be_deleted_if_it_has_soft_deleted_inventory()
     {
         $location = factory(Location::class)->create();

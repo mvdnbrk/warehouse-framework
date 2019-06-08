@@ -15,7 +15,7 @@ class LocationObserver
      */
     public function deleting(Location $location)
     {
-        if ($location->inventory()->withTrashed()->get()) {
+        if ($location->inventory()->withTrashed()->get()->isNotEmpty()) {
             throw new LogicException('Location can not be deleted because it has inventory.');
         }
     }
