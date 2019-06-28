@@ -64,6 +64,27 @@ $inventory = Inventory::first();
 $inventory->move($location);
 ```
 
+You may also move inventory with it's GTIN from one location to another:
+
+``` php
+$location1 = Location::find(1);
+$location2 = Location::find(2);
+$location1->addInventory('1234567890005');
+
+$location1->move('1234567890005', $location2);
+```
+
+Moving many items at once from one location to another:
+
+```
+$location->moveMany([
+    '1234567890005',
+    '1234567890005',
+], $location2);
+```
+
+note: that if you are trying to move many items at once and a failure occurs an exception will be thrown and none of the items will be moved to another location.
+
 Remove inventory from a location:
 
 ``` php
