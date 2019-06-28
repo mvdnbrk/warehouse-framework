@@ -123,7 +123,7 @@ class LocationTest extends TestCase
     }
 
     /** @test */
-    public function it_removes_the_oldest_inventory_first()
+    public function it_removes_the_oldest_inventory_item()
     {
         $location = factory(Location::class)->create();
         $inventory = $location->addInventory('1300000000000');
