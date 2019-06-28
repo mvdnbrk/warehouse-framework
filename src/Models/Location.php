@@ -3,7 +3,6 @@
 namespace Just\Warehouse\Models;
 
 use LogicException;
-use Just\Warehouse\Models\Inventory;
 use Just\Warehouse\Exceptions\InvalidGtinException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
@@ -49,7 +48,7 @@ class Location extends AbstractModel
      * @throws \Just\Warehouse\Exceptions\InvalidGtinException
      * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
      */
-    public function move($value, Location $location)
+    public function move($value, self $location)
     {
         if (! is_gtin($value)) {
             throw new InvalidGtinException;
