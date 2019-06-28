@@ -9,6 +9,7 @@ use Just\Warehouse\Models\Inventory;
 use Illuminate\Support\Facades\Event;
 use Just\Warehouse\Events\InventoryCreated;
 use Just\Warehouse\Exceptions\InvalidGtinException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class LocationTest extends TestCase
 {
@@ -108,6 +109,74 @@ class LocationTest extends TestCase
         }
 
         $this->fail('Adding inventory succeeded with an invalid gtin.');
+    }
+
+    /** @test */
+    public function it_can_move_inventory_to_another_location()
+    {
+        $location1 = factory(Location::class)->create();
+        $inventory = $location1->addInventory('1300000000000');
+        $location1->addInventory('1300000000000');
+        $location2 = factory(Location::class)->create();
+        $this->assertCount(2, $location1->inventory);
+
+        $movedItem = $location1->move('1300000000000', $location2);
+
+        $this->assertTrue($movedItem->is($inventory));
+        $this->assertCount(1, $location1->fresh()->inventory);
+        $this->assertCount(1, $location2->inventory);
+    }
+
+    /** @test */
+    public function moving_inventory_with_an_invalid_gtin_throws_an_exception()
+    {
+        $location1 = factory(Location::class)->create();
+        $location2 = factory(Location::class)->create();
+
+        try {
+            $location1->move('invalid-gtin', $location2);
+        } catch (InvalidGtinException $e) {
+            $this->assertEquals('The given data was invalid.', $e->getMessage());
+
+            return;
+        }
+
+        $this->fail('Moving inventory succeeded with an invalid gtin.');
+    }
+
+    /** @test */
+    public function moving_inventory_to_a_location_that_does_not_exist_throws_an_exception()
+    {
+        $location1 = factory(Location::class)->create();
+        $location1->addInventory('1300000000000');
+        $location2 = factory(Location::class)->make();
+
+        try {
+            $location1->move('1300000000000', $location2);
+        } catch (LogicException $e) {
+            $this->assertEquals('Location does not exist.', $e->getMessage());
+
+            return;
+        }
+
+        $this->fail('Moving inventory succeeded with an invalid gtin.');
+    }
+
+    /** @test */
+    public function moving_inventory_that_does_not_exist_throws_an_exception()
+    {
+        $location1 = factory(Location::class)->create();
+        $location2 = factory(Location::class)->create();
+
+        try {
+            $location1->move('1300000000000', $location2);
+        } catch (ModelNotFoundException $e) {
+            $this->assertEquals('No query results for model [Just\Warehouse\Models\Inventory] 1300000000000', $e->getMessage());
+
+            return;
+        }
+
+        $this->fail('Moving inventory succeeded with a gtin that does not exists on this location.');
     }
 
     /** @test */

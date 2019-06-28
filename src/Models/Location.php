@@ -2,7 +2,10 @@
 
 namespace Just\Warehouse\Models;
 
+use LogicException;
+use Just\Warehouse\Models\Inventory;
 use Just\Warehouse\Exceptions\InvalidGtinException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 /**
  * @property int $id
@@ -34,6 +37,37 @@ class Location extends AbstractModel
         return $this->inventory()->create([
             'gtin' => $value,
         ]);
+    }
+
+    /**
+     * Move inventory to another location with a GTIN.
+     *
+     * @param  string  $value
+     * @param  \Just\Warehouse\Models\Location  $location
+     * @return \Just\Warehouse\Models\Inventory  $inventory
+     * @throws \LogicException
+     * @throws \Just\Warehouse\Exceptions\InvalidGtinException
+     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+     */
+    public function move($value, Location $location)
+    {
+        if (! is_gtin($value)) {
+            throw new InvalidGtinException;
+        }
+
+        if (! $location->exists) {
+            throw new LogicException('Location does not exist.');
+        }
+
+        return tap($this->inventory()->whereGtin($value)->first(), function ($model) use ($value, $location) {
+            if ($model === null) {
+                throw (new ModelNotFoundException)->setModel(Inventory::class, [$value]);
+            }
+
+            $model->update([
+                'location_id' => $location->id,
+            ]);
+        });
     }
 
     /**
