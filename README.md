@@ -76,14 +76,14 @@ $location1->move('1234567890005', $location2);
 
 Moving many items at once from one location to another:
 
-```
+```php
 $location->moveMany([
     '1234567890005',
     '1234567890005',
 ], $location2);
 ```
 
-note: that if you are trying to move many items at once and a failure occurs an exception will be thrown and none of the items will be moved to another location.
+**note**: If you are trying to move many items at once and a failure occurs an exception will be thrown and none of the items will be moved from one locatio to another.
 
 Remove inventory from a location:
 
