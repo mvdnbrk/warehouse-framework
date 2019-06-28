@@ -23,7 +23,7 @@ class Location extends AbstractModel
     }
 
     /**
-     * Add inventory to this location.
+     * Add inventory to this location with a GTIN.
      *
      * @param  string  $value
      * @return \Just\Warehouse\Models\Inventory
@@ -37,7 +37,7 @@ class Location extends AbstractModel
     }
 
     /**
-     * Remove inventory from this location.
+     * Remove inventory from this location with a GTIN.
      *
      * @param  string  $value
      * @return bool
