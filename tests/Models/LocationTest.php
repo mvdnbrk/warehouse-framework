@@ -294,7 +294,8 @@ class LocationTest extends TestCase
 
         try {
             $location->removeInventory('1234560000005');
-        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+        } catch (ModelNotFoundException $e) {
+            $this->assertEquals('No query results for model [Just\Warehouse\Models\Inventory] 1234560000005', $e->getMessage());
             $this->assertCount(1, Inventory::all());
 
             return;

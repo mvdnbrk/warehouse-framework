@@ -109,7 +109,7 @@ class Location extends AbstractModel
         }
 
         if (! $model = $this->inventory()->whereGtin($value)->oldest()->first()) {
-            throw (new \Illuminate\Database\Eloquent\ModelNotFoundException($value))->setModel($this);
+            throw (new ModelNotFoundException)->setModel(Inventory::class, [$value]);
         }
 
         return $model->delete();
