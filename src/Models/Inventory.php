@@ -37,7 +37,7 @@ class Inventory extends AbstractModel implements StorableEntity
      * @return bool
      * @throws \LogicException
      */
-    public function moveTo(Location $location)
+    public function move(Location $location)
     {
         if (! $location->exists) {
             throw new LogicException('Location does not exist.');

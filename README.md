@@ -61,7 +61,7 @@ Move inventory to another location:
 
 ```php
 $inventory = Inventory::first();
-$inventory->moveTo($location);
+$inventory->move($location);
 ```
 
 Remove inventory from a location:

@@ -149,7 +149,7 @@ class InventoryTest extends TestCase
         $inventory = $location1->addInventory('1300000000000');
         $location2 = factory(Location::class)->create();
 
-        $this->assertTrue($inventory->moveTo($location2));
+        $this->assertTrue($inventory->move($location2));
 
         $this->assertCount(1, Inventory::all());
         $this->assertCount(0, $location1->fresh()->inventory);
@@ -167,7 +167,7 @@ class InventoryTest extends TestCase
         $inventory = $location->addInventory('1300000000000');
 
         try {
-            $inventory->moveTo($location);
+            $inventory->move($location);
         } catch (LogicException $e) {
             $this->assertSame("Inventory can not be be moved to it's own location.", $e->getMessage());
             $this->assertCount(1, $location->fresh()->inventory);
@@ -187,7 +187,7 @@ class InventoryTest extends TestCase
         $this->assertFalse($location2->exists);
 
         try {
-            $inventory->moveTo($location2);
+            $inventory->move($location2);
         } catch (LogicException $e) {
             $this->assertSame('Location does not exist.', $e->getMessage());
             $this->assertCount(1, $location1->fresh()->inventory);

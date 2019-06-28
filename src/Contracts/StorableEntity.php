@@ -12,5 +12,5 @@ interface StorableEntity
      * @param  Location  $location
      * @return bool
      */
-    public function moveTo(Location $location);
+    public function move(Location $location);
 }
