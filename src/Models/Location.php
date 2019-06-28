@@ -50,7 +50,7 @@ class Location extends AbstractModel
      * @throws \Just\Warehouse\Exceptions\InvalidGtinException
      * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
      */
-    public function move($value, Location $location)
+    public function move($value, self $location)
     {
         if (! is_gtin($value)) {
             throw new InvalidGtinException;
@@ -78,7 +78,7 @@ class Location extends AbstractModel
      * @param  \Just\Warehouse\Models\Location  $location
      * @return  array
      */
-    public function moveMany(array $values, Location $location)
+    public function moveMany(array $values, self $location)
     {
         $models = collect();
 
