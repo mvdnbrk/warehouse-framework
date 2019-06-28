@@ -3,6 +3,7 @@
 namespace Just\Warehouse\Models;
 
 use LogicException;
+use Illuminate\Support\Facades\DB;
 use Just\Warehouse\Models\Inventory;
 use Just\Warehouse\Exceptions\InvalidGtinException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -68,6 +69,26 @@ class Location extends AbstractModel
                 'location_id' => $location->id,
             ]);
         });
+    }
+
+    /**
+     * Move multiple inventory models to another location.
+     *
+     * @param  array  $values
+     * @param  \Just\Warehouse\Models\Location  $location
+     * @return  array
+     */
+    public function moveMany(array $values, Location $location)
+    {
+        $models = collect();
+
+        DB::transaction(function () use ($values, $location, $models) {
+            collect($values)->each(function ($value) use ($location, $models) {
+                $models->push($this->move($value, $location));
+            });
+        });
+
+        return $models->values();
     }
 
     /**

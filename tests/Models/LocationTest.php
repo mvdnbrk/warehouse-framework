@@ -180,6 +180,50 @@ class LocationTest extends TestCase
     }
 
     /** @test */
+    public function it_can_move_many_inventory_to_another_location()
+    {
+        $location1 = factory(Location::class)->create();
+        $inventory1 = $location1->addInventory('1300000000000');
+        $inventory2 = $location1->addInventory('1300000000000');
+        $location1->addInventory('1300000000000');
+        $location2 = factory(Location::class)->create();
+        $this->assertCount(3, $location1->inventory);
+
+        $models = $location1->moveMany([
+            '1300000000000',
+            '1300000000000',
+        ], $location2);
+
+        $this->assertCount(1, $location1->fresh()->inventory);
+        $this->assertCount(2, $location2->inventory);
+    }
+
+    /** @test */
+    public function moving_many_inventory_which_contains_invalid_data_should_not_be_processed()
+    {
+        $location1 = factory(Location::class)->create();
+        $location1->addInventory('1300000000000');
+        $location1->addInventory('1300000000000');
+        $location2 = factory(Location::class)->create();
+        $this->assertCount(2, $location1->inventory);
+
+        try {
+            $location1->moveMany([
+                '1300000000000',
+                '1300000000000',
+                'invalid-gtin',
+            ], $location2);
+        } catch (\Exception $e) {
+            $this->assertCount(2, $location1->fresh()->inventory);
+            $this->assertCount(0, $location2->inventory);
+
+            return;
+        }
+
+        $this->fail('Moving many inventory which contains invalid data succeeded.');
+    }
+
+    /** @test */
     public function it_can_remove_inventory()
     {
         $location = factory(Location::class)->create();
