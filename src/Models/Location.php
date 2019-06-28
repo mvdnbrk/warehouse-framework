@@ -91,7 +91,7 @@ class Location extends AbstractModel
             });
         });
 
-        return $models->values();
+        return $models->all();
     }
 
     /**
