@@ -163,6 +163,24 @@ class LocationTest extends TestCase
     }
 
     /** @test */
+    public function moving_inventory_to_its_own_location_throws_an_exception()
+    {
+        $location = factory(Location::class)->create();
+        $location->addInventory('1300000000000');
+
+        try {
+            $location->move('1300000000000', $location);
+        } catch (LogicException $e) {
+            $this->assertEquals("Inventory can not be be moved to it's own location.", $e->getMessage());
+            $this->assertCount(1, $location->inventory);
+
+            return;
+        }
+
+        $this->fail("Trying to move inventory to it's own location succeeded.");
+    }
+
+    /** @test */
     public function moving_inventory_that_does_not_exist_throws_an_exception()
     {
         $location1 = factory(Location::class)->create();

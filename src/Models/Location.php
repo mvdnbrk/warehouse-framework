@@ -60,6 +60,10 @@ class Location extends AbstractModel
             throw new LogicException('Location does not exist.');
         }
 
+        if ($location->is($this)) {
+            throw new LogicException("Inventory can not be be moved to it's own location.");
+        }
+
         return tap($this->inventory()->whereGtin($value)->first(), function ($model) use ($value, $location) {
             if ($model === null) {
                 throw (new ModelNotFoundException)->setModel(Inventory::class, [$value]);
