@@ -4,7 +4,6 @@ namespace Just\Warehouse\Models;
 
 use LogicException;
 use Illuminate\Support\Facades\DB;
-use Just\Warehouse\Models\Inventory;
 use Just\Warehouse\Exceptions\InvalidGtinException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
