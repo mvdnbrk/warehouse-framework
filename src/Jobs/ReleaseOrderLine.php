@@ -15,7 +15,7 @@ class ReleaseOrderLine implements ShouldQueue
     /**
      * The order line to be released from reservation.
      *
-     * @var  \Just\Warehouse\Models\OrderLine
+     * @var \Just\Warehouse\Models\OrderLine
      */
     public $line;
 
