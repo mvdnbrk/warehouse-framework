@@ -11,7 +11,7 @@ class HasOrderStatusesTest extends TestCase
     /** @test */
     public function it_can_set_a_valid_status()
     {
-        $order = factory(Order::class)->make();
+        $order = factory(Order::class)->create();
 
         $order->status = 'open';
 
@@ -30,7 +30,7 @@ class HasOrderStatusesTest extends TestCase
     /** @test */
     public function it_throws_an_exception_when_setting_an_invalid_status()
     {
-        $order = factory(Order::class)->make();
+        $order = factory(Order::class)->create();
 
         try {
             $order->status = 'invalid-status';
