@@ -83,7 +83,7 @@ $location->moveMany([
 ], $location2);
 ```
 
-**note**: If you are trying to move many items at once and a failure occurs an exception will be thrown and none of the items will be moved from one locatio to another.
+**note**: If you are trying to move many items at once and a failure occurs, an exception will be thrown and none of the items will be moved from one location to another.
 
 Remove inventory from a location:
 
