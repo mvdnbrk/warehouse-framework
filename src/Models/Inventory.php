@@ -35,6 +35,7 @@ class Inventory extends AbstractModel implements StorableEntity
      *
      * @param  Location  $location
      * @return bool
+     *
      * @throws \LogicException
      */
     public function move(Location $location)

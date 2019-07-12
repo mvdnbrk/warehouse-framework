@@ -42,6 +42,7 @@ class Order extends AbstractModel
      *
      * @param  string  $value
      * @return \Just\Warehouse\Models\OrderLine
+     *
      * @throws \Just\Warehouse\Exceptions\InvalidGtinException
      */
     public function addLine($value)

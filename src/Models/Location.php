@@ -30,6 +30,7 @@ class Location extends AbstractModel
      *
      * @param  string  $value
      * @return \Just\Warehouse\Models\Inventory
+     *
      * @throws \Just\Warehouse\Exceptions\InvalidGtinException
      */
     public function addInventory($value)
@@ -45,6 +46,7 @@ class Location extends AbstractModel
      * @param  string  $value
      * @param  \Just\Warehouse\Models\Location  $location
      * @return \Just\Warehouse\Models\Inventory  $inventory
+     *
      * @throws \LogicException
      * @throws \Just\Warehouse\Exceptions\InvalidGtinException
      * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
