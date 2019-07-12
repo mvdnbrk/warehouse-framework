@@ -14,6 +14,7 @@ trait HasOrderStatuses
     private $statuses = [
         'backorder',
         'created',
+        'deleted',
         'open',
     ];
 
