@@ -16,7 +16,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class Order extends AbstractModel
 {
-    use SoftDeletes;
+    use SoftDeletes,
+        Concerns\HasOrderStatuses;
 
     /**
      * The attributes that should be cast to native types.
