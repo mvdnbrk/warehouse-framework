@@ -33,6 +33,21 @@ trait HasOrderStatuses
     }
 
     /**
+     * Get the status attribute.
+     *
+     * @param  string  $value
+     * @return string
+     */
+    public function getStatusAttribute($value)
+    {
+        if (! $this->exists) {
+            return 'draft';
+        }
+
+        return $value;
+    }
+
+    /**
      * Set the status attribute.
      *
      * @param  string  $value

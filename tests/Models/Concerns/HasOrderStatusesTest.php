@@ -28,6 +28,18 @@ class HasOrderStatusesTest extends TestCase
     }
 
     /** @test */
+    public function it_can_retrieve_the_status()
+    {
+        $order = factory(Order::class)->make();
+
+        $this->assertEquals('draft', $order->status);
+
+        $order->save();
+
+        $this->assertEquals('created', $order->status);
+    }
+
+    /** @test */
     public function it_throws_an_exception_when_setting_an_invalid_status()
     {
         $order = factory(Order::class)->create();
