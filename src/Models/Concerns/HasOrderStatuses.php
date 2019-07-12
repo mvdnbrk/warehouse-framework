@@ -42,6 +42,10 @@ trait HasOrderStatuses
      */
     public function setStatusAttribute($value)
     {
+        if (! $this->exists) {
+            $value = 'created';
+        }
+
         if (! $this->isValidStatus($value)) {
             throw (new InvalidStatusException)->setModel(self::class, $value);
         }

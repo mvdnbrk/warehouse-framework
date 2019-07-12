@@ -50,6 +50,14 @@ class OrderTest extends TestCase
     }
 
     /** @test */
+    public function it_sets_status_to_created_when_trying_to_instantiate_an_order_with_another_status_than_created()
+    {
+        $order = factory(Order::class)->make(['status' => 'open']);
+
+        $this->assertEquals('created', $order->status);
+    }
+
+    /** @test */
     public function creating_an_order_without_an_order_number_throws_an_exception()
     {
         try {
