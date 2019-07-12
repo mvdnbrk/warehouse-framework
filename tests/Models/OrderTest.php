@@ -42,11 +42,11 @@ class OrderTest extends TestCase
     }
 
     /** @test */
-    public function it_gets_a_created_status()
+    public function it_has_a_default_status_of_created()
     {
-        $order = factory(Order::class)->create();
+        $order = factory(Order::class)->make();
 
-        $this->assertEquals('created', $order->fresh()->status);
+        $this->assertEquals('created', $order->status);
     }
 
     /** @test */

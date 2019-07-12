@@ -20,6 +20,15 @@ class Order extends AbstractModel
         Concerns\HasOrderStatuses;
 
     /**
+     * The model's attributes.
+     *
+     * @var array
+     */
+    protected $attributes = [
+        'status' => 'created',
+    ];
+
+    /**
      * The attributes that should be cast to native types.
      *
      * @var array
