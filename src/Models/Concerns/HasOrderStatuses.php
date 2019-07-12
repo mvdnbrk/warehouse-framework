@@ -42,6 +42,6 @@ trait HasOrderStatuses
             throw (new InvalidStatusException)->setModel(self::class, $value);
         }
 
-        $this->status = $value;
+        $this->attributes['status'] = $value;
     }
 }
