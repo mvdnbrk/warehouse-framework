@@ -4,6 +4,9 @@ namespace Just\Warehouse\Models\Concerns;
 
 use Just\Warehouse\Exceptions\InvalidStatusException;
 
+/**
+ * @property array $attributes
+ */
 trait HasOrderStatuses
 {
     /**
