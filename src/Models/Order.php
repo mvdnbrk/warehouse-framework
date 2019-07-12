@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * @property int $id
- * @property array %meta
+ * @property array $meta
  * @property string $status
  * @property string $order_number
  * @property \Illuminate\Support\Carbon $created_at
