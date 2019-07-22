@@ -2,7 +2,6 @@
 
 namespace Just\Warehouse\Jobs;
 
-use Illuminate\Bus\Queueable;
 use Just\Warehouse\Models\OrderLine;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -10,7 +9,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 
 class ReleaseOrderLine implements ShouldQueue
 {
-    use Dispatchable, SerializesModels, Queueable;
+    use Dispatchable, SerializesModels;
 
     /**
      * The order line to be released from reservation.
