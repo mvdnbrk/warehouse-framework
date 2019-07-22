@@ -30,7 +30,7 @@ class OrderLine extends AbstractModel
     public $timestamps = false;
 
     /**
-     * It beliongs to an order.
+     * It belongs to an order.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
