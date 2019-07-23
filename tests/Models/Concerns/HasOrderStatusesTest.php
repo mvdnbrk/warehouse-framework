@@ -1,6 +1,6 @@
 <?php
 
-namespace Just\Warehouse\Tests\Model;
+namespace Just\Warehouse\Tests\Model\Concerns;
 
 use Just\Warehouse\Models\Order;
 use Just\Warehouse\Tests\TestCase;
