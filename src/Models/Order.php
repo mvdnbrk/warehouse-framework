@@ -3,6 +3,7 @@
 namespace Just\Warehouse\Models;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Just\Warehouse\Jobs\TransitionOrderStatus;
 
 /**
  * @property int $id
@@ -18,6 +19,7 @@ class Order extends AbstractModel
 {
     use SoftDeletes,
         Concerns\HasOrderStatus,
+        Concerns\ManagesOrderStatus;
 
     /**
      * The model's attributes.
@@ -60,5 +62,15 @@ class Order extends AbstractModel
         return $this->lines()->create([
             'gtin' => $value,
         ]);
+    }
+
+    /**
+     * Process the order to be fulfilled.
+     *
+     * @return void
+     */
+    public function process()
+    {
+        TransitionOrderStatus::dispatch($this);
     }
 }
