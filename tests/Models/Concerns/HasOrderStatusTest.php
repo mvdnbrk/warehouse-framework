@@ -6,7 +6,7 @@ use Just\Warehouse\Models\Order;
 use Just\Warehouse\Tests\TestCase;
 use Just\Warehouse\Exceptions\InvalidStatusException;
 
-class HasOrderStatusesTest extends TestCase
+class HasOrderStatusTest extends TestCase
 {
     /** @test */
     public function it_can_set_a_valid_status()

@@ -17,7 +17,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Order extends AbstractModel
 {
     use SoftDeletes,
-        Concerns\HasOrderStatuses;
+        Concerns\HasOrderStatus,
 
     /**
      * The model's attributes.

@@ -7,7 +7,7 @@ use Just\Warehouse\Exceptions\InvalidStatusException;
 /**
  * @property array $attributes
  */
-trait HasOrderStatuses
+trait HasOrderStatus
 {
     /**
      * Available order statuses.
