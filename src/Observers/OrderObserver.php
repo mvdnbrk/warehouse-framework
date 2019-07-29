@@ -48,7 +48,9 @@ class OrderObserver
             ReleaseOrderLine::dispatch($line);
         });
 
-        $order->update(['status' => 'deleted']);
+        $order->update([
+            'status' => 'deleted',
+        ]);
     }
 
     /**
@@ -63,6 +65,8 @@ class OrderObserver
             PairOrderLine::dispatch($line);
         });
 
-        $order->update(['status' => 'created']);
+        $order->update([
+            'status' => 'created',
+        ]);
     }
 }
