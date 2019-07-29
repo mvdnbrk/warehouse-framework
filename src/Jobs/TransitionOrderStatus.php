@@ -4,7 +4,6 @@ namespace Just\Warehouse\Jobs;
 
 use Just\Warehouse\Models\Order;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 
 class TransitionOrderStatus
