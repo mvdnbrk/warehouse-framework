@@ -60,6 +60,8 @@ class TransitionOrderStatus
             return;
         }
 
-        $this->order->update(['status' => $this->newStatus]);
+        $this->order->update([
+            'status' => $this->newStatus,
+        ]);
     }
 }
