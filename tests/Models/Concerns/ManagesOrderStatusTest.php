@@ -5,7 +5,7 @@ namespace Just\Warehouse\Tests\Model\Concerns;
 use Just\Warehouse\Models\Order;
 use Just\Warehouse\Tests\TestCase;
 
-class ManagesOrderStatusesTest extends TestCase
+class ManagesOrderStatusTest extends TestCase
 {
     /** @test */
     public function it_can_determine_if_a_transition_is_valid()
