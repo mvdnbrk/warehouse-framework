@@ -5,6 +5,7 @@ namespace Just\Warehouse\Tests\Model;
 use LogicException;
 use Just\Warehouse\Models\Order;
 use Just\Warehouse\Tests\TestCase;
+use Just\Warehouse\Models\Location;
 use Just\Warehouse\Models\OrderLine;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Queue;
@@ -97,6 +98,30 @@ class OrderTest extends TestCase
         }
 
         $this->fail('Adding an order line succeeded with an invalid gtin.');
+    }
+
+    /** @test */
+    public function it_can_be_processed()
+    {
+        $location = factory(Location::class)->create();
+        $location->addInventory('1300000000000');
+        $order = factory(Order::class)->create();
+        $order->addLine('1300000000000');
+
+        $order->process();
+
+        $this->assertEquals('open', $order->fresh()->status);
+    }
+
+    /** @test */
+    public function it_can_be_processed_with_unfilfilled_order_lines_which_results_in_status_backorder()
+    {
+        $order = factory(Order::class)->create();
+        $order->addLine('1300000000000');
+
+        $order->process();
+
+        $this->assertEquals('backorder', $order->fresh()->status);
     }
 
     /** @test */

@@ -7,6 +7,7 @@ use Just\Warehouse\Models\OrderLine;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Just\Warehouse\Jobs\TransitionOrderStatus;
 
 class PairInventory implements ShouldQueue
 {
@@ -38,7 +39,7 @@ class PairInventory implements ShouldQueue
     public function handle()
     {
         $line = OrderLine::join('reservation', 'order_lines.id', '=', 'reservation.order_line_id')
-            ->select('order_lines.id')
+            ->select(['order_lines.id', 'order_lines.order_id'])
             ->where('order_lines.gtin', '=', $this->inventory->gtin)
             ->whereNull('reservation.inventory_id')
             ->orderBy('reservation.created_at')
@@ -48,6 +49,8 @@ class PairInventory implements ShouldQueue
             $line->reservation->update([
                 'inventory_id' => $this->inventory->id,
             ]);
+
+            $line->order->process();
         }
 
         $this->inventory->release();

@@ -116,6 +116,12 @@ $order->addLine('1234567890005');
 $order->addLine(...);
 ```
 
+Process the order:
+
+```php
+$order->process();
+```
+
 ## Testing
 
 ``` bash
