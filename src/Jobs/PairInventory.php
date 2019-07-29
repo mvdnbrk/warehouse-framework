@@ -7,7 +7,6 @@ use Just\Warehouse\Models\OrderLine;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use Just\Warehouse\Jobs\TransitionOrderStatus;
 
 class PairInventory implements ShouldQueue
 {
