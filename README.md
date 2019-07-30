@@ -122,6 +122,28 @@ Process the order:
 $order->process();
 ```
 
+### Pick Lists
+
+Once you have created an order you may retrieve a pick list.  
+To determine if a pick list is available and retrieve it:
+
+```php
+$order->hasPickList();
+
+$order->pickList();
+```
+
+The `pickList` method returns a collection:
+
+```php
+$order->pickList()->each(function ($item) {
+    $item->get('gtin');
+    $item->get('location');
+    $item->get('quantity');
+});
+```
+
+
 ## Testing
 
 ``` bash

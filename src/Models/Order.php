@@ -19,6 +19,7 @@ class Order extends AbstractModel
 {
     use SoftDeletes,
         Concerns\HasOrderStatus,
+        Concerns\ManagesPickList,
         Concerns\ManagesOrderStatus;
 
     /**
