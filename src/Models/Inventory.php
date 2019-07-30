@@ -21,6 +21,15 @@ class Inventory extends AbstractModel implements StorableEntity
         Concerns\Reservable;
 
     /**
+     * The attributes that should be hidden for serialization.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'laravel_through_key',
+    ];
+
+    /**
      * It has a location.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
