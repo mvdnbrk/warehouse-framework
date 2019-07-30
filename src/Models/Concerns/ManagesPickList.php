@@ -32,13 +32,13 @@ trait ManagesPickList
                     $query->select([
                         'inventories.id',
                         'inventories.gtin',
-                        'inventories.location_id'
+                        'inventories.location_id',
                     ]);
                 },
                 'inventory.location' => function ($query) {
                     $query->select([
                         'id',
-                        'name'
+                        'name',
                     ]);
                 },
             ])
@@ -51,7 +51,7 @@ trait ManagesPickList
             })
             ->groupBy([
                 'gtin',
-                'location.id'
+                'location.id',
             ])
             ->flatten(1)
             ->map(function ($item) {
