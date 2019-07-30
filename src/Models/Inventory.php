@@ -21,6 +21,15 @@ class Inventory extends AbstractModel implements StorableEntity
         Concerns\Reservable;
 
     /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'location_id' => 'integer',
+    ];
+
+    /**
      * The attributes that should be hidden for serialization.
      *
      * @var array
