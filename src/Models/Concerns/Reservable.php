@@ -6,19 +6,10 @@ use Just\Warehouse\Models\Reservation;
 
 /**
  * @property \Just\Warehouse\Models\Reservation $reservation
+ * @method \Illuminate\Database\Eloquent\Relations\HasOne hasOne($related, $foreignKey = null, $localKey = null)
  */
 trait Reservable
 {
-    /**
-     * Define a one-to-one relationship.
-     *
-     * @param  string  $related
-     * @param  string  $foreignKey
-     * @param  string  $localKey
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
-     */
-    abstract public function hasOne($related, $foreignKey = null, $localKey = null);
-
     /**
      * It has a reservation.
      *

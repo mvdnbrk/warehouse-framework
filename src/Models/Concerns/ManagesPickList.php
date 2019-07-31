@@ -2,6 +2,9 @@
 
 namespace Just\Warehouse\Models\Concerns;
 
+/**
+ * @method \Illuminate\Database\Eloquent\Relations\HasMany lines()
+ */
 trait ManagesPickList
 {
     /**
