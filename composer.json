@@ -25,6 +25,16 @@
         "phpunit/phpunit": "^8.0",
         "scrutinizer/ocular": "^1.5"
     },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Just\\Warehouse\\WarehouseServiceProvider"
+            ]
+        }
+    },
     "autoload": {
         "psr-4": {
             "Just\\Warehouse\\": "src"
@@ -39,15 +49,5 @@
         "analyse": "vendor/bin/phpstan analyse",
         "test": "vendor/bin/phpunit",
         "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
-    },
-    "config": {
-        "sort-packages": true
-    },
-    "extra": {
-        "laravel": {
-            "providers": [
-                "Just\\Warehouse\\WarehouseServiceProvider"
-            ]
-        }
     }
 }
