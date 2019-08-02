@@ -3,11 +3,12 @@
 namespace Just\Warehouse\Events;
 
 use Just\Warehouse\Models\Inventory;
+use Illuminate\Queue\SerializesModels;
 use Illuminate\Foundation\Events\Dispatchable;
 
 class InventoryCreated
 {
-    use Dispatchable;
+    use Dispatchable, SerializesModels;
 
     /**
      * The inventory model that was created.
