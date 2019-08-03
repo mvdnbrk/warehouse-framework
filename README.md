@@ -122,6 +122,8 @@ Process the order:
 $order->process();
 ```
 
+This will update the order status to `open` and will be ready to be picked.
+
 ### Pick Lists
 
 Once you have created an order you may retrieve a pick list.  
@@ -143,6 +145,11 @@ $order->pickList()->each(function ($item) {
 });
 ```
 
+When the order is picked you can mark it as fulfilled with the `markAsFulfilled` method:
+
+```php
+$order->markAsFulfilled();
+````
 
 ## Testing
 
