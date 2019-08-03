@@ -15,10 +15,11 @@ trait HasOrderStatus
      * @var array
      */
     private $statuses = [
-        'backorder',
+        'open',
         'created',
         'deleted',
-        'open',
+        'backorder',
+        'fulfilled',
     ];
 
     /**

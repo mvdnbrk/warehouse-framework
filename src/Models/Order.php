@@ -2,6 +2,8 @@
 
 namespace Just\Warehouse\Models;
 
+use LogicException;
+use Just\Warehouse\Events\OrderFulfilled;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Just\Warehouse\Jobs\TransitionOrderStatus;
 
@@ -63,6 +65,22 @@ class Order extends AbstractModel
         return $this->lines()->create([
             'gtin' => $value,
         ]);
+    }
+
+    /**
+     * Mark the order as fulfilled.
+     *
+     * @return void
+     */
+    public function markAsFulfilled()
+    {
+        if (! $this->isValidTransition($this->status, 'fulfilled')) {
+            throw new LogicException("This order can't be marked as fulfilled.");
+        }
+
+        OrderFulfilled::dispatch(tap($this)->update([
+            'status' => 'fulfilled',
+        ]));
     }
 
     /**

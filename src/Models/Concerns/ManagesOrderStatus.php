@@ -13,8 +13,9 @@ trait ManagesOrderStatus
      */
     private $transitions = [
         ['created' => 'open'],
-        ['created' => 'backorder'],
         ['backorder' => 'open'],
+        ['open' => 'fulfilled'],
+        ['created' => 'backorder'],
     ];
 
     /**

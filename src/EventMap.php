@@ -10,6 +10,10 @@ trait EventMap
      * @var array
      */
     protected $events = [
+        Events\OrderFulfilled::class => [
+            Listeners\DeleteInventoryForOrder::class,
+        ],
+
         Events\InventoryCreated::class => [
             Listeners\ScheduleInventoryPairing::class,
         ],

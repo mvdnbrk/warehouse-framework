@@ -125,6 +125,39 @@ class OrderTest extends TestCase
     }
 
     /** @test */
+    public function it_can_be_marked_as_fulfilled()
+    {
+        $location = factory(Location::class)->create();
+        $inventory = $location->addInventory('1300000000000');
+        $order = factory(Order::class)->create();
+        $order->addLine('1300000000000');
+        $order->process();
+
+        tap($order->fresh(), function ($order) {
+            $order->markAsFulfilled();
+            $this->assertEquals('fulfilled', $order->status);
+        });
+        $this->assertTrue($inventory->fresh()->trashed());
+    }
+
+    /** @test */
+    public function trying_to_mark_a_non_open_order_as_fulfilled_throws_an_exception()
+    {
+        $order = factory(Order::class)->create(['status' => 'created']);
+
+        try {
+            $order->markAsFulfilled();
+        } catch (LogicException $e) {
+            $this->assertEquals("This order can't be marked as fulfilled.", $e->getMessage());
+            $this->assertEquals('created', $order->fresh()->status);
+
+            return;
+        }
+
+        $this->fail('Trying to mark a non open order as fulfilled succeeded.');
+    }
+
+    /** @test */
     public function it_can_be_soft_deleted()
     {
         $order = factory(Order::class)->create();
