@@ -43,6 +43,15 @@ class Order extends AbstractModel
     ];
 
     /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    protected $dates = [
+        'fulfilled_at',
+    ];
+
+    /**
      * The order lines associated with this order.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
@@ -80,6 +89,7 @@ class Order extends AbstractModel
 
         OrderFulfilled::dispatch(tap($this)->update([
             'status' => 'fulfilled',
+            'fulfilled_at' => now(),
         ]));
     }
 

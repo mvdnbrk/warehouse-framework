@@ -3,6 +3,7 @@
 namespace Just\Warehouse\Tests\Model;
 
 use LogicException;
+use Illuminate\Support\Carbon;
 use Just\Warehouse\Models\Order;
 use Just\Warehouse\Tests\TestCase;
 use Just\Warehouse\Models\Location;
@@ -127,6 +128,7 @@ class OrderTest extends TestCase
     /** @test */
     public function it_can_be_marked_as_fulfilled()
     {
+        Carbon::setTestNow('2019-10-11 12:34:56');
         $location = factory(Location::class)->create();
         $inventory = $location->addInventory('1300000000000');
         $order = factory(Order::class)->create();
@@ -136,6 +138,7 @@ class OrderTest extends TestCase
         tap($order->fresh(), function ($order) {
             $order->markAsFulfilled();
             $this->assertEquals('fulfilled', $order->status);
+            $this->assertEquals('2019-10-11 12:34:56', $order->fulfilled_at);
         });
         $this->assertTrue($inventory->fresh()->trashed());
     }
