@@ -76,12 +76,45 @@ class OrderTest extends TestCase
 
         $line = $order->addLine('1300000000000');
 
+        $this->assertInstanceOf(OrderLine::class, $line);
         $this->assertCount(1, OrderLine::all());
         $this->assertEquals($order->id, $line->order_id);
         $this->assertEquals('1300000000000', $line->gtin);
         Event::assertDispatched(OrderLineCreated::class, function ($event) use ($line) {
             return $event->line->is($line);
         });
+    }
+
+    /** @test */
+    public function it_can_add_multiple_order_lines()
+    {
+        Event::fake(OrderLineCreated::class);
+        $order = factory(Order::class)->create();
+
+        $lines = $order->addLine('1300000000000', 2);
+
+        $this->assertInstanceOf(\Illuminate\Database\Eloquent\Collection::class, $lines);
+        $this->assertSame(2, $lines->count());
+        $lines->each(function ($line) use ($order) {
+            $this->assertEquals($order->id, $line->order_id);
+            $this->assertEquals('1300000000000', $line->gtin);
+        });
+        $this->assertCount(2, OrderLine::all());
+        Event::assertDispatched(OrderLineCreated::class, 2);
+    }
+
+    /** @test */
+    public function it_does_not_add_order_lines_when_passing_amount_less_than_one()
+    {
+        Event::fake(OrderLineCreated::class);
+        $order = factory(Order::class)->create();
+
+        $lines = $order->addLine('1300000000000', 0);
+
+        $this->assertInstanceOf(\Illuminate\Database\Eloquent\Collection::class, $lines);
+        $this->assertTrue($lines->isEmpty());
+        $this->assertCount(0, OrderLine::all());
+        Event::assertNotDispatched(OrderLineCreated::class);
     }
 
     /** @test */

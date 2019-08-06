@@ -65,15 +65,24 @@ class Order extends AbstractModel
      * Add an order line.
      *
      * @param  string  $value
-     * @return \Just\Warehouse\Models\OrderLine
+     * @param  int  $amount
+     * @return \Just\Warehouse\Models\OrderLine|\Illuminate\Database\Eloquent\Collection
      *
      * @throws \Just\Warehouse\Exceptions\InvalidGtinException
      */
-    public function addLine($value)
+    public function addLine($value, $amount = 1)
     {
-        return $this->lines()->create([
-            'gtin' => $value,
-        ]);
+        if ($amount < 1) {
+            return $this->newCollection();
+        }
+
+        $instances = $this->newCollection(array_map(function () use ($value) {
+            return $this->lines()->create([
+                'gtin' => $value,
+            ]);
+        }, range(1, $amount)));
+
+        return $amount === 1 ? $instances->first() : $instances;
     }
 
     /**

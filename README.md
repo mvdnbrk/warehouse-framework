@@ -109,10 +109,11 @@ $order = Order::create([
 ]);
 ```
 
-Add order lines with the `addLine` method by passing a `GTIN` value:
+Add order lines with the `addLine` method by passing a `GTIN` value, you may pass an amount as the second parameter:
 
 ```php
-$order->addLine('1234567890005');
+$order->addLine('1300000000000');
+$order->addLine('1234567890005', 2);
 $order->addLine(...);
 ```
 
