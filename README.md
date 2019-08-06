@@ -50,7 +50,7 @@ php artisan warehouse:make:location
 
 ### Inventory
 
-Add inventory to a location with a `GTIN`:
+Add inventory to a location with a `GTIN` value:
 
 ``` php
 $location = Location::find(1);
