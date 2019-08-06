@@ -80,6 +80,7 @@ class OrderTest extends TestCase
         $this->assertCount(1, OrderLine::all());
         $this->assertEquals($order->id, $line->order_id);
         $this->assertEquals('1300000000000', $line->gtin);
+        Event::assertDispatched(OrderLineCreated::class, 1);
         Event::assertDispatched(OrderLineCreated::class, function ($event) use ($line) {
             return $event->line->is($line);
         });
