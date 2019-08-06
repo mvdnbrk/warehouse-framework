@@ -29,15 +29,24 @@ class Location extends AbstractModel
      * Add inventory to this location with a GTIN.
      *
      * @param  string  $value
-     * @return \Just\Warehouse\Models\Inventory
+     * @param  int  $amount
+     * @return \Just\Warehouse\Models\Inventory|\Illuminate\Database\Eloquent\Collection
      *
      * @throws \Just\Warehouse\Exceptions\InvalidGtinException
      */
-    public function addInventory($value)
+    public function addInventory($value, $amount = 1)
     {
-        return $this->inventory()->create([
-            'gtin' => $value,
-        ]);
+        if ($amount < 1) {
+            return $this->newCollection();
+        }
+
+        $instances = $this->newCollection(array_map(function () use ($value) {
+            return $this->inventory()->create([
+                'gtin' => $value,
+            ]);
+        }, range(1, $amount)));
+
+        return $amount === 1 ? $instances->first() : $instances;
     }
 
     /**

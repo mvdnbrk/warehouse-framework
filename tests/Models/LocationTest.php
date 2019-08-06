@@ -84,12 +84,46 @@ class LocationTest extends TestCase
 
         $inventory = $location->addInventory('1300000000000');
 
+        $this->assertInstanceOf(Inventory::class, $inventory);
         $this->assertCount(1, Inventory::all());
         $this->assertEquals($location->id, $inventory->location_id);
         $this->assertEquals('1300000000000', $inventory->gtin);
+        Event::assertDispatched(InventoryCreated::class, 1);
         Event::assertDispatched(InventoryCreated::class, function ($event) use ($inventory) {
             return $event->inventory->is($inventory);
         });
+    }
+
+    /** @test */
+    public function it_can_add_multiple_inventory_items()
+    {
+        Event::fake(InventoryCreated::class);
+        $location = factory(Location::class)->create();
+
+        $inventories = $location->addInventory('1300000000000', 2);
+
+        $this->assertInstanceOf(\Illuminate\Database\Eloquent\Collection::class, $inventories);
+        $this->assertSame(2, $inventories->count());
+        $inventories->each(function ($inventory) use ($location) {
+            $this->assertEquals($location->id, $inventory->location_id);
+            $this->assertEquals('1300000000000', $inventory->gtin);
+        });
+        $this->assertCount(2, Inventory::all());
+        Event::assertDispatched(InventoryCreated::class, 2);
+    }
+
+    /** @test */
+    public function it_does_not_add_inventory_when_passing_amount_less_than_one()
+    {
+        Event::fake(InventoryCreated::class);
+        $location = factory(Location::class)->create();
+
+        $inventories = $location->addInventory('1300000000000', 0);
+
+        $this->assertInstanceOf(\Illuminate\Database\Eloquent\Collection::class, $inventories);
+        $this->assertTrue($inventories->isEmpty());
+        $this->assertCount(0, Inventory::all());
+        Event::assertNotDispatched(InventoryCreated::class);
     }
 
     /** @test */

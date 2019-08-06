@@ -50,11 +50,12 @@ php artisan warehouse:make:location
 
 ### Inventory
 
-Add inventory to a location with a `GTIN` value:
+Add inventory to a location with a `GTIN` value, you may pass an amount as the second parameter:
 
 ``` php
 $location = Location::find(1);
-$location->addInventory('1234567890005');
+$location->addInventory('1300000000000');
+$location->addInventory('1234567890005', 2);
 ```
 
 Move inventory to another location:
