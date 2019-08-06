@@ -50,7 +50,7 @@ php artisan warehouse:make:location
 
 ### Inventory
 
-Add inventory to a location with a GTIN:
+Add inventory to a location with a `GTIN`:
 
 ``` php
 $location = Location::find(1);
@@ -64,7 +64,7 @@ $inventory = Inventory::first();
 $inventory->move($location);
 ```
 
-You may also move inventory with it's GTIN from one location to another:
+You may also move inventory with it's `GTIN` from one location to another:
 
 ``` php
 $location1 = Location::find(1);
@@ -109,7 +109,7 @@ $order = Order::create([
 ]);
 ```
 
-Add order lines:
+Add order lines with the `addLine` method by passing a `GTIN` value:
 
 ```php
 $order->addLine('1234567890005');
