@@ -14,6 +14,7 @@ use Just\Warehouse\Jobs\PairOrderLine;
 use Just\Warehouse\Models\Reservation;
 use Just\Warehouse\Jobs\ReleaseOrderLine;
 use Just\Warehouse\Events\OrderLineCreated;
+use Just\Warehouse\Events\OrderStatusUpdated;
 use Just\Warehouse\Exceptions\InvalidGtinException;
 use Just\Warehouse\Exceptions\InvalidOrderNumberException;
 
@@ -192,6 +193,22 @@ class OrderTest extends TestCase
         }
 
         $this->fail('Trying to mark a non open order as fulfilled succeeded.');
+    }
+
+    /** @test */
+    public function it_dispatches_an_order_status_updated_event_when_the_status_has_changed()
+    {
+        Event::fake(OrderStatusUpdated::class);
+        $order = factory(Order::class)->create(['status' => 'created']);
+        $order->addLine('1300000000000');
+        $order->process();
+
+        Event::assertDispatched(OrderStatusUpdated::class, 1);
+        Event::assertDispatched(OrderStatusUpdated::class, function ($event) use ($order) {
+            return $event->order->is($order)
+                && $event->originalStatus == 'created'
+                && $event->order->status == 'backorder';
+        });
     }
 
     /** @test */

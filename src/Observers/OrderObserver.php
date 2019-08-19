@@ -6,6 +6,7 @@ use LogicException;
 use Just\Warehouse\Models\Order;
 use Just\Warehouse\Jobs\PairOrderLine;
 use Just\Warehouse\Jobs\ReleaseOrderLine;
+use Just\Warehouse\Events\OrderStatusUpdated;
 use Just\Warehouse\Exceptions\InvalidOrderNumberException;
 
 class OrderObserver
@@ -20,6 +21,19 @@ class OrderObserver
     {
         if (empty($order->order_number)) {
             throw new InvalidOrderNumberException;
+        }
+    }
+
+    /**
+     * Handle the Order "updated" event.
+     *
+     * @param  \Just\Warehouse\Models\Order  $order
+     * @return void
+     */
+    public function updated(Order $order)
+    {
+        if ($order->wasChanged('status')) {
+            OrderStatusUpdated::dispatch($order, $order->getOriginal('status'));
         }
     }
 
