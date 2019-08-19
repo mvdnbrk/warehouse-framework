@@ -41,7 +41,7 @@ class OrderLineTest extends TestCase
     }
 
     /** @test */
-    public function it_dispatches_an_inventory_created_event_when_it_is_created()
+    public function it_dispatches_an_order_line_created_event_when_it_is_created()
     {
         Event::fake(OrderLineCreated::class);
         $line = factory(OrderLine::class)->create();
