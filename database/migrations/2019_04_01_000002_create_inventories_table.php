@@ -20,7 +20,10 @@ class CreateInventoriesTable extends Migration
             $table->timestamps();
             $table->softDeletes();
 
-            $table->foreign('location_id')->references('id')->on('locations');
+            $table->foreign('location_id')
+                  ->references('id')
+                  ->on('locations')
+                  ->onUpdate('cascade');
         });
     }
 
