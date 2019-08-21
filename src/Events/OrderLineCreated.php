@@ -8,7 +8,8 @@ use Illuminate\Foundation\Events\Dispatchable;
 
 class OrderLineCreated
 {
-    use Dispatchable, SerializesModels;
+    use Dispatchable,
+        SerializesModels;
 
     /**
      * The order line model that was created.

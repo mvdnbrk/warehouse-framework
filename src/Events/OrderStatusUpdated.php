@@ -8,7 +8,8 @@ use Illuminate\Foundation\Events\Dispatchable;
 
 class OrderStatusUpdated
 {
-    use Dispatchable, SerializesModels;
+    use Dispatchable,
+        SerializesModels;
 
     /**
      * The order that updated it's status.
