@@ -68,4 +68,34 @@ trait HasOrderStatus
 
         $this->attributes['status'] = $value;
     }
+
+    /**
+     * Determine if the order is "open".
+     *
+     * @return bool
+     */
+    public function isOpen()
+    {
+        return $this->status === 'open';
+    }
+
+    /**
+     * Determine if the order is  in "backorder".
+     *
+     * @return bool
+     */
+    public function isBackorder()
+    {
+        return $this->status === 'backorder';
+    }
+
+    /**
+     * Determine if the order is "fulfilled".
+     *
+     * @return bool
+     */
+    public function isFulfilled()
+    {
+        return $this->status === 'fulfilled';
+    }
 }

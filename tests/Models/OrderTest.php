@@ -305,4 +305,51 @@ class OrderTest extends TestCase
 
         $this->fail('Force deleting an order succceeded.');
     }
+
+    /** @test */
+    public function it_can_determine_if_the_status_is_open()
+    {
+        $order = factory(Order::class)->create();
+        $order->addLine('1300000000000');
+        $order->process();
+
+        $this->assertFalse($order->fresh()->isOpen());
+
+        $location = factory(Location::class)->create();
+        $location->addInventory('1300000000000');
+
+        $this->assertTrue($order->fresh()->isOpen());
+    }
+
+    /** @test */
+    public function it_can_determine_if_the_status_is_backorder()
+    {
+        $order = factory(Order::class)->create();
+        $order->addLine('1300000000000');
+
+        $this->assertFalse($order->fresh()->isBackorder());
+
+        $order->process();
+
+        $this->assertTrue($order->fresh()->isBackorder());
+    }
+
+    /** @test */
+    public function it_can_determine_if_the_status_is_fulfilled()
+    {
+        $location = factory(Location::class)->create();
+        $location->addInventory('1300000000000');
+
+        $order = factory(Order::class)->create();
+        $order->addLine('1300000000000');
+        $order->process();
+
+        tap($order->fresh(), function ($order) {
+            $this->assertFalse($order->fresh()->isFulfilled());
+
+            $order->markAsFulfilled();
+        });
+
+        $this->assertTrue($order->fresh()->isFulfilled());
+    }
 }
