@@ -7,7 +7,8 @@ use Illuminate\Contracts\Events\Dispatcher;
 
 class WarehouseServiceProvider extends ServiceProvider
 {
-    use EventMap, ObserverMap;
+    use EventMap,
+        ObserverMap;
 
     /**
      * Bootstrap the application services.
