@@ -41,9 +41,9 @@ class MakeLocationCommand extends Command
             return 1;
         }
 
-        $location = Location::create($validator->valid());
-
-        $this->info("Location <comment>{$location->name}</comment> created successfully.");
+        tap(Location::create($validator->valid()), function ($location) {
+            $this->info("Location <comment>{$location->name}</comment> created successfully.");
+        });
     }
 
     /**
