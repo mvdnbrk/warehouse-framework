@@ -151,7 +151,7 @@ class OrderLineTest extends TestCase
     }
 
     /** @test */
-    public function it_can_determin_if_it_is_fulfilled()
+    public function it_can_determine_if_it_is_fulfilled()
     {
         Event::fake();
         $line = factory(OrderLine::class)->create([
