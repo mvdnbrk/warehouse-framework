@@ -5,6 +5,7 @@ namespace Just\Warehouse\Tests\Model;
 use LogicException;
 use Just\Warehouse\Models\Order;
 use Just\Warehouse\Tests\TestCase;
+use Just\Warehouse\Models\Location;
 use Just\Warehouse\Models\Inventory;
 use Just\Warehouse\Models\OrderLine;
 use Illuminate\Support\Facades\Event;
@@ -173,5 +174,19 @@ class OrderLineTest extends TestCase
             $this->assertInstanceOf(Inventory::class, $line->inventory);
             $this->assertEquals('1234', $line->inventory->id);
         });
+    }
+
+    /** @test */
+    public function it_has_a_location_through_the_inventory_relation()
+    {
+        $location = factory(Location::class)->create();
+        $order = factory(Order::class)->create();
+        $line = $order->addLine('1300000000000');
+
+        $this->assertNull($line->location);
+
+        $inventory = $location->addInventory('1300000000000');
+
+        $this->assertTrue($line->fresh()->location->is($location));
     }
 }
