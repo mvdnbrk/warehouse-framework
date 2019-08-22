@@ -49,7 +49,9 @@ class PairInventory implements ShouldQueue
                 'inventory_id' => $this->inventory->id,
             ]);
 
-            $line->order->process();
+            if ($line->order->isBackorder()) {
+                $line->order->process();
+            }
         }
 
         $this->inventory->release();

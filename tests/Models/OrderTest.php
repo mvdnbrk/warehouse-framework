@@ -307,6 +307,20 @@ class OrderTest extends TestCase
     }
 
     /** @test */
+    public function adding_inventory_does_not_change_the_status_from_created_to_open()
+    {
+        $order = factory(Order::class)->create();
+        $order->addLine('1300000000000');
+
+        $this->assertEquals('created', $order->status);
+
+        $location = factory(Location::class)->create();
+        $location->addInventory('1300000000000');
+
+        $this->assertEquals('created', $order->fresh()->status);
+    }
+
+    /** @test */
     public function it_can_determine_if_the_status_is_open()
     {
         $order = factory(Order::class)->create();
