@@ -3,7 +3,6 @@
 namespace Just\Warehouse\Models;
 
 use LogicException;
-use Just\Warehouse\Contracts\StorableEntity;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
@@ -15,7 +14,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property \Illuminate\Support\Carbon $updated_at
  * @property \Illuminate\Support\Carbon $deleted_at
  */
-class Inventory extends AbstractModel implements StorableEntity
+class Inventory extends AbstractModel
 {
     use SoftDeletes,
         Concerns\Reservable;
