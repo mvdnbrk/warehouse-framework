@@ -42,6 +42,20 @@ class OrderLineTest extends TestCase
     }
 
     /** @test */
+    public function it_has_a_location_through_the_inventory_relation()
+    {
+        $location = factory(Location::class)->create();
+        $order = factory(Order::class)->create();
+        $line = $order->addLine('1300000000000');
+
+        $this->assertNull($line->location);
+
+        $inventory = $location->addInventory('1300000000000');
+
+        $this->assertTrue($line->fresh()->location->is($location));
+    }
+
+    /** @test */
     public function it_dispatches_an_order_line_created_event_when_it_is_created()
     {
         Event::fake(OrderLineCreated::class);
@@ -174,19 +188,5 @@ class OrderLineTest extends TestCase
             $this->assertInstanceOf(Inventory::class, $line->inventory);
             $this->assertEquals('1234', $line->inventory->id);
         });
-    }
-
-    /** @test */
-    public function it_has_a_location_through_the_inventory_relation()
-    {
-        $location = factory(Location::class)->create();
-        $order = factory(Order::class)->create();
-        $line = $order->addLine('1300000000000');
-
-        $this->assertNull($line->location);
-
-        $inventory = $location->addInventory('1300000000000');
-
-        $this->assertTrue($line->fresh()->location->is($location));
     }
 }
