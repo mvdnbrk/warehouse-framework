@@ -3,6 +3,7 @@
 namespace Just\Warehouse\Models\Concerns;
 
 /**
+ * @property string $status
  * @method \Illuminate\Database\Eloquent\Relations\HasMany lines()
  */
 trait ManagesPickList

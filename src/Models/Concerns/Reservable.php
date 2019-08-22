@@ -5,6 +5,7 @@ namespace Just\Warehouse\Models\Concerns;
 use Just\Warehouse\Models\Reservation;
 
 /**
+ * @property array $with
  * @property \Just\Warehouse\Models\Reservation $reservation
  * @method \Illuminate\Database\Eloquent\Relations\HasOne hasOne($related, $foreignKey = null, $localKey = null)
  */
