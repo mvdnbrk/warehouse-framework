@@ -43,11 +43,7 @@ trait HasOrderStatus
      */
     public function getStatusAttribute($value)
     {
-        if (! $this->exists) {
-            return 'draft';
-        }
-
-        return $value;
+        return ! $this->exists ? 'draft' : $value;
     }
 
     /**
