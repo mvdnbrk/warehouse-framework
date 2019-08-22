@@ -98,8 +98,8 @@ class WarehouseServiceProvider extends ServiceProvider
      */
     public function registerObservers()
     {
-        collect($this->observers)->each(function ($observer, $model) {
+        foreach ($this->observers as $model => $observer) {
             $model::observe($observer);
-        });
+        }
     }
 }
