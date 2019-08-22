@@ -68,6 +68,7 @@ class WarehouseServiceProvider extends ServiceProvider
     {
         if ($this->app->runningInConsole()) {
             $this->commands([
+                Console\Commands\FreshCommand::class,
                 Console\Commands\InstallCommand::class,
                 Console\Commands\MigrateCommand::class,
                 Console\Commands\MakeLocationCommand::class,
