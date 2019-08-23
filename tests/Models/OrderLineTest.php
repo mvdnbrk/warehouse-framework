@@ -150,7 +150,7 @@ class OrderLineTest extends TestCase
         });
 
         $this->assertCount(1, Inventory::all());
-        tap($inventory1->fresh(), function($inventory) {
+        tap($inventory1->fresh(), function ($inventory) {
             $this->assertTrue($inventory->trashed());
             $this->assertFalse($inventory->isReserved());
             $this->assertFalse($inventory->isFulfilled());
@@ -177,7 +177,7 @@ class OrderLineTest extends TestCase
         $newLine = $line->replace();
 
         $this->assertCount(0, Inventory::all());
-        tap($inventory->fresh(), function($inventory) {
+        tap($inventory->fresh(), function ($inventory) {
             $this->assertTrue($inventory->trashed());
             $this->assertFalse($inventory->isReserved());
             $this->assertFalse($inventory->isFulfilled());
