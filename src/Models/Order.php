@@ -89,6 +89,8 @@ class Order extends AbstractModel
      * Mark the order as fulfilled.
      *
      * @return void
+     *
+     * @throws \LogicException
      */
     public function markAsFulfilled()
     {
