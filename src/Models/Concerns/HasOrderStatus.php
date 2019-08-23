@@ -68,16 +68,6 @@ trait HasOrderStatus
     }
 
     /**
-     * Determine if the order is "open".
-     *
-     * @return bool
-     */
-    public function isOpen()
-    {
-        return $this->status === 'open';
-    }
-
-    /**
      * Determine if the order is  in "backorder".
      *
      * @return bool
@@ -88,6 +78,16 @@ trait HasOrderStatus
     }
 
     /**
+     * Determine if the order is  in "created".
+     *
+     * @return bool
+     */
+    public function isCreated()
+    {
+        return $this->status === 'created';
+    }
+
+    /**
      * Determine if the order is "fulfilled".
      *
      * @return bool
@@ -95,5 +95,15 @@ trait HasOrderStatus
     public function isFulfilled()
     {
         return $this->status === 'fulfilled';
+    }
+
+    /**
+     * Determine if the order is "open".
+     *
+     * @return bool
+     */
+    public function isOpen()
+    {
+        return $this->status === 'open';
     }
 }
