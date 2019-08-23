@@ -4,6 +4,7 @@ namespace Just\Warehouse\Observers;
 
 use LogicException;
 use Just\Warehouse\Models\Inventory;
+use Just\Warehouse\Jobs\PairInventory;
 use Just\Warehouse\Events\InventoryCreated;
 use Just\Warehouse\Exceptions\InvalidGtinException;
 
@@ -46,5 +47,18 @@ class InventoryObserver
         if ($inventory->gtin !== $inventory->getOriginal('gtin')) {
             throw new LogicException('The GTIN attribute can not be changed.');
         }
+    }
+
+    /**
+     * Handle the Inventory "restored" event.
+     *
+     * @param  \Just\Warehouse\Models\Inventory  $inventory
+     * @return void
+     */
+    public function restored(Inventory $inventory)
+    {
+        $inventory->reserve();
+
+        PairInventory::dispatch($inventory);
     }
 }
