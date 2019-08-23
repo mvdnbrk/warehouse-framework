@@ -95,7 +95,7 @@ class Order extends AbstractModel
     public function markAsFulfilled()
     {
         if (! $this->isValidTransition($this->status, 'fulfilled')) {
-            throw new LogicException("This order can not be marked as fulfilled.");
+            throw new LogicException('This order can not be marked as fulfilled.');
         }
 
         OrderFulfilled::dispatch(tap($this)->update([
