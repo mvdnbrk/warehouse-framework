@@ -186,7 +186,7 @@ class OrderTest extends TestCase
         try {
             $order->markAsFulfilled();
         } catch (LogicException $e) {
-            $this->assertEquals("This order can't be marked as fulfilled.", $e->getMessage());
+            $this->assertEquals("This order can not be marked as fulfilled.", $e->getMessage());
             $this->assertEquals('created', $order->fresh()->status);
 
             return;
