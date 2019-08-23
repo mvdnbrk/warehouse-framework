@@ -77,6 +77,24 @@ class PairOrderLineTest extends TestCase
     }
 
     /** @test */
+    public function it_does_not_get_fulfilled_with_deleted_inventory()
+    {
+        Event::fakeFor(function () {
+            factory(Inventory::class)->create([
+                'gtin' => '1300000000000',
+            ])->delete();
+        });
+
+        $line = factory(OrderLine::class)->create([
+            'gtin' => '1300000000000',
+        ]);
+
+        $this->assertCount(1, Reservation::all());
+        $this->assertFalse($line->fresh()->isFulfilled());
+        $this->assertFalse(Inventory::withTrashed()->first()->isReserved());
+    }
+
+    /** @test */
     public function it_gets_fulfilled_with_the_oldest_inventory_item()
     {
         $inventory1 = factory(Inventory::class)->create([
