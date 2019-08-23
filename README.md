@@ -163,6 +163,16 @@ $order->lines->first()->replace();
 
 This will delete the reserved product from the inventory and replaces it with another item (if available).
 
+### Events
+
+This packages fires several events:
+
+- `InventoryCreated`
+- `OrderLineCreated`
+- `OrderLineReplaced`
+- `OrderStatusUpdated`
+- `OrderFulfilled`
+
 ## Testing
 
 ``` bash
