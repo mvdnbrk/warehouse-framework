@@ -212,7 +212,7 @@ class InventoryTest extends TestCase
 
         $inventory->restore();
 
-        tap($line->fresh(), function ($line) use ($inventory){
+        tap($line->fresh(), function ($line) use ($inventory) {
             $this->assertTrue($line->isFulfilled());
             $this->assertTrue($line->inventory->is($inventory));
         });
