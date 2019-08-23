@@ -2,8 +2,10 @@
     "name": "mvdnbrk/warehouse-framework",
     "description": "Warehouse Framework",
     "keywords": [
+        "wms",
         "laravel",
-        "warehouse"
+        "warehouse",
+        "warehouse management system"
     ],
     "license": "MIT",
     "authors": [
