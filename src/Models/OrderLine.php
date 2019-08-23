@@ -2,6 +2,8 @@
 
 namespace Just\Warehouse\Models;
 
+use LogicException;
+use Just\Warehouse\Events\OrderLineReplaced;
 use Staudenmeir\EloquentHasManyDeep\HasRelationships;
 
 /**
@@ -80,5 +82,32 @@ class OrderLine extends AbstractModel
             'id',
             'inventory_id'
         );
+    }
+
+    /**
+     * Replace this order line.
+     *
+     * @return \Just\Warehouse\Models\OrderLine
+     *
+     * @throws \LogicException
+     */
+    public function replace()
+    {
+        if (! $this->isFulfilled()) {
+            throw new LogicException('This order line can not be replaced.');
+        }
+
+        return tap($this->order->addLine($this->gtin), function ($line) {
+
+            $this->inventory->delete();
+
+            $this->delete();
+
+            if ($this->order->isOpen()) {
+                $this->order->process();
+            }
+
+            OrderLineReplaced::dispatch($this->order, $this->inventory, $line);
+        });
     }
 }

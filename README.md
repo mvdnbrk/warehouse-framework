@@ -153,6 +153,16 @@ When the order is picked you can mark it as fulfilled with the `markAsFulfilled`
 $order->markAsFulfilled();
 ````
 
+### Replacing an order line
+
+If for some reason a product is missing or for example the items is damaged you may replace an order line with the `replace` method:
+
+```php
+$order->lines->first()->replace();
+```
+
+This will delete the reserved product from the inventory and replaces it with another item (if available).
+
 ## Testing
 
 ``` bash
