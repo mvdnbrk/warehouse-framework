@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Queue;
 use Just\Warehouse\Models\Reservation;
 use Just\Warehouse\Jobs\ReleaseOrderLine;
 use Just\Warehouse\Events\OrderLineCreated;
+use Just\Warehouse\Events\OrderLineReplaced;
 use Just\Warehouse\Exceptions\InvalidGtinException;
 
 class OrderLineTest extends TestCase
@@ -125,6 +126,84 @@ class OrderLineTest extends TestCase
         }
 
         $this->fail('The order ID attribute has changed.');
+    }
+
+    /** @test */
+    public function it_can_be_replaced_with_another_inventory_item()
+    {
+        Event::fake(OrderLineReplaced::class);
+        $order = factory(Order::class)->create();
+        $line = $order->addLine('1300000000000');
+        $location = factory(Location::class)->create();
+        $inventory1 = $location->addInventory('1300000000000');
+        $inventory2 = $location->addInventory('1300000000000');
+
+        $newLine = $line->replace();
+
+        $this->assertFalse($newLine->is($line));
+        $this->assertTrue($newLine->isFulfilled());
+        tap($order->fresh(), function ($order) use ($inventory2) {
+            $this->assertCount(1, $order->lines);
+            $this->assertEquals('created', $order->status);
+            $this->assertEquals('1300000000000', $order->lines->first()->gtin);
+            $this->assertTrue($order->lines->first()->inventory->is($inventory2));
+        });
+
+        $this->assertCount(1, Inventory::all());
+        tap($inventory1->fresh(), function ($inventory) {
+            $this->assertTrue($inventory->trashed());
+            $this->assertFalse($inventory->isReserved());
+            $this->assertFalse($inventory->isFulfilled());
+        });
+
+        Event::assertDispatched(OrderLineReplaced::class, function ($event) use ($order, $inventory1, $newLine) {
+            return $event->order->is($order)
+                && $event->inventory->is($inventory1)
+                && $event->line->is($newLine);
+        });
+    }
+
+    /** @test */
+    public function it_can_be_replaced_and_may_result_order_with_status_backorder()
+    {
+        $location = factory(Location::class)->create();
+        $inventory = $location->addInventory('1300000000000');
+        $order = factory(Order::class)->create();
+        $line = $order->addLine('1300000000000');
+        $order->process();
+
+        $this->assertEquals('open', $order->fresh()->status);
+
+        $newLine = $line->replace();
+
+        $this->assertCount(0, Inventory::all());
+        tap($inventory->fresh(), function ($inventory) {
+            $this->assertTrue($inventory->trashed());
+            $this->assertFalse($inventory->isReserved());
+            $this->assertFalse($inventory->isFulfilled());
+        });
+
+        $this->assertFalse($newLine->is($line));
+        $this->assertFalse($newLine->isFulfilled());
+        $this->assertEquals('backorder', $order->fresh()->status);
+    }
+
+    /** @test */
+    public function trying_to_replace_an_order_line_which_is_not_fulfilled_throws_an_excpetion()
+    {
+        $line = factory(OrderLine::class)->create();
+
+        try {
+            $this->assertFalse($line->replace());
+        } catch (LogicException $e) {
+            $this->assertEquals('This order line can not be replaced.', $e->getMessage());
+            $this->assertTrue($line->isReserved());
+            $this->assertFalse($line->isFulfilled());
+
+            return;
+        }
+
+        $this->fail('Trying to replace an order line which is not fulfilled succeeded.');
     }
 
     /** @test */
