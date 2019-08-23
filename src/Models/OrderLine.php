@@ -98,9 +98,7 @@ class OrderLine extends AbstractModel
         }
 
         return tap($this->order->addLine($this->gtin), function ($line) {
-
             $this->inventory->delete();
-
             $this->delete();
 
             if ($this->order->isOpen()) {
