@@ -28,7 +28,7 @@ class OrderLineReplaced
     public $inventory;
 
     /**
-     * The new order line that was created
+     * The new order line that was created.
      *
      * @var \Just\Warehouse\Models\OrderLine
      */
