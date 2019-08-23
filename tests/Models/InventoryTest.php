@@ -6,6 +6,7 @@ use LogicException;
 use Just\Warehouse\Tests\TestCase;
 use Just\Warehouse\Models\Location;
 use Just\Warehouse\Models\Inventory;
+use Just\Warehouse\Models\OrderLine;
 use Illuminate\Support\Facades\Event;
 use Just\Warehouse\Models\Reservation;
 use Just\Warehouse\Events\InventoryCreated;
@@ -196,5 +197,24 @@ class InventoryTest extends TestCase
         }
 
         $this->fail('Trying to move inventory to a location that does not exist succeeded.');
+    }
+
+    /** @test */
+    public function restoring_a_deleted_inventory_item_will_pair_with_an_order_line()
+    {
+        $inventory = factory(Inventory::class)->create([
+            'gtin' => '1300000000000',
+        ]);
+        $inventory->delete();
+        $line = factory(OrderLine::class)->create([
+            'gtin' => '1300000000000',
+        ]);
+
+        $inventory->restore();
+
+        tap($line->fresh(), function ($line) use ($inventory){
+            $this->assertTrue($line->isFulfilled());
+            $this->assertTrue($line->inventory->is($inventory));
+        });
     }
 }
