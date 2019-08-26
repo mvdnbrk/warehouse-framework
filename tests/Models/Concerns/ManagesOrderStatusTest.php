@@ -22,6 +22,9 @@ class ManagesOrderStatusTest extends TestCase
         $this->assertTrue($order->isValidTransition('open', 'fulfilled'));
 
         $this->assertFalse($order->isValidTransition('invalid', 'invalid'));
+        $this->assertFalse($order->isValidTransition('fulfilled', 'backorder'));
+        $this->assertFalse($order->isValidTransition('fulfilled', 'created'));
+        $this->assertFalse($order->isValidTransition('fulfilled', 'open'));
     }
 
     /** @test */
