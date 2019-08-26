@@ -14,6 +14,7 @@ class MigrationTest extends TestCase
 
         $this->assertEquals([
             'id',
+            'gln',
             'name',
             'created_at',
             'updated_at',
