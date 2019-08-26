@@ -2,7 +2,6 @@
 
 namespace Just\Warehouse\Models;
 
-use LogicException;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
