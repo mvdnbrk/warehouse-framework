@@ -2,7 +2,10 @@
 
 namespace Just\Warehouse\Models\Concerns;
 
+use LogicException;
 use Illuminate\Database\Eloquent\Builder;
+use Just\Warehouse\Events\OrderFulfilled;
+use Just\Warehouse\Jobs\TransitionOrderStatus;
 
 trait ManagesOrderStatus
 {
@@ -33,6 +36,35 @@ trait ManagesOrderStatus
         }
 
         return collect($this->transitions)->contains($oldStatus, $newStatus);
+    }
+
+    /**
+     * Mark the order as fulfilled.
+     *
+     * @return void
+     *
+     * @throws \LogicException
+     */
+    public function markAsFulfilled()
+    {
+        if (! $this->isValidTransition($this->status, 'fulfilled')) {
+            throw new LogicException('This order can not be marked as fulfilled.');
+        }
+
+        OrderFulfilled::dispatch(tap($this)->update([
+            'status' => 'fulfilled',
+            'fulfilled_at' => now(),
+        ]));
+    }
+
+    /**
+     * Process the order to be fulfilled.
+     *
+     * @return void
+     */
+    public function process()
+    {
+        TransitionOrderStatus::dispatch($this);
     }
 
     /**

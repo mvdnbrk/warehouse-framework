@@ -3,9 +3,7 @@
 namespace Just\Warehouse\Models;
 
 use LogicException;
-use Just\Warehouse\Events\OrderFulfilled;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Just\Warehouse\Jobs\TransitionOrderStatus;
 
 /**
  * @property int $id
@@ -83,34 +81,5 @@ class Order extends AbstractModel
         }, range(1, $amount)));
 
         return $amount === 1 ? $instances->first() : $instances;
-    }
-
-    /**
-     * Mark the order as fulfilled.
-     *
-     * @return void
-     *
-     * @throws \LogicException
-     */
-    public function markAsFulfilled()
-    {
-        if (! $this->isValidTransition($this->status, 'fulfilled')) {
-            throw new LogicException('This order can not be marked as fulfilled.');
-        }
-
-        OrderFulfilled::dispatch(tap($this)->update([
-            'status' => 'fulfilled',
-            'fulfilled_at' => now(),
-        ]));
-    }
-
-    /**
-     * Process the order to be fulfilled.
-     *
-     * @return void
-     */
-    public function process()
-    {
-        TransitionOrderStatus::dispatch($this);
     }
 }
