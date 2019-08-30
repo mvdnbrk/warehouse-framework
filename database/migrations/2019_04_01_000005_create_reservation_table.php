@@ -14,11 +14,11 @@ class CreateReservationTable extends Migration
     public function up()
     {
         Schema::create('reservation', function (Blueprint $table) {
-            $table->unique(['inventory_id', 'order_line_id']);
-
             $table->unsignedBigInteger('inventory_id')->nullable();
             $table->unsignedBigInteger('order_line_id')->nullable();
             $table->timestamps();
+
+            $table->unique(['inventory_id', 'order_line_id']);
 
             $table->foreign('inventory_id')
                   ->references('id')
