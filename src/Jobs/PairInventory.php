@@ -52,6 +52,8 @@ class PairInventory implements ShouldQueue
             ->first();
 
         if (! is_null($line)) {
+            $this->inventory->release();
+
             $line->reservation->update([
                 'inventory_id' => $this->inventory->id,
             ]);
@@ -59,6 +61,8 @@ class PairInventory implements ShouldQueue
             if ($line->order->isBackorder()) {
                 $line->order->process();
             }
+
+            return;
         }
 
         $this->inventory->release();
