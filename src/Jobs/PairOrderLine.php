@@ -13,6 +13,13 @@ class PairOrderLine implements ShouldQueue
     use Dispatchable, SerializesModels;
 
     /**
+     * The number of times the job may be attempted.
+     *
+     * @var int
+     */
+    public $tries = 3;
+
+    /**
      * The order line to be paired with an inventory item.
      *
      * @var \Just\Warehouse\Models\OrderLine

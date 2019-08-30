@@ -12,6 +12,13 @@ class TransitionOrderStatus implements ShouldQueue
     use Dispatchable, SerializesModels;
 
     /**
+     * The number of times the job may be attempted.
+     *
+     * @var int
+     */
+    public $tries = 1;
+
+    /**
      * The order which is transitioning status.
      *
      * @var \Just\Warehouse\Models\Order
