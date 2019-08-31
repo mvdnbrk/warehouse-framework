@@ -25,6 +25,16 @@ class PairInventoryTest extends TestCase
     }
 
     /** @test */
+    public function it_sets_the_number_of_times_the_job_may_be_attempted()
+    {
+        $job = new PairInventory(
+            factory(Inventory::class)->make()
+        );
+
+        $this->assertSame(3, $job->tries);
+    }
+
+    /** @test */
     public function it_becomes_available_if_there_is_no_order_line_to_be_fulfilled()
     {
         Event::fakeFor(function () {

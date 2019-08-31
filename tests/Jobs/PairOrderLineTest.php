@@ -25,6 +25,16 @@ class PairOrderLineTest extends TestCase
     }
 
     /** @test */
+    public function it_sets_the_number_of_times_the_job_may_be_attempted()
+    {
+        $job = new PairOrderLine(
+            factory(OrderLine::class)->make()
+        );
+
+        $this->assertSame(3, $job->tries);
+    }
+
+    /** @test */
     public function it_makes_a_reservation_when_inventory_is_not_available()
     {
         Event::fakeFor(function () {

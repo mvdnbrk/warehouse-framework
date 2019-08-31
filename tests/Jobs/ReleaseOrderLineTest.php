@@ -23,6 +23,16 @@ class ReleaseOrderLineTest extends TestCase
     }
 
     /** @test */
+    public function it_sets_the_number_of_times_the_job_may_be_attempted()
+    {
+        $job = new ReleaseOrderLine(
+            factory(OrderLine::class)->make()
+        );
+
+        $this->assertSame(1, $job->tries);
+    }
+
+    /** @test */
     public function it_queues_a_job_to_pair_inventory_if_the_order_line_was_fulfilled()
     {
         $line = factory(OrderLine::class)->create([
