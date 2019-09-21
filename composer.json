@@ -17,14 +17,14 @@
     ],
     "require": {
         "php": "^7.2",
-        "illuminate/support": "5.8.* || ^6.0",
+        "illuminate/support": "^6.0",
         "mvdnbrk/gtin": "^2.3",
-        "staudenmeir/eloquent-has-many-deep": "^1.8"
+        "staudenmeir/eloquent-has-many-deep": "^1.10"
     },
     "require-dev": {
         "nunomaduro/collision": "^3.0",
-        "nunomaduro/larastan": "^0.3",
-        "orchestra/testbench": "^3.8 || ^3.9",
+        "nunomaduro/larastan": "^0.4",
+        "orchestra/testbench": "^4.0",
         "phpunit/phpunit": "^8.0",
         "scrutinizer/ocular": "^1.5"
     },
