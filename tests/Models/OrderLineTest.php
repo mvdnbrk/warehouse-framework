@@ -10,7 +10,6 @@ use Facades\OrderLineFactory;
 use Facades\ReservationFactory;
 use Just\Warehouse\Models\Order;
 use Just\Warehouse\Tests\TestCase;
-use Just\Warehouse\Models\Location;
 use Just\Warehouse\Models\Inventory;
 use Just\Warehouse\Models\OrderLine;
 use Illuminate\Support\Facades\Event;

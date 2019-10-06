@@ -9,7 +9,6 @@ use Facades\OrderLineFactory;
 use Just\Warehouse\Tests\TestCase;
 use Just\Warehouse\Models\Location;
 use Just\Warehouse\Models\Inventory;
-use Just\Warehouse\Models\OrderLine;
 use Illuminate\Support\Facades\Event;
 use Just\Warehouse\Models\Reservation;
 use Just\Warehouse\Events\InventoryCreated;
