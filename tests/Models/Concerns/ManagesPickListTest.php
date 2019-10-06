@@ -6,7 +6,6 @@ use Facades\OrderFactory;
 use Facades\LocationFactory;
 use Just\Warehouse\Models\Order;
 use Just\Warehouse\Tests\TestCase;
-use Just\Warehouse\Models\Location;
 
 class ManagesPickListTest extends TestCase
 {

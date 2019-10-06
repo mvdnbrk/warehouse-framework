@@ -4,7 +4,6 @@ namespace Just\Warehouse\Tests\Model\Concerns;
 
 use Facades\OrderFactory;
 use Facades\InventoryFactory;
-use Just\Warehouse\Models\Order;
 use Just\Warehouse\Tests\TestCase;
 use Just\Warehouse\Exceptions\InvalidStatusException;
 
