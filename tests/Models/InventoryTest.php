@@ -3,6 +3,9 @@
 namespace Just\Warehouse\Tests\Model;
 
 use LogicException;
+use Facades\LocationFactory;
+use Facades\InventoryFactory;
+use Facades\OrderLineFactory;
 use Just\Warehouse\Tests\TestCase;
 use Just\Warehouse\Models\Location;
 use Just\Warehouse\Models\Inventory;
@@ -17,7 +20,7 @@ class InventoryTest extends TestCase
     /** @test */
     public function it_uses_the_warehouse_database_connection()
     {
-        $inventory = factory(Inventory::class)->make(['location_id' => null]);
+        $inventory = InventoryFactory::make();
 
         $this->assertEquals('warehouse', $inventory->getConnectionName());
     }
@@ -25,7 +28,7 @@ class InventoryTest extends TestCase
     /** @test */
     public function it_has_a_location()
     {
-        $inventory = factory(Inventory::class)->make();
+        $inventory = InventoryFactory::create();
 
         $this->assertInstanceOf(Location::class, $inventory->location);
     }
@@ -33,7 +36,7 @@ class InventoryTest extends TestCase
     /** @test */
     public function it_has_a_reservation()
     {
-        $inventory = factory(Inventory::class)->create();
+        $inventory = InventoryFactory::create();
 
         $this->assertInstanceOf(Reservation::class, $inventory->reservation);
     }
@@ -42,7 +45,7 @@ class InventoryTest extends TestCase
     public function it_dispatches_an_inventory_created_event_when_it_is_created()
     {
         Event::fake(InventoryCreated::class);
-        $inventory = factory(Inventory::class)->create();
+        $inventory = InventoryFactory::create();
 
         Event::assertDispatched(InventoryCreated::class, function ($event) use ($inventory) {
             return $event->inventory->is($inventory);
@@ -55,7 +58,7 @@ class InventoryTest extends TestCase
         Event::fake(InventoryCreated::class);
 
         try {
-            $inventory = factory(Inventory::class)->create([
+            InventoryFactory::create([
                 'gtin' => null,
             ]);
         } catch (InvalidGtinException $e) {
@@ -72,7 +75,7 @@ class InventoryTest extends TestCase
     /** @test */
     public function once_it_has_been_created_the_gtin_can_not_be_altered()
     {
-        $inventory = factory(Inventory::class)->create([
+        $inventory = InventoryFactory::create([
             'gtin' => '1300000000000',
         ]);
 
@@ -94,7 +97,7 @@ class InventoryTest extends TestCase
     public function it_can_be_reserved()
     {
         Event::fake();
-        $inventory = factory(Inventory::class)->create(['id' => '1234']);
+        $inventory = InventoryFactory::create(['id' => '1234']);
 
         $this->assertTrue($inventory->reserve());
 
@@ -109,7 +112,7 @@ class InventoryTest extends TestCase
     public function it_can_be_released()
     {
         Event::fake();
-        $inventory = factory(Inventory::class)->create();
+        $inventory = InventoryFactory::create();
         $inventory->reserve();
 
         $this->assertEquals(1, $inventory->release());
@@ -120,7 +123,7 @@ class InventoryTest extends TestCase
     /** @test */
     public function it_can_determine_if_it_is_available()
     {
-        $inventory = factory(Inventory::class)->create();
+        $inventory = InventoryFactory::create();
         $inventory->reserve();
 
         $this->assertFalse($inventory->isAvailable());
@@ -133,7 +136,7 @@ class InventoryTest extends TestCase
     /** @test */
     public function it_can_determine_if_it_is_reserved()
     {
-        $inventory = factory(Inventory::class)->create();
+        $inventory = InventoryFactory::create();
         $inventory->reserve();
 
         $this->assertTrue($inventory->isReserved());
@@ -146,25 +149,24 @@ class InventoryTest extends TestCase
     /** @test */
     public function it_can_be_moved_to_another_location()
     {
-        $location1 = factory(Location::class)->create();
+        $location1 = LocationFactory::create();
         $inventory = $location1->addInventory('1300000000000');
-        $location2 = factory(Location::class)->create();
+        $location2 = LocationFactory::create();
 
         $this->assertTrue($inventory->move($location2));
 
         $this->assertCount(1, Inventory::all());
         $this->assertCount(0, $location1->fresh()->inventory);
-        tap($location2->fresh(), function ($location2) {
-            $this->assertCount(1, $location2->fresh()->inventory);
-            $this->assertEquals('1300000000000', $location2->inventory->first()->gtin);
-            $this->assertFalse($location2->inventory->first()->trashed());
+        tap($location2->fresh(), function ($location2) use ($inventory) {
+            $this->assertCount(1, $location2->inventory);
+            $this->assertTrue($inventory->is($location2->inventory->first()));
         });
     }
 
     /** @test */
     public function it_can_not_be_moved_to_its_own_location()
     {
-        $location = factory(Location::class)->create();
+        $location = LocationFactory::create();
         $inventory = $location->addInventory('1300000000000');
 
         try {
@@ -182,9 +184,9 @@ class InventoryTest extends TestCase
     /** @test */
     public function it_can_not_be_moved_to_a_location_that_does_not_exist()
     {
-        $location1 = factory(Location::class)->create();
+        $location1 = LocationFactory::create();
         $inventory = $location1->addInventory('1300000000000');
-        $location2 = factory(Location::class)->make();
+        $location2 = LocationFactory::make();
         $this->assertFalse($location2->exists);
 
         try {
@@ -202,11 +204,11 @@ class InventoryTest extends TestCase
     /** @test */
     public function restoring_a_deleted_inventory_item_will_pair_with_an_order_line()
     {
-        $inventory = factory(Inventory::class)->create([
+        $inventory = InventoryFactory::create([
             'gtin' => '1300000000000',
         ]);
         $inventory->delete();
-        $line = factory(OrderLine::class)->create([
+        $line = OrderLineFactory::create([
             'gtin' => '1300000000000',
         ]);
 

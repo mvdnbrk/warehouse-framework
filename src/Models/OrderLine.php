@@ -61,10 +61,9 @@ class OrderLine extends AbstractModel
     public function location()
     {
         return $this->hasOneDeepFromRelations(
-                $this->inventory(),
-                (new Inventory)->location()
-            )
-            ->withTrashed('inventories.deleted_at');
+            $this->inventory(),
+            (new Inventory)->location()
+        )->withTrashed('inventories.deleted_at');
     }
 
     /**

@@ -2,9 +2,10 @@
 
 namespace Just\Warehouse\Tests\Model\Concerns;
 
+use Facades\OrderFactory;
+use Facades\InventoryFactory;
 use Just\Warehouse\Models\Order;
 use Just\Warehouse\Tests\TestCase;
-use Just\Warehouse\Models\Inventory;
 use Just\Warehouse\Exceptions\InvalidStatusException;
 
 class HasOrderStatusTest extends TestCase
@@ -12,7 +13,7 @@ class HasOrderStatusTest extends TestCase
     /** @test */
     public function it_can_set_a_valid_status()
     {
-        $order = factory(Order::class)->create();
+        $order = OrderFactory::create();
 
         $order->status = 'open';
 
@@ -22,16 +23,21 @@ class HasOrderStatusTest extends TestCase
     /** @test */
     public function it_can_determine_if_a_status_is_valid()
     {
-        $order = factory(Order::class)->make();
+        $order = OrderFactory::make();
 
         $this->assertTrue($order->isValidStatus('created'));
+        $this->assertTrue($order->isValidStatus('open'));
+        $this->assertTrue($order->isValidStatus('created'));
+        $this->assertTrue($order->isValidStatus('deleted'));
+        $this->assertTrue($order->isValidStatus('backorder'));
+        $this->assertTrue($order->isValidStatus('fulfilled'));
         $this->assertFalse($order->isValidStatus('invalid-status'));
     }
 
     /** @test */
     public function it_can_retrieve_the_status()
     {
-        $order = factory(Order::class)->make();
+        $order = OrderFactory::make();
 
         $this->assertEquals('draft', $order->status);
 
@@ -43,7 +49,7 @@ class HasOrderStatusTest extends TestCase
     /** @test */
     public function it_throws_an_exception_when_setting_an_invalid_status()
     {
-        $order = factory(Order::class)->create();
+        $order = OrderFactory::create();
 
         try {
             $order->status = 'invalid-status';
@@ -61,7 +67,7 @@ class HasOrderStatusTest extends TestCase
     /** @test */
     public function it_throws_an_exception_when_updating_with_an_invalid_status()
     {
-        $order = factory(Order::class)->create();
+        $order = OrderFactory::create();
 
         try {
             $order->update(['status' => 'invalid-status']);
@@ -78,7 +84,7 @@ class HasOrderStatusTest extends TestCase
     /** @test */
     public function it_can_determine_if_the_status_is_created()
     {
-        $order = factory(Order::class)->create();
+        $order = OrderFactory::create();
 
         $this->assertTrue($order->fresh()->isCreated());
     }
@@ -86,13 +92,10 @@ class HasOrderStatusTest extends TestCase
     /** @test */
     public function it_can_determine_if_the_status_is_open()
     {
-        $order = factory(Order::class)->create();
-        $order->addLine('1300000000000');
-        $order->process();
+        $order = OrderFactory::state('backorder')->withLines('1300000000000')->create();
+        $this->assertFalse($order->isOpen());
 
-        $this->assertFalse($order->fresh()->isOpen());
-
-        factory(Inventory::class)->create([
+        InventoryFactory::create([
             'gtin' => '1300000000000',
         ]);
 
@@ -102,10 +105,8 @@ class HasOrderStatusTest extends TestCase
     /** @test */
     public function it_can_determine_if_the_status_is_backorder()
     {
-        $order = factory(Order::class)->create();
-        $order->addLine('1300000000000');
-
-        $this->assertFalse($order->fresh()->isBackorder());
+        $order = OrderFactory::withLines(1)->create();
+        $this->assertFalse($order->isBackorder());
 
         $order->process();
 
@@ -115,18 +116,10 @@ class HasOrderStatusTest extends TestCase
     /** @test */
     public function it_can_determine_if_the_status_is_fulfilled()
     {
-        factory(Inventory::class)->create([
-            'gtin' => '1300000000000',
-        ]);
-        $order = factory(Order::class)->create();
-        $order->addLine('1300000000000');
-        $order->process();
+        $order = OrderFactory::state('open')->create();
+        $this->assertFalse($order->isFulfilled());
 
-        tap($order->fresh(), function ($order) {
-            $this->assertFalse($order->fresh()->isFulfilled());
-
-            $order->markAsFulfilled();
-        });
+        $order->markAsFulfilled();
 
         $this->assertTrue($order->fresh()->isFulfilled());
     }

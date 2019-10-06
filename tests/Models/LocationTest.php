@@ -3,6 +3,8 @@
 namespace Just\Warehouse\Tests\Model;
 
 use LogicException;
+use Facades\LocationFactory;
+use Facades\InventoryFactory;
 use Just\Warehouse\Tests\TestCase;
 use Just\Warehouse\Models\Location;
 use Just\Warehouse\Models\Inventory;
@@ -16,7 +18,7 @@ class LocationTest extends TestCase
     /** @test */
     public function it_uses_the_warehouse_database_connection()
     {
-        $location = factory(Location::class)->make();
+        $location = LocationFactory::make();
 
         $this->assertEquals('warehouse', $location->getConnectionName());
     }
@@ -24,7 +26,7 @@ class LocationTest extends TestCase
     /** @test */
     public function it_has_inventory()
     {
-        $location = factory(Location::class)->create();
+        $location = LocationFactory::create();
 
         $this->assertInstanceOf(\Illuminate\Database\Eloquent\Collection::class, $location->inventory);
     }
@@ -32,7 +34,7 @@ class LocationTest extends TestCase
     /** @test */
     public function it_can_be_deleted()
     {
-        $location = factory(Location::class)->create();
+        $location = LocationFactory::create();
 
         $this->assertTrue($location->delete());
 
@@ -42,8 +44,7 @@ class LocationTest extends TestCase
     /** @test */
     public function it_can_not_be_deleted_if_it_has_inventory()
     {
-        $location = factory(Location::class)->create();
-        $location->addInventory('1300000000000');
+        $location = LocationFactory::withInventory(1)->create();
 
         try {
             $location->delete();
@@ -60,9 +61,9 @@ class LocationTest extends TestCase
     /** @test */
     public function it_can_not_be_deleted_if_it_has_soft_deleted_inventory()
     {
-        $location = factory(Location::class)->create();
-        $inventory = $location->addInventory('1300000000000');
-        $inventory->delete();
+        $location = LocationFactory::withInventory(1)->create();
+        $location->fresh()->inventory->first->delete();
+        $this->assertCount(0, $location->inventory);
 
         try {
             $location->delete();
@@ -80,7 +81,7 @@ class LocationTest extends TestCase
     public function it_can_add_inventory()
     {
         Event::fake(InventoryCreated::class);
-        $location = factory(Location::class)->create();
+        $location = LocationFactory::create();
 
         $inventory = $location->addInventory('1300000000000');
 
@@ -98,7 +99,7 @@ class LocationTest extends TestCase
     public function it_can_add_multiple_inventory_items()
     {
         Event::fake(InventoryCreated::class);
-        $location = factory(Location::class)->create();
+        $location = LocationFactory::create();
 
         $inventories = $location->addInventory('1300000000000', 2);
 
@@ -116,7 +117,7 @@ class LocationTest extends TestCase
     public function it_does_not_add_inventory_when_passing_amount_less_than_one()
     {
         Event::fake(InventoryCreated::class);
-        $location = factory(Location::class)->create();
+        $location = LocationFactory::create();
 
         $inventories = $location->addInventory('1300000000000', 0);
 
@@ -130,7 +131,7 @@ class LocationTest extends TestCase
     public function adding_inventory_with_an_invalid_gtin_throws_an_exception()
     {
         Event::fake(InventoryCreated::class);
-        $location = factory(Location::class)->create();
+        $location = LocationFactory::create();
 
         try {
             $location->addInventory('invalid-gtin');
@@ -148,10 +149,10 @@ class LocationTest extends TestCase
     /** @test */
     public function it_can_move_inventory_to_another_location()
     {
-        $location1 = factory(Location::class)->create();
+        $location1 = LocationFactory::create();
         $inventory = $location1->addInventory('1300000000000');
         $location1->addInventory('1300000000000');
-        $location2 = factory(Location::class)->create();
+        $location2 = LocationFactory::create();
         $this->assertCount(2, $location1->inventory);
 
         $movedItem = $location1->move('1300000000000', $location2);
@@ -164,8 +165,8 @@ class LocationTest extends TestCase
     /** @test */
     public function moving_inventory_with_an_invalid_gtin_throws_an_exception()
     {
-        $location1 = factory(Location::class)->create();
-        $location2 = factory(Location::class)->create();
+        $location1 = LocationFactory::create();
+        $location2 = LocationFactory::create();
 
         try {
             $location1->move('invalid-gtin', $location2);
@@ -181,9 +182,9 @@ class LocationTest extends TestCase
     /** @test */
     public function moving_inventory_to_a_location_that_does_not_exist_throws_an_exception()
     {
-        $location1 = factory(Location::class)->create();
-        $location1->addInventory('1300000000000');
-        $location2 = factory(Location::class)->make();
+        $location1 = LocationFactory::withInventory('1300000000000')->create();
+        $location2 = LocationFactory::make();
+        $this->assertFalse($location2->exists);
 
         try {
             $location1->move('1300000000000', $location2);
@@ -193,14 +194,13 @@ class LocationTest extends TestCase
             return;
         }
 
-        $this->fail('Moving inventory succeeded with an invalid gtin.');
+        $this->fail('Moving inventory to a location that does not exist succeeded.');
     }
 
     /** @test */
     public function moving_inventory_to_its_own_location_throws_an_exception()
     {
-        $location = factory(Location::class)->create();
-        $location->addInventory('1300000000000');
+        $location = LocationFactory::withInventory('1300000000000')->create();
 
         try {
             $location->move('1300000000000', $location);
@@ -217,8 +217,8 @@ class LocationTest extends TestCase
     /** @test */
     public function moving_inventory_that_does_not_exist_throws_an_exception()
     {
-        $location1 = factory(Location::class)->create();
-        $location2 = factory(Location::class)->create();
+        $location1 = LocationFactory::create();
+        $location2 = LocationFactory::create();
 
         try {
             $location1->move('1300000000000', $location2);
@@ -234,11 +234,11 @@ class LocationTest extends TestCase
     /** @test */
     public function it_can_move_many_inventory_to_another_location()
     {
-        $location1 = factory(Location::class)->create();
+        $location1 = LocationFactory::create();
         $inventory1 = $location1->addInventory('1300000000000');
         $inventory2 = $location1->addInventory('1300000000000');
         $location1->addInventory('1300000000000');
-        $location2 = factory(Location::class)->create();
+        $location2 = LocationFactory::create();
         $this->assertCount(3, $location1->inventory);
 
         $models = $location1->moveMany([
@@ -253,10 +253,10 @@ class LocationTest extends TestCase
     /** @test */
     public function moving_many_inventory_which_contains_invalid_data_should_not_be_processed()
     {
-        $location1 = factory(Location::class)->create();
+        $location1 = LocationFactory::create();
         $location1->addInventory('1300000000000');
         $location1->addInventory('1300000000000');
-        $location2 = factory(Location::class)->create();
+        $location2 = LocationFactory::create();
         $this->assertCount(2, $location1->inventory);
 
         try {
@@ -265,7 +265,7 @@ class LocationTest extends TestCase
                 '1300000000000',
                 'invalid-gtin',
             ], $location2);
-        } catch (\Exception $e) {
+        } catch (InvalidGtinException $e) {
             $this->assertCount(2, $location1->fresh()->inventory);
             $this->assertCount(0, $location2->inventory);
 
@@ -278,9 +278,8 @@ class LocationTest extends TestCase
     /** @test */
     public function it_can_remove_inventory()
     {
-        $location = factory(Location::class)->create();
-        $location->addInventory('1300000000000');
-        $location->addInventory('1300000000000');
+        $location = LocationFactory::withInventory(['1300000000000', '1300000000000'])->create();
+        $this->assertCount(2, Inventory::all());
 
         $this->assertTrue($location->removeInventory('1300000000000'));
 
@@ -290,9 +289,9 @@ class LocationTest extends TestCase
     /** @test */
     public function it_removes_the_oldest_inventory_item()
     {
-        $location = factory(Location::class)->create();
+        $location = LocationFactory::create();
         $inventory = $location->addInventory('1300000000000');
-        factory(Inventory::class)->create([
+        InventoryFactory::create([
             'gtin' => '1300000000000',
             'created_at' => now()->subYear(),
             'location_id' => $location->id,
@@ -307,7 +306,7 @@ class LocationTest extends TestCase
     /** @test */
     public function reemoving_inventory_with_an_invalid_gtin_throws_an_exception()
     {
-        $location = factory(Location::class)->create();
+        $location = LocationFactory::create();
 
         try {
             $location->removeInventory('invalid-gtin');
@@ -323,8 +322,7 @@ class LocationTest extends TestCase
     /** @test */
     public function removing_inventory_that_does_not_exist_throws_an_exception()
     {
-        $location = factory(Location::class)->create();
-        $location->addInventory('1300000000000');
+        $location = LocationFactory::withInventory('1300000000000')->create();
 
         try {
             $location->removeInventory('1234560000005');
@@ -341,13 +339,8 @@ class LocationTest extends TestCase
     /** @test */
     public function it_can_remove_all_inventory()
     {
-        $location = factory(Location::class)->create();
-        $location->addInventory('1300000000000');
-        $location->addInventory('1300000000000');
-
-        $otherLocation = factory(Location::class)->create();
-        $otherLocation->addInventory('1300000000000');
-        $otherLocation->addInventory('1300000000000');
+        $location = LocationFactory::withInventory(['1300000000000', '1300000000000'])->create();
+        $otherLocation = LocationFactory::withInventory(['1300000000000', '1300000000000'])->create();
 
         $this->assertCount(4, Inventory::all());
 

@@ -2,9 +2,9 @@
 
 namespace Just\Warehouse\Tests\Jobs;
 
+use Facades\InventoryFactory;
+use Facades\OrderLineFactory;
 use Just\Warehouse\Tests\TestCase;
-use Just\Warehouse\Models\Inventory;
-use Just\Warehouse\Models\OrderLine;
 use Illuminate\Support\Facades\Queue;
 use Just\Warehouse\Jobs\PairInventory;
 use Just\Warehouse\Jobs\ReleaseOrderLine;
@@ -16,7 +16,7 @@ class ReleaseOrderLineTest extends TestCase
     public function it_implements_the_should_queue_contract()
     {
         $job = new ReleaseOrderLine(
-            factory(OrderLine::class)->make()
+            OrderLineFactory::make()
         );
 
         $this->assertInstanceOf(ShouldQueue::class, $job);
@@ -35,10 +35,10 @@ class ReleaseOrderLineTest extends TestCase
     /** @test */
     public function it_queues_a_job_to_pair_inventory_if_the_order_line_was_fulfilled()
     {
-        $line = factory(OrderLine::class)->create([
+        $line = OrderLineFactory::create([
             'gtin' => '1300000000000',
         ]);
-        $inventory = factory(Inventory::class)->create([
+        $inventory = InventoryFactory::create([
             'gtin' => '1300000000000',
         ]);
         $this->assertTrue($line->isFulfilled());
