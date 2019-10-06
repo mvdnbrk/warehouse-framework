@@ -2,6 +2,7 @@
 
 namespace Just\Warehouse\Tests\Console;
 
+use Facades\LocationFactory;
 use Just\Warehouse\Tests\TestCase;
 use Just\Warehouse\Models\Location;
 
@@ -46,7 +47,7 @@ class MakeLocationCommandTest extends TestCase
     /** @test */
     public function a_location_name_must_be_unique()
     {
-        factory(Location::class)->create([
+        LocationFactory::create([
             'name' => 'test-name',
         ]);
 

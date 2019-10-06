@@ -3,6 +3,8 @@
 namespace Just\Warehouse\Tests\Jobs;
 
 use Carbon\Carbon;
+use Facades\InventoryFactory;
+use Facades\OrderLineFactory;
 use Just\Warehouse\Tests\TestCase;
 use Just\Warehouse\Models\Inventory;
 use Just\Warehouse\Models\OrderLine;
@@ -18,7 +20,7 @@ class PairOrderLineTest extends TestCase
     public function it_implements_the_should_queue_contract()
     {
         $job = new PairOrderLine(
-            factory(OrderLine::class)->make()
+            OrderLineFactory::make()
         );
 
         $this->assertInstanceOf(ShouldQueue::class, $job);
@@ -28,7 +30,7 @@ class PairOrderLineTest extends TestCase
     public function it_makes_a_reservation_when_inventory_is_not_available()
     {
         Event::fakeFor(function () {
-            factory(OrderLine::class)->create();
+            OrderLineFactory::create();
         });
 
         $line = OrderLine::first();
@@ -46,11 +48,11 @@ class PairOrderLineTest extends TestCase
     /** @test */
     public function it_gets_fulfilled_when_inventory_is_available()
     {
-        $inventory = factory(Inventory::class)->create([
+        $inventory = InventoryFactory::create([
             'gtin' => '1300000000000',
         ]);
 
-        $line = factory(OrderLine::class)->create([
+        $line = OrderLineFactory::create([
             'gtin' => '1300000000000',
         ]);
 
@@ -63,12 +65,12 @@ class PairOrderLineTest extends TestCase
     public function it_does_not_get_fulfilled_with_reserved_inventory()
     {
         Event::fakeFor(function () {
-            factory(Inventory::class)->create([
+            InventoryFactory::create([
                 'gtin' => '1300000000000',
             ])->reserve();
         });
 
-        $line = factory(OrderLine::class)->create([
+        $line = OrderLineFactory::create([
             'gtin' => '1300000000000',
         ]);
 
@@ -80,12 +82,12 @@ class PairOrderLineTest extends TestCase
     public function it_does_not_get_fulfilled_with_deleted_inventory()
     {
         Event::fakeFor(function () {
-            factory(Inventory::class)->create([
+            InventoryFactory::create([
                 'gtin' => '1300000000000',
             ])->delete();
         });
 
-        $line = factory(OrderLine::class)->create([
+        $line = OrderLineFactory::create([
             'gtin' => '1300000000000',
         ]);
 
@@ -97,18 +99,18 @@ class PairOrderLineTest extends TestCase
     /** @test */
     public function it_gets_fulfilled_with_the_oldest_inventory_item()
     {
-        $inventory1 = factory(Inventory::class)->create([
+        $inventory1 = InventoryFactory::create([
             'id' => 1,
             'gtin' => '1300000000000',
         ]);
 
         Carbon::setTestNow(now()->subYear());
-        $inventory2 = factory(Inventory::class)->create([
+        $inventory2 = InventoryFactory::create([
             'id' => 2,
             'gtin' => '1300000000000',
         ]);
 
-        $line = factory(OrderLine::class)->create([
+        $line = OrderLineFactory::create([
             'gtin' => '1300000000000',
         ]);
 

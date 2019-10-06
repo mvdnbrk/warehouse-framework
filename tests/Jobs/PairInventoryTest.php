@@ -2,6 +2,9 @@
 
 namespace Just\Warehouse\Tests\Jobs;
 
+use Facades\InventoryFactory;
+use Facades\OrderLineFactory;
+use Facades\ReservationFactory;
 use Illuminate\Support\Carbon;
 use Just\Warehouse\Tests\TestCase;
 use Just\Warehouse\Models\Inventory;
@@ -18,7 +21,7 @@ class PairInventoryTest extends TestCase
     public function it_implements_the_should_queue_contract()
     {
         $job = new PairInventory(
-            factory(Inventory::class)->make()
+            InventoryFactory::make()
         );
 
         $this->assertInstanceOf(ShouldQueue::class, $job);
@@ -28,7 +31,7 @@ class PairInventoryTest extends TestCase
     public function it_becomes_available_if_there_is_no_order_line_to_be_fulfilled()
     {
         Event::fakeFor(function () {
-            factory(Inventory::class)->create();
+            InventoryFactory::create();
         }, [InventoryCreated::class]);
 
         tap(Inventory::first(), function ($inventory) {
@@ -44,12 +47,12 @@ class PairInventoryTest extends TestCase
     /** @test */
     public function it_gets_reservered_for_an_order_line_that_needs_to_be_fulfilled()
     {
-        factory(OrderLine::class)->create([
+        OrderLineFactory::create([
             'id' => 1234,
             'gtin' => '1300000000000',
         ]);
         Event::fakeFor(function () {
-            factory(Inventory::class)->create([
+            InventoryFactory::create([
                 'id' => 5678,
                 'gtin' => '1300000000000',
             ]);
@@ -68,17 +71,17 @@ class PairInventoryTest extends TestCase
     public function it_gets_reserved_for_an_order_line_which_was_not_previously_fulfilled()
     {
         Event::fakeFor(function () {
-            $fulfilledLine = factory(OrderLine::class)->create([
+            $fulfilledLine = OrderLineFactory::create([
                 'id' => 1,
                 'gtin' => '1300000000000',
             ]);
-            $fulfilledInventory = factory(Inventory::class)->create([
+            $fulfilledInventory = InventoryFactory::create([
                 'id' => 1,
                 'gtin' => '1300000000000',
             ]);
-            factory(Reservation::class)->create([
+            ReservationFactory::create([
                 'inventory_id' => $fulfilledInventory->id,
-                'order_line_id' => $fulfilledInventory->id,
+                'order_line_id' => $fulfilledLine->id,
             ]);
         });
 
@@ -87,12 +90,12 @@ class PairInventoryTest extends TestCase
             $this->assertSame(1, $line->inventory->id);
         });
 
-        $line = factory(OrderLine::class)->create([
+        $line = OrderLineFactory::create([
             'id' => 1234,
             'gtin' => '1300000000000',
         ]);
 
-        $inventory = factory(Inventory::class)->create([
+        $inventory = InventoryFactory::create([
             'id' => 5678,
             'gtin' => '1300000000000',
         ]);
@@ -110,18 +113,18 @@ class PairInventoryTest extends TestCase
     /** @test */
     public function it_gets_reserved_for_the_oldest_order_line_that_needs_to_be_fulfilled()
     {
-        $line1 = factory(OrderLine::class)->create([
+        $line1 = OrderLineFactory::create([
             'id' => 1,
             'gtin' => '1300000000000',
         ]);
 
         Carbon::setTestNow(now()->subYear());
-        $line2 = factory(OrderLine::class)->create([
+        $line2 = OrderLineFactory::create([
             'id' => 2,
             'gtin' => '1300000000000',
         ]);
 
-        $inventory = factory(Inventory::class)->create([
+        $inventory = InventoryFactory::create([
             'id' => 1,
             'gtin' => '1300000000000',
         ]);

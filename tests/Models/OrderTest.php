@@ -3,6 +3,8 @@
 namespace Just\Warehouse\Tests\Model;
 
 use LogicException;
+use Facades\OrderFactory;
+use Facades\LocationFactory;
 use Just\Warehouse\Models\Order;
 use Just\Warehouse\Tests\TestCase;
 use Just\Warehouse\Models\Location;
@@ -22,7 +24,7 @@ class OrderTest extends TestCase
     /** @test */
     public function it_uses_the_warehouse_database_connection()
     {
-        $order = factory(Order::class)->make();
+        $order = OrderFactory::make();
 
         $this->assertEquals('warehouse', $order->getConnectionName());
     }
@@ -30,7 +32,7 @@ class OrderTest extends TestCase
     /** @test */
     public function it_casts_the_meta_column_to_an_array()
     {
-        $order = factory(Order::class)->make();
+        $order = OrderFactory::make();
 
         $this->assertTrue($order->hasCast('meta', 'array'));
     }
@@ -38,7 +40,7 @@ class OrderTest extends TestCase
     /** @test */
     public function it_has_order_lines()
     {
-        $order = factory(Order::class)->make();
+        $order = OrderFactory::make();
 
         $this->assertInstanceOf(\Illuminate\Database\Eloquent\Collection::class, $order->lines);
     }
@@ -46,7 +48,7 @@ class OrderTest extends TestCase
     /** @test */
     public function it_sets_status_to_created_when_trying_to_create_an_order_with_another_status_than_created()
     {
-        $order = factory(Order::class)->create(['status' => 'open']);
+        $order = OrderFactory::create(['status' => 'open']);
 
         $this->assertEquals('created', $order->status);
     }
@@ -55,9 +57,7 @@ class OrderTest extends TestCase
     public function creating_an_order_without_an_order_number_throws_an_exception()
     {
         try {
-            $order = factory(Order::class)->create([
-                'order_number' => '',
-            ]);
+            $order = OrderFactory::create(['order_number' => '']);
         } catch (InvalidOrderNumberException $e) {
             $this->assertEquals('The given data was invalid.', $e->getMessage());
             $this->assertCount(0, Order::all());
@@ -72,7 +72,7 @@ class OrderTest extends TestCase
     public function it_can_add_an_order_line()
     {
         Event::fake(OrderLineCreated::class);
-        $order = factory(Order::class)->create();
+        $order = OrderFactory::create();
 
         $line = $order->addLine('1300000000000');
 
@@ -90,7 +90,7 @@ class OrderTest extends TestCase
     public function it_can_add_multiple_order_lines()
     {
         Event::fake(OrderLineCreated::class);
-        $order = factory(Order::class)->create();
+        $order = OrderFactory::create();
 
         $lines = $order->addLine('1300000000000', 2);
 
@@ -108,7 +108,7 @@ class OrderTest extends TestCase
     public function it_does_not_add_order_lines_when_passing_amount_less_than_one()
     {
         Event::fake(OrderLineCreated::class);
-        $order = factory(Order::class)->create();
+        $order = OrderFactory::create();
 
         $lines = $order->addLine('1300000000000', 0);
 
@@ -121,7 +121,7 @@ class OrderTest extends TestCase
     /** @test */
     public function adding_an_order_line_with_an_invalid_gtin_throws_an_exception()
     {
-        $order = factory(Order::class)->create();
+        $order = OrderFactory::create();
 
         try {
             $order->addLine('invalid-gtin');
@@ -139,7 +139,7 @@ class OrderTest extends TestCase
     public function it_dispatches_an_order_status_updated_event_when_the_status_has_changed()
     {
         Event::fake(OrderStatusUpdated::class);
-        $order = factory(Order::class)->create(['status' => 'created']);
+        $order = OrderFactory::create();
         $order->addLine('1300000000000');
         $order->process();
 
@@ -154,7 +154,7 @@ class OrderTest extends TestCase
     /** @test */
     public function it_can_be_soft_deleted()
     {
-        $order = factory(Order::class)->create();
+        $order = OrderFactory::create();
         $line = $order->addLine('1300000000000');
 
         $this->assertTrue($order->delete());
@@ -172,7 +172,7 @@ class OrderTest extends TestCase
     /** @test */
     public function it_can_be_soft_deleted_and_dispatches_jobs_to_release_the_order_lines()
     {
-        $order = factory(Order::class)->create();
+        $order = OrderFactory::create();
         $line1 = $order->addLine('1300000000000');
         $line2 = $order->addLine('1300000000000');
 
@@ -192,7 +192,7 @@ class OrderTest extends TestCase
     /** @test */
     public function it_can_be_restored()
     {
-        $order = factory(Order::class)->create();
+        $order = OrderFactory::create();
         $line = $order->addLine('1300000000000');
         $order->delete();
 
@@ -211,7 +211,7 @@ class OrderTest extends TestCase
     /** @test */
     public function it_can_be_restored_and_dispatches_jobs_to_pair_the_order_lines()
     {
-        $order = factory(Order::class)->create();
+        $order = OrderFactory::create();
         $line1 = $order->addLine('1300000000000');
         $line2 = $order->addLine('1300000000000');
         $order->delete();
@@ -232,7 +232,7 @@ class OrderTest extends TestCase
     /** @test */
     public function it_can_not_be_force_deleted()
     {
-        $order = factory(Order::class)->create();
+        $order = OrderFactory::create();
 
         try {
             $order->forceDelete();
@@ -249,13 +249,11 @@ class OrderTest extends TestCase
     /** @test */
     public function adding_inventory_does_not_change_the_status_from_created_to_open()
     {
-        $order = factory(Order::class)->create();
-        $order->addLine('1300000000000');
+        $order = OrderFactory::withLines('1300000000000')->create();
 
         $this->assertEquals('created', $order->status);
 
-        $location = factory(Location::class)->create();
-        $location->addInventory('1300000000000');
+        LocationFactory::withInventory('1300000000000')->create();
 
         $this->assertEquals('created', $order->fresh()->status);
     }

@@ -8,3 +8,21 @@ $factory->define(Order::class, function (Faker $faker) {
         'order_number' => $faker->numberBetween(1000, 9999),
     ];
 });
+
+$factory->state(Order::class, 'backorder', function (Faker $faker) {
+    return [
+        'order_number' => $faker->numberBetween(1000, 9999),
+    ];
+});
+
+$factory->state(Order::class, 'fulfilled', function (Faker $faker) {
+    return [
+        'order_number' => $faker->numberBetween(1000, 9999),
+    ];
+});
+
+$factory->state(Order::class, 'open', function (Faker $faker) {
+    return [
+        'order_number' => $faker->numberBetween(1000, 9999),
+    ];
+});

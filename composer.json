@@ -46,7 +46,10 @@
     "autoload-dev": {
         "psr-4": {
             "Just\\Warehouse\\Tests\\": "tests"
-        }
+        },
+        "classmap": [
+            "database"
+        ]
     },
     "scripts": {
         "analyse": "vendor/bin/phpstan analyse",

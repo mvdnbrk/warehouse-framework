@@ -3,6 +3,11 @@
 namespace Just\Warehouse\Tests\Model;
 
 use LogicException;
+use Facades\OrderFactory;
+use Facades\LocationFactory;
+use Facades\InventoryFactory;
+use Facades\OrderLineFactory;
+use Facades\ReservationFactory;
 use Just\Warehouse\Models\Order;
 use Just\Warehouse\Tests\TestCase;
 use Just\Warehouse\Models\Location;
@@ -21,7 +26,7 @@ class OrderLineTest extends TestCase
     /** @test */
     public function it_uses_the_warehouse_database_connection()
     {
-        $line = factory(OrderLine::class)->make(['order_id' => null]);
+        $line = OrderLineFactory::make();
 
         $this->assertEquals('warehouse', $line->getConnectionName());
     }
@@ -29,7 +34,7 @@ class OrderLineTest extends TestCase
     /** @test */
     public function it_belongs_to_an_order()
     {
-        $line = factory(OrderLine::class)->make();
+        $line = OrderLineFactory::create();
 
         $this->assertInstanceOf(Order::class, $line->order);
     }
@@ -37,7 +42,7 @@ class OrderLineTest extends TestCase
     /** @test */
     public function it_has_a_reservation()
     {
-        $line = factory(OrderLine::class)->create();
+        $line = OrderLineFactory::create();
 
         $this->assertInstanceOf(Reservation::class, $line->reservation);
     }
@@ -45,22 +50,20 @@ class OrderLineTest extends TestCase
     /** @test */
     public function it_has_a_location_through_the_inventory_relation()
     {
-        $location = factory(Location::class)->create();
-        $order = factory(Order::class)->create();
-        $line = $order->addLine('1300000000000');
+        $order = OrderFactory::withLines('1300000000000')->create();
 
-        $this->assertNull($line->location);
+        $this->assertNull(OrderLine::first()->location);
 
-        $inventory = $location->addInventory('1300000000000');
+        $location = LocationFactory::withInventory('1300000000000')->create();
 
-        $this->assertTrue($line->fresh()->location->is($location));
+        $this->assertTrue(OrderLine::first()->location->is($location));
     }
 
     /** @test */
     public function it_dispatches_an_order_line_created_event_when_it_is_created()
     {
         Event::fake(OrderLineCreated::class);
-        $line = factory(OrderLine::class)->create();
+        $line = OrderLineFactory::create();
 
         $this->assertCount(1, OrderLine::all());
         Event::assertDispatched(OrderLineCreated::class, function ($event) use ($line) {
@@ -72,7 +75,7 @@ class OrderLineTest extends TestCase
     public function creating_an_order_line_without_a_gtin_throws_an_exception()
     {
         try {
-            $line = factory(OrderLine::class)->create([
+            OrderLineFactory::create([
                 'gtin' => null,
             ]);
         } catch (InvalidGtinException $e) {
@@ -88,7 +91,7 @@ class OrderLineTest extends TestCase
     /** @test */
     public function once_it_has_been_created_the_gtin_can_not_be_altered()
     {
-        $line = factory(OrderLine::class)->create([
+        $line = OrderLineFactory::create([
             'gtin' => '1300000000000',
         ]);
 
@@ -109,7 +112,7 @@ class OrderLineTest extends TestCase
     /** @test */
     public function once_it_has_been_created_the_order_id_can_not_be_altered()
     {
-        $order = factory(Order::class)->create([
+        $order = OrderFactory::create([
             'id' => 111,
         ]);
         $line = $order->addLine('1300000000000');
@@ -132,9 +135,9 @@ class OrderLineTest extends TestCase
     public function it_can_be_replaced_with_another_inventory_item()
     {
         Event::fake(OrderLineReplaced::class);
-        $order = factory(Order::class)->create();
+        $order = OrderFactory::create();
         $line = $order->addLine('1300000000000');
-        $location = factory(Location::class)->create();
+        $location = LocationFactory::create();
         $inventory1 = $location->addInventory('1300000000000');
         $inventory2 = $location->addInventory('1300000000000');
 
@@ -166,9 +169,9 @@ class OrderLineTest extends TestCase
     /** @test */
     public function it_can_be_replaced_and_may_result_order_with_status_backorder()
     {
-        $location = factory(Location::class)->create();
+        $location = LocationFactory::create();
         $inventory = $location->addInventory('1300000000000');
-        $order = factory(Order::class)->create();
+        $order = OrderFactory::create();
         $line = $order->addLine('1300000000000');
         $order->process();
 
@@ -191,7 +194,7 @@ class OrderLineTest extends TestCase
     /** @test */
     public function trying_to_replace_an_order_line_which_is_not_fulfilled_throws_an_excpetion()
     {
-        $line = factory(OrderLine::class)->create();
+        $line = OrderLineFactory::create();
 
         try {
             $this->assertFalse($line->replace());
@@ -209,7 +212,7 @@ class OrderLineTest extends TestCase
     /** @test */
     public function it_can_be_deleted()
     {
-        $line = factory(OrderLine::class)->create();
+        $line = OrderLineFactory::create();
         $this->assertCount(1, Reservation::all());
 
         Queue::fake();
@@ -222,7 +225,7 @@ class OrderLineTest extends TestCase
     /** @test */
     public function it_can_be_reserved()
     {
-        $line = factory(OrderLine::class)->create(['id' => '1234']);
+        $line = OrderLineFactory::create(['id' => '1234']);
 
         $this->assertTrue($line->reserve());
 
@@ -236,11 +239,11 @@ class OrderLineTest extends TestCase
     /** @test */
     public function it_can_be_released()
     {
-        $line = factory(OrderLine::class)->create();
+        $line = OrderLineFactory::create();
+
         $line->reserve();
 
         $this->assertEquals(1, $line->release());
-
         $this->assertCount(0, Reservation::all());
     }
 
@@ -248,16 +251,16 @@ class OrderLineTest extends TestCase
     public function it_can_determine_if_it_is_fulfilled()
     {
         Event::fake();
-        $line = factory(OrderLine::class)->create([
+        $line = OrderLineFactory::create([
             'gtin' => '1300000000000',
         ]);
-        $inventory = factory(Inventory::class)->create([
+        $inventory = InventoryFactory::create([
             'id' => '1234',
             'gtin' => '1300000000000',
         ]);
         $this->assertFalse($line->isFulfilled());
 
-        factory(Reservation::class)->create([
+        ReservationFactory::create([
             'inventory_id' => $inventory->id,
             'order_line_id' => $line->id,
         ]);
