@@ -4,8 +4,8 @@ namespace Just\Warehouse\Tests\Jobs;
 
 use Facades\InventoryFactory;
 use Facades\OrderLineFactory;
-use Facades\ReservationFactory;
 use Illuminate\Support\Carbon;
+use Facades\ReservationFactory;
 use Just\Warehouse\Tests\TestCase;
 use Just\Warehouse\Models\Inventory;
 use Just\Warehouse\Models\OrderLine;
