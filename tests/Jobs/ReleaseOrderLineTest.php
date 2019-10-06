@@ -26,7 +26,7 @@ class ReleaseOrderLineTest extends TestCase
     public function it_sets_the_number_of_times_the_job_may_be_attempted()
     {
         $job = new ReleaseOrderLine(
-            factory(OrderLine::class)->make()
+            OrderLineFactory::make()
         );
 
         $this->assertSame(1, $job->tries);

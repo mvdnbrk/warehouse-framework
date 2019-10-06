@@ -31,7 +31,7 @@ class PairInventoryTest extends TestCase
     public function it_sets_the_number_of_times_the_job_may_be_attempted()
     {
         $job = new PairInventory(
-            factory(Inventory::class)->make()
+            InventoryFactory::make()
         );
 
         $this->assertSame(3, $job->tries);
