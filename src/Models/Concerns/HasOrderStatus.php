@@ -68,7 +68,7 @@ trait HasOrderStatus
     }
 
     /**
-     * Determine if the order is  in "backorder".
+     * Determine if the order is in "backorder".
      *
      * @return bool
      */
@@ -78,7 +78,7 @@ trait HasOrderStatus
     }
 
     /**
-     * Determine if the order is  in "created".
+     * Determine if the order is in "created".
      *
      * @return bool
      */
