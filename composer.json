@@ -19,7 +19,7 @@
         "php": "^7.2",
         "illuminate/support": "^6.0",
         "mvdnbrk/gtin": "^2.3",
-        "staudenmeir/eloquent-has-many-deep": "^1.10"
+        "staudenmeir/eloquent-has-many-deep": "^1.11"
     },
     "require-dev": {
         "nunomaduro/collision": "^3.0",
