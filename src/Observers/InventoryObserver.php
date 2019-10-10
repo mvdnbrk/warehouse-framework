@@ -2,11 +2,11 @@
 
 namespace Just\Warehouse\Observers;
 
-use LogicException;
-use Just\Warehouse\Models\Inventory;
-use Just\Warehouse\Jobs\PairInventory;
 use Just\Warehouse\Events\InventoryCreated;
 use Just\Warehouse\Exceptions\InvalidGtinException;
+use Just\Warehouse\Jobs\PairInventory;
+use Just\Warehouse\Models\Inventory;
+use LogicException;
 
 class InventoryObserver
 {

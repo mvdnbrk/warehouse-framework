@@ -2,12 +2,12 @@
 
 namespace Just\Warehouse\Observers;
 
-use LogicException;
-use Just\Warehouse\Models\Order;
-use Just\Warehouse\Jobs\PairOrderLine;
-use Just\Warehouse\Jobs\ReleaseOrderLine;
 use Just\Warehouse\Events\OrderStatusUpdated;
 use Just\Warehouse\Exceptions\InvalidOrderNumberException;
+use Just\Warehouse\Jobs\PairOrderLine;
+use Just\Warehouse\Jobs\ReleaseOrderLine;
+use Just\Warehouse\Models\Order;
+use LogicException;
 
 class OrderObserver
 {

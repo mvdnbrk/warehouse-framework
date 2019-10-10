@@ -2,10 +2,10 @@
 
 namespace Just\Warehouse\Models;
 
-use LogicException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\DB;
 use Just\Warehouse\Exceptions\InvalidGtinException;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+use LogicException;
 
 /**
  * @property int $id

@@ -2,8 +2,8 @@
 
 namespace Just\Warehouse\Listeners;
 
-use Just\Warehouse\Jobs\PairOrderLine;
 use Just\Warehouse\Events\OrderLineCreated;
+use Just\Warehouse\Jobs\PairOrderLine;
 
 class ScheduleOrderLinePairing
 {

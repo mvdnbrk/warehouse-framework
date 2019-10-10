@@ -2,8 +2,8 @@
 
 namespace Just\Warehouse\Models;
 
-use LogicException;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use LogicException;
 
 /**
  * @property int $id

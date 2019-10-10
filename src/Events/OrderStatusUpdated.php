@@ -2,9 +2,9 @@
 
 namespace Just\Warehouse\Events;
 
-use Just\Warehouse\Models\Order;
-use Illuminate\Queue\SerializesModels;
 use Illuminate\Foundation\Events\Dispatchable;
+use Illuminate\Queue\SerializesModels;
+use Just\Warehouse\Models\Order;
 
 class OrderStatusUpdated
 {

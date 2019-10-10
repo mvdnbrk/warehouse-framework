@@ -4,11 +4,11 @@ namespace Just\Warehouse\Tests\Jobs;
 
 use Facades\InventoryFactory;
 use Facades\OrderLineFactory;
-use Just\Warehouse\Tests\TestCase;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\Queue;
 use Just\Warehouse\Jobs\PairInventory;
 use Just\Warehouse\Jobs\ReleaseOrderLine;
-use Illuminate\Contracts\Queue\ShouldQueue;
+use Just\Warehouse\Tests\TestCase;
 
 class ReleaseOrderLineTest extends TestCase
 {

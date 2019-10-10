@@ -2,8 +2,8 @@
 
 namespace Just\Warehouse\Observers;
 
-use LogicException;
 use Just\Warehouse\Models\Location;
+use LogicException;
 
 class LocationObserver
 {

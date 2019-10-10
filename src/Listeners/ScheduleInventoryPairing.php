@@ -2,8 +2,8 @@
 
 namespace Just\Warehouse\Listeners;
 
-use Just\Warehouse\Jobs\PairInventory;
 use Just\Warehouse\Events\InventoryCreated;
+use Just\Warehouse\Jobs\PairInventory;
 
 class ScheduleInventoryPairing
 {

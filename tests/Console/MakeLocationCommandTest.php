@@ -3,8 +3,8 @@
 namespace Just\Warehouse\Tests\Console;
 
 use Facades\LocationFactory;
-use Just\Warehouse\Tests\TestCase;
 use Just\Warehouse\Models\Location;
+use Just\Warehouse\Tests\TestCase;
 
 class MakeLocationCommandTest extends TestCase
 {

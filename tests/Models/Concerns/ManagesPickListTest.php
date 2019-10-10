@@ -2,8 +2,8 @@
 
 namespace Just\Warehouse\Tests\Model\Concerns;
 
-use Facades\OrderFactory;
 use Facades\LocationFactory;
+use Facades\OrderFactory;
 use Just\Warehouse\Models\Order;
 use Just\Warehouse\Tests\TestCase;
 

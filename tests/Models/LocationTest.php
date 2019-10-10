@@ -2,16 +2,16 @@
 
 namespace Just\Warehouse\Tests\Model;
 
-use LogicException;
-use Facades\LocationFactory;
 use Facades\InventoryFactory;
-use Just\Warehouse\Tests\TestCase;
-use Just\Warehouse\Models\Location;
-use Just\Warehouse\Models\Inventory;
+use Facades\LocationFactory;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Event;
 use Just\Warehouse\Events\InventoryCreated;
 use Just\Warehouse\Exceptions\InvalidGtinException;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Just\Warehouse\Models\Inventory;
+use Just\Warehouse\Models\Location;
+use Just\Warehouse\Tests\TestCase;
+use LogicException;
 
 class LocationTest extends TestCase
 {

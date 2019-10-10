@@ -2,8 +2,8 @@
 
 namespace Just\Warehouse\Tests\Database;
 
-use Just\Warehouse\Tests\TestCase;
 use Illuminate\Support\Facades\Schema;
+use Just\Warehouse\Tests\TestCase;
 
 class MigrationTest extends TestCase
 {
