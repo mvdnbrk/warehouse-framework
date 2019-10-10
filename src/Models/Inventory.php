@@ -50,7 +50,7 @@ class Inventory extends AbstractModel
     /**
      * Move the inventory model to another location.
      *
-     * @param  Location  $location
+     * @param  \Just\Warehouse\Models\Location  $location
      * @return bool
      *
      * @throws \LogicException

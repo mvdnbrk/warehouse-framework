@@ -110,6 +110,7 @@ class Location extends AbstractModel
      *
      * @param  string  $value
      * @return bool
+     *
      * @throws \Just\Warehouse\Exceptions\InvalidGtinException
      * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
      */
