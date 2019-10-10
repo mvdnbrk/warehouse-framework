@@ -1,8 +1,8 @@
 <?php
 
 use Faker\Generator as Faker;
-use Just\Warehouse\Models\Location;
 use Just\Warehouse\Models\Inventory;
+use Just\Warehouse\Models\Location;
 
 $factory->define(Inventory::class, function (Faker $faker) {
     return [

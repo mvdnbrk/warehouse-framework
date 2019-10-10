@@ -4,16 +4,16 @@ namespace Just\Warehouse\Tests\Jobs;
 
 use Facades\InventoryFactory;
 use Facades\OrderLineFactory;
-use Illuminate\Support\Carbon;
 use Facades\ReservationFactory;
-use Just\Warehouse\Tests\TestCase;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Event;
+use Just\Warehouse\Events\InventoryCreated;
+use Just\Warehouse\Jobs\PairInventory;
 use Just\Warehouse\Models\Inventory;
 use Just\Warehouse\Models\OrderLine;
-use Illuminate\Support\Facades\Event;
-use Just\Warehouse\Jobs\PairInventory;
 use Just\Warehouse\Models\Reservation;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Just\Warehouse\Events\InventoryCreated;
+use Just\Warehouse\Tests\TestCase;
 
 class PairInventoryTest extends TestCase
 {

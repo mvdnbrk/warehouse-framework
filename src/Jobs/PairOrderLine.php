@@ -2,11 +2,11 @@
 
 namespace Just\Warehouse\Jobs;
 
-use Just\Warehouse\Models\Inventory;
-use Just\Warehouse\Models\OrderLine;
-use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Queue\SerializesModels;
+use Just\Warehouse\Models\Inventory;
+use Just\Warehouse\Models\OrderLine;
 
 class PairOrderLine implements ShouldQueue
 {

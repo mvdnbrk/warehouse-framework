@@ -1,8 +1,8 @@
 <?php
 
 use Faker\Factory as Faker;
-use Just\Warehouse\Models\Location;
 use Just\Warehouse\Models\Inventory;
+use Just\Warehouse\Models\Location;
 
 class LocationFactory
 {

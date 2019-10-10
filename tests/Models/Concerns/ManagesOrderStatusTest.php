@@ -2,13 +2,13 @@
 
 namespace Just\Warehouse\Tests\Model\Concerns;
 
-use LogicException;
-use Facades\OrderFactory;
 use Facades\LocationFactory;
+use Facades\OrderFactory;
 use Illuminate\Support\Carbon;
+use Just\Warehouse\Models\Inventory;
 use Just\Warehouse\Models\Order;
 use Just\Warehouse\Tests\TestCase;
-use Just\Warehouse\Models\Inventory;
+use LogicException;
 
 class ManagesOrderStatusTest extends TestCase
 {

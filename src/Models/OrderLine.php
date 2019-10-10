@@ -2,8 +2,8 @@
 
 namespace Just\Warehouse\Models;
 
-use LogicException;
 use Just\Warehouse\Events\OrderLineReplaced;
+use LogicException;
 use Staudenmeir\EloquentHasManyDeep\HasRelationships;
 
 /**

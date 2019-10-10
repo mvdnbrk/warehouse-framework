@@ -2,10 +2,10 @@
 
 namespace Just\Warehouse\Tests\Model\Concerns;
 
-use Facades\OrderFactory;
 use Facades\InventoryFactory;
-use Just\Warehouse\Tests\TestCase;
+use Facades\OrderFactory;
 use Just\Warehouse\Exceptions\InvalidStatusException;
+use Just\Warehouse\Tests\TestCase;
 
 class HasOrderStatusTest extends TestCase
 {

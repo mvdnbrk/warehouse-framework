@@ -5,14 +5,14 @@ namespace Just\Warehouse\Tests\Jobs;
 use Carbon\Carbon;
 use Facades\InventoryFactory;
 use Facades\OrderLineFactory;
-use Just\Warehouse\Tests\TestCase;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Support\Facades\Event;
+use Just\Warehouse\Events\OrderLineCreated;
+use Just\Warehouse\Jobs\PairOrderLine;
 use Just\Warehouse\Models\Inventory;
 use Just\Warehouse\Models\OrderLine;
-use Illuminate\Support\Facades\Event;
-use Just\Warehouse\Jobs\PairOrderLine;
 use Just\Warehouse\Models\Reservation;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Just\Warehouse\Events\OrderLineCreated;
+use Just\Warehouse\Tests\TestCase;
 
 class PairOrderLineTest extends TestCase
 {

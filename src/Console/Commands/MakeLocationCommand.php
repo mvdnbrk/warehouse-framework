@@ -3,8 +3,8 @@
 namespace Just\Warehouse\Console\Commands;
 
 use Illuminate\Console\Command;
-use Just\Warehouse\Models\Location;
 use Illuminate\Support\Facades\Validator;
+use Just\Warehouse\Models\Location;
 
 class MakeLocationCommand extends Command
 {

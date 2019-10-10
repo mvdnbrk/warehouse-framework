@@ -2,10 +2,10 @@
 
 namespace Just\Warehouse\Jobs;
 
-use Just\Warehouse\Models\OrderLine;
-use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Queue\SerializesModels;
+use Just\Warehouse\Models\OrderLine;
 
 class ReleaseOrderLine implements ShouldQueue
 {

@@ -1,7 +1,7 @@
 <?php
 
-use Faker\Factory as Faker;
 use Facades\LocationFactory;
+use Faker\Factory as Faker;
 use Just\Warehouse\Models\Order;
 use Just\Warehouse\Models\OrderLine;
 

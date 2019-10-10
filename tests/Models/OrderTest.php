@@ -2,21 +2,21 @@
 
 namespace Just\Warehouse\Tests\Model;
 
-use LogicException;
-use Facades\OrderFactory;
 use Facades\LocationFactory;
-use Just\Warehouse\Models\Order;
-use Just\Warehouse\Tests\TestCase;
-use Just\Warehouse\Models\OrderLine;
+use Facades\OrderFactory;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Queue;
-use Just\Warehouse\Jobs\PairOrderLine;
-use Just\Warehouse\Models\Reservation;
-use Just\Warehouse\Jobs\ReleaseOrderLine;
 use Just\Warehouse\Events\OrderLineCreated;
 use Just\Warehouse\Events\OrderStatusUpdated;
 use Just\Warehouse\Exceptions\InvalidGtinException;
 use Just\Warehouse\Exceptions\InvalidOrderNumberException;
+use Just\Warehouse\Jobs\PairOrderLine;
+use Just\Warehouse\Jobs\ReleaseOrderLine;
+use Just\Warehouse\Models\Order;
+use Just\Warehouse\Models\OrderLine;
+use Just\Warehouse\Models\Reservation;
+use Just\Warehouse\Tests\TestCase;
+use LogicException;
 
 class OrderTest extends TestCase
 {

@@ -2,8 +2,8 @@
 
 namespace Just\Warehouse\Listeners;
 
-use Just\Warehouse\Events\OrderFulfilled;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Just\Warehouse\Events\OrderFulfilled;
 
 class DeleteInventoryForOrder implements ShouldQueue
 {
