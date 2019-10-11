@@ -2,11 +2,10 @@
 
 namespace Just\Warehouse\Tests;
 
-use Facades\OrderFactory;
 use Facades\InventoryFactory;
+use Facades\OrderFactory;
 use Just\Warehouse\Exceptions\InvalidGtinException;
 use Just\Warehouse\Facades\Stock;
-use Just\Warehouse\Tests\TestCase;
 
 class StockTest extends TestCase
 {
