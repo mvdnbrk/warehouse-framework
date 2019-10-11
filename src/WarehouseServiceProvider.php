@@ -4,7 +4,6 @@ namespace Just\Warehouse;
 
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Support\ServiceProvider;
-use Just\Warehouse\Stock;
 
 class WarehouseServiceProvider extends ServiceProvider
 {
@@ -33,7 +32,7 @@ class WarehouseServiceProvider extends ServiceProvider
         $this->offerPublishing();
         $this->registerCommands();
 
-        $this->app->bind('stock', function() {
+        $this->app->bind('stock', function () {
             return new Stock;
         });
     }

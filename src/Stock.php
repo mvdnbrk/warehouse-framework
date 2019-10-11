@@ -22,7 +22,7 @@ class Stock
     {
         return Inventory::join('reservation', 'inventories.id', '=', 'reservation.inventory_id', 'left')
             ->whereNull('reservation.inventory_id')
-            ->when($this->gtin, function($query) {
+            ->when($this->gtin, function ($query) {
                 return $query->whereGtin($this->gtin);
             })
             ->count();
@@ -36,7 +36,7 @@ class Stock
     public function backorder()
     {
         return Reservation::whereNull('inventory_id')
-            ->when($this->gtin, function($query) {
+            ->when($this->gtin, function ($query) {
                 return $query
                     ->join('order_lines', 'order_lines.id', '=', 'reservation.order_line_id')
                     ->where('order_lines.gtin', '=', $this->gtin);
@@ -53,7 +53,7 @@ class Stock
     {
         return Inventory::join('reservation', 'inventories.id', '=', 'reservation.inventory_id', 'left')
             ->whereNotNull('reservation.inventory_id')
-            ->when($this->gtin, function($query) {
+            ->when($this->gtin, function ($query) {
                 return $query->whereGtin($this->gtin);
             })
             ->count();
