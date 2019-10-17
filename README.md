@@ -163,6 +163,24 @@ $order->lines->first()->replace();
 
 This will delete the reserved product from the inventory and replaces it with another item (if available).
 
+### Stock
+
+To query stock quantities you may use the `\Just\Warehouse\Facades\Stock` facade:
+
+```php
+Stock::available();
+Stock::backorder();
+Stock::reserved();
+```
+
+For a specific GTIN:
+
+```php
+Stock::gtin('1300000000000')->available();
+Stock::gtin('1300000000000')->backorder();
+Stock::gtin('1300000000000')->reserved();
+```
+
 ### Events
 
 This packages fires several events:

@@ -31,6 +31,10 @@ class WarehouseServiceProvider extends ServiceProvider
         $this->configure();
         $this->offerPublishing();
         $this->registerCommands();
+
+        $this->app->bind('stock', function () {
+            return new Stock;
+        });
     }
 
     /**
