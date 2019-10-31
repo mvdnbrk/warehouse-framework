@@ -7,6 +7,8 @@ use Just\Warehouse\Exceptions\InvalidOrderNumberException;
 use Just\Warehouse\Jobs\PairOrderLine;
 use Just\Warehouse\Jobs\ReleaseOrderLine;
 use Just\Warehouse\Models\Order;
+use Just\Warehouse\Models\States\Order\Created;
+use Just\Warehouse\Models\States\Order\Deleted;
 use LogicException;
 
 class OrderObserver
@@ -63,7 +65,7 @@ class OrderObserver
         });
 
         $order->update([
-            'status' => 'deleted',
+            'status' => Deleted::class,
         ]);
     }
 
@@ -80,7 +82,7 @@ class OrderObserver
         });
 
         $order->update([
-            'status' => 'created',
+            'status' => Created::class,
         ]);
     }
 }

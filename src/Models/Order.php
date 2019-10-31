@@ -3,6 +3,13 @@
 namespace Just\Warehouse\Models;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Just\Warehouse\Models\States\Order\Backorder;
+use Just\Warehouse\Models\States\Order\Created;
+use Just\Warehouse\Models\States\Order\Fulfilled;
+use Just\Warehouse\Models\States\Order\Open;
+use Just\Warehouse\Models\States\Order\OrderState;
+use Just\Warehouse\Models\Transitions\Order\OpenToFulfilled;
+use Spatie\ModelStates\HasStates;
 
 /**
  * @property int $id
@@ -16,19 +23,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class Order extends AbstractModel
 {
-    use SoftDeletes,
-        Concerns\HasOrderStatus,
+    use HasStates,
+        SoftDeletes,
         Concerns\ManagesPickList,
         Concerns\ManagesOrderStatus;
-
-    /**
-     * The model's attributes.
-     *
-     * @var array
-     */
-    protected $attributes = [
-        'status' => 'created',
-    ];
 
     /**
      * The attributes that should be cast to native types.
@@ -47,6 +45,39 @@ class Order extends AbstractModel
     protected $dates = [
         'fulfilled_at',
     ];
+
+    /**
+     * Register the states for this model.
+     *
+     * @return void
+     */
+    protected function registerStates()
+    {
+        $this->addState('status', OrderState::class)
+            ->default(Created::class)
+            ->allowTransition(Created::class, Open::class)
+            ->allowTransition(Created::class, Backorder::class)
+            ->allowTransition(Backorder::class, Open::class)
+            ->allowTransition(Open::class, Backorder::class)
+            ->allowTransition(Open::class, Fulfilled::class, OpenToFulfilled::class);
+    }
+
+    /**
+     * Set the status attribute.
+     *
+     * @param  string  $value
+     * @return void
+     *
+     * @throws \Just\Warehouse\Exceptions\InvalidStatusException
+     */
+    public function setStatusAttribute($value)
+    {
+        if (! $this->exists) {
+            $value = new Created($this);
+        }
+
+        $this->attributes['status'] = $value;
+    }
 
     /**
      * The order lines associated with this order.

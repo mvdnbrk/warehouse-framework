@@ -7,6 +7,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use Just\Warehouse\Models\Inventory;
 use Just\Warehouse\Models\OrderLine;
+use Just\Warehouse\Models\States\Order\Backorder;
 
 class PairInventory implements ShouldQueue
 {
@@ -58,7 +59,7 @@ class PairInventory implements ShouldQueue
                 'inventory_id' => $this->inventory->id,
             ]);
 
-            if ($line->order->isBackorder()) {
+            if ($line->order->status->is(Backorder::class)) {
                 $line->order->process();
             }
 

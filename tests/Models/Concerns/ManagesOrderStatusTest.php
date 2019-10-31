@@ -5,50 +5,29 @@ namespace Just\Warehouse\Tests\Model\Concerns;
 use Facades\LocationFactory;
 use Facades\OrderFactory;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Event;
+use Just\Warehouse\Events\OrderFulfilled;
 use Just\Warehouse\Models\Inventory;
-use Just\Warehouse\Models\Order;
+use Just\Warehouse\Models\States\Order\Backorder;
+use Just\Warehouse\Models\States\Order\Created;
+use Just\Warehouse\Models\States\Order\Fulfilled;
+use Just\Warehouse\Models\States\Order\Open;
 use Just\Warehouse\Tests\TestCase;
-use LogicException;
+use Spatie\ModelStates\Exceptions\TransitionNotFound;
 
 class ManagesOrderStatusTest extends TestCase
 {
-    /** @test */
-    public function it_can_determine_if_a_transition_is_valid()
-    {
-        $order = OrderFactory::make();
-
-        $this->assertTrue($order->isValidTransition('created', 'open'));
-        $this->assertTrue($order->isValidTransition('created', 'backorder'));
-        $this->assertTrue($order->isValidTransition('backorder', 'open'));
-        $this->assertTrue($order->isValidTransition('open', 'backorder'));
-        $this->assertTrue($order->isValidTransition('open', 'fulfilled'));
-
-        $this->assertFalse($order->isValidTransition('invalid', 'invalid'));
-        $this->assertFalse($order->isValidTransition('fulfilled', 'backorder'));
-        $this->assertFalse($order->isValidTransition('fulfilled', 'created'));
-        $this->assertFalse($order->isValidTransition('fulfilled', 'open'));
-    }
-
-    /** @test */
-    public function empty_values_for_transitions_will_return_false()
-    {
-        $order = OrderFactory::make();
-
-        $this->assertFalse($order->isValidTransition('', 'created'));
-        $this->assertFalse($order->isValidTransition('created', ''));
-    }
-
     /** @test */
     public function it_can_be_processed()
     {
         $location = LocationFactory::withInventory('1300000000000')->create();
         $order = OrderFactory::withLines('1300000000000')->create();
 
-        $this->assertEquals('created', $order->fresh()->status);
+        $this->assertTrue($order->fresh()->status->is(Created::class));
 
         $order->process();
 
-        $this->assertEquals('open', $order->fresh()->status);
+        $this->assertTrue($order->fresh()->status->is(Open::class));
     }
 
     /** @test */
@@ -58,7 +37,7 @@ class ManagesOrderStatusTest extends TestCase
 
         $order->process();
 
-        $this->assertEquals('backorder', $order->fresh()->status);
+        $this->assertTrue($order->fresh()->status->is(Backorder::class));
     }
 
     /** @test */
@@ -69,7 +48,7 @@ class ManagesOrderStatusTest extends TestCase
 
         tap($order->fresh(), function ($order) {
             $order->markAsFulfilled();
-            $this->assertEquals('fulfilled', $order->status);
+            $this->assertTrue($order->status->is(Fulfilled::class));
             $this->assertEquals('2019-10-11 12:34:56', $order->fulfilled_at);
         });
         $this->assertTrue(Inventory::withTrashed()->first()->trashed());
@@ -78,35 +57,19 @@ class ManagesOrderStatusTest extends TestCase
     /** @test */
     public function trying_to_mark_a_non_open_order_as_fulfilled_throws_an_exception()
     {
+        Event::fake();
         $order = OrderFactory::create();
 
         try {
             $order->markAsFulfilled();
-        } catch (LogicException $e) {
-            $this->assertEquals('This order can not be marked as fulfilled.', $e->getMessage());
-            $this->assertEquals('created', $order->fresh()->status);
+        } catch (TransitionNotFound $e) {
+            $this->assertTrue($order->status->is(Created::class));
+            $this->assertNull($order->fulfilled_at);
+            Event::assertNotDispatched(OrderFulfilled::class);
 
             return;
         }
 
         $this->fail('Trying to mark a non open order as fulfilled succeeded.');
-    }
-
-    /** @test */
-    public function it_has_a_query_scope_for_orders_with_status_open()
-    {
-        OrderFactory::create();
-        OrderFactory::state('open')->create();
-
-        $this->assertEquals(1, Order::open()->count());
-    }
-
-    /** @test */
-    public function it_has_a_query_scope_for_orders_with_status_backorder()
-    {
-        OrderFactory::create();
-        OrderFactory::state('backorder')->create();
-
-        $this->assertEquals(1, Order::backorder()->count());
     }
 }

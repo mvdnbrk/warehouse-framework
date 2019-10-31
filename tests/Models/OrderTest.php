@@ -4,6 +4,7 @@ namespace Just\Warehouse\Tests\Model;
 
 use Facades\LocationFactory;
 use Facades\OrderFactory;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Queue;
 use Just\Warehouse\Events\OrderLineCreated;
@@ -15,6 +16,10 @@ use Just\Warehouse\Jobs\ReleaseOrderLine;
 use Just\Warehouse\Models\Order;
 use Just\Warehouse\Models\OrderLine;
 use Just\Warehouse\Models\Reservation;
+use Just\Warehouse\Models\States\Order\Backorder;
+use Just\Warehouse\Models\States\Order\Created;
+use Just\Warehouse\Models\States\Order\Deleted;
+use Just\Warehouse\Models\States\Order\Open;
 use Just\Warehouse\Tests\TestCase;
 use LogicException;
 
@@ -41,15 +46,15 @@ class OrderTest extends TestCase
     {
         $order = OrderFactory::make();
 
-        $this->assertInstanceOf(\Illuminate\Database\Eloquent\Collection::class, $order->lines);
+        $this->assertInstanceOf(Collection::class, $order->lines);
     }
 
     /** @test */
     public function it_sets_status_to_created_when_trying_to_create_an_order_with_another_status_than_created()
     {
-        $order = OrderFactory::create(['status' => 'open']);
+        $order = OrderFactory::create(['status' => Open::class]);
 
-        $this->assertEquals('created', $order->status);
+        $this->assertTrue($order->status->is(Created::class));
     }
 
     /** @test */
@@ -111,7 +116,7 @@ class OrderTest extends TestCase
 
         $lines = $order->addLine('1300000000000', 0);
 
-        $this->assertInstanceOf(\Illuminate\Database\Eloquent\Collection::class, $lines);
+        $this->assertInstanceOf(Collection::class, $lines);
         $this->assertTrue($lines->isEmpty());
         $this->assertCount(0, OrderLine::all());
         Event::assertNotDispatched(OrderLineCreated::class);
@@ -146,7 +151,7 @@ class OrderTest extends TestCase
         Event::assertDispatched(OrderStatusUpdated::class, function ($event) use ($order) {
             return $event->order->is($order)
                 && $event->originalStatus == 'created'
-                && $event->order->status == 'backorder';
+                && $event->order->status->is(Backorder::class);
         });
     }
 
@@ -161,7 +166,7 @@ class OrderTest extends TestCase
         $this->assertCount(0, Order::all());
         $this->assertCount(0, Reservation::all());
         $this->assertCount(1, Order::withTrashed()->get());
-        $this->assertEquals('deleted', $order->fresh()->status);
+        $this->assertTrue($order->fresh()->status->is(Deleted::class));
         tap($line->fresh(), function ($line) {
             $this->assertFalse($line->isReserved());
             $this->assertFalse($line->isFulfilled());
@@ -197,7 +202,7 @@ class OrderTest extends TestCase
 
         $this->assertTrue($order->restore());
 
-        $this->assertEquals('created', $order->fresh()->status);
+        $this->assertTrue($order->fresh()->status->is(Created::class));
         $this->assertCount(1, Order::all());
         $this->assertCount(1, Reservation::all());
         $this->assertCount(0, Order::onlyTrashed()->get());
@@ -237,6 +242,7 @@ class OrderTest extends TestCase
             $order->forceDelete();
         } catch (LogicException $e) {
             $this->assertEquals('An order can not be force deleted.', $e->getMessage());
+            $this->assertTrue($order->fresh()->status->is(Created::class));
             $this->assertCount(1, Order::all());
 
             return;
@@ -250,10 +256,10 @@ class OrderTest extends TestCase
     {
         $order = OrderFactory::withLines('1300000000000')->create();
 
-        $this->assertEquals('created', $order->status);
+        $this->assertTrue($order->status->is(Created::class));
 
         LocationFactory::withInventory('1300000000000')->create();
 
-        $this->assertEquals('created', $order->fresh()->status);
+        $this->assertTrue($order->fresh()->status->is(Created::class));
     }
 }

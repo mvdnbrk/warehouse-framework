@@ -3,6 +3,7 @@
 namespace Just\Warehouse\Models;
 
 use Just\Warehouse\Events\OrderLineReplaced;
+use Just\Warehouse\Models\States\Order\Open;
 use LogicException;
 use Staudenmeir\EloquentHasManyDeep\HasRelationships;
 
@@ -100,7 +101,7 @@ class OrderLine extends AbstractModel
             $this->inventory->delete();
             $this->delete();
 
-            if ($this->order->isOpen()) {
+            if ($this->order->status->is(Open::class)) {
                 $this->order->process();
             }
 

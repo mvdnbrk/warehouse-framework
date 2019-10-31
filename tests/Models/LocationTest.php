@@ -5,6 +5,7 @@ namespace Just\Warehouse\Tests\Model;
 use Facades\InventoryFactory;
 use Facades\LocationFactory;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Event;
 use Just\Warehouse\Events\InventoryCreated;
 use Just\Warehouse\Exceptions\InvalidGtinException;
@@ -28,7 +29,7 @@ class LocationTest extends TestCase
     {
         $location = LocationFactory::create();
 
-        $this->assertInstanceOf(\Illuminate\Database\Eloquent\Collection::class, $location->inventory);
+        $this->assertInstanceOf(Collection::class, $location->inventory);
     }
 
     /** @test */
@@ -103,7 +104,7 @@ class LocationTest extends TestCase
 
         $inventories = $location->addInventory('1300000000000', 2);
 
-        $this->assertInstanceOf(\Illuminate\Database\Eloquent\Collection::class, $inventories);
+        $this->assertInstanceOf(Collection::class, $inventories);
         $this->assertSame(2, $inventories->count());
         $inventories->each(function ($inventory) use ($location) {
             $this->assertEquals($location->id, $inventory->location_id);
@@ -121,7 +122,7 @@ class LocationTest extends TestCase
 
         $inventories = $location->addInventory('1300000000000', 0);
 
-        $this->assertInstanceOf(\Illuminate\Database\Eloquent\Collection::class, $inventories);
+        $this->assertInstanceOf(Collection::class, $inventories);
         $this->assertTrue($inventories->isEmpty());
         $this->assertCount(0, Inventory::all());
         Event::assertNotDispatched(InventoryCreated::class);

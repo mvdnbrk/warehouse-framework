@@ -2,6 +2,8 @@
 
 namespace Just\Warehouse\Models\Concerns;
 
+use Just\Warehouse\Models\States\Order\Open;
+
 /**
  * @property string $status
  * @method \Illuminate\Database\Eloquent\Relations\HasMany lines()
@@ -15,7 +17,7 @@ trait ManagesPickList
      */
     public function hasPickList()
     {
-        return $this->status == 'open';
+        return $this->status->is(Open::class);
     }
 
     /**

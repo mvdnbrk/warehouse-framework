@@ -4,6 +4,7 @@ namespace Just\Warehouse\Tests\Model\Concerns;
 
 use Facades\LocationFactory;
 use Facades\OrderFactory;
+use Illuminate\Support\Collection;
 use Just\Warehouse\Models\Order;
 use Just\Warehouse\Tests\TestCase;
 
@@ -29,8 +30,8 @@ class ManagesPickListTest extends TestCase
 
         $picklist = Order::first()->pickList();
 
-        $this->assertInstanceOf(\Illuminate\Support\Collection::class, $picklist);
-        $this->assertInstanceOf(\Illuminate\Support\Collection::class, $picklist->first());
+        $this->assertInstanceOf(Collection::class, $picklist);
+        $this->assertInstanceOf(Collection::class, $picklist->first());
 
         $this->assertCount(1, $picklist);
         $this->assertEquals('1300000000000', $picklist->first()->get('gtin'));
