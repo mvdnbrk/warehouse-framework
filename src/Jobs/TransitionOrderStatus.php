@@ -6,6 +6,8 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use Just\Warehouse\Models\Order;
+use Just\Warehouse\Models\States\Order\Backorder;
+use Just\Warehouse\Models\States\Order\Open;
 
 class TransitionOrderStatus implements ShouldQueue
 {
@@ -28,7 +30,7 @@ class TransitionOrderStatus implements ShouldQueue
     /**
      * The new status to transition to.
      *
-     * @var string
+     * @var \Just\Warehouse\Models\States\Order\OrderState
      */
     protected $newStatus;
 
@@ -41,7 +43,7 @@ class TransitionOrderStatus implements ShouldQueue
     public function __construct(Order $order)
     {
         $this->order = $order;
-        $this->newStatus = 'open';
+        $this->newStatus = Open::class;
     }
 
     /**
@@ -57,18 +59,12 @@ class TransitionOrderStatus implements ShouldQueue
 
         $this->order->lines->each(function ($line) {
             if (! $line->isFulfilled()) {
-                $this->newStatus = 'backorder';
+                $this->newStatus = Backorder::class;
 
                 return false;
             }
         });
 
-        if (! $this->order->isValidTransition($this->order->status, $this->newStatus)) {
-            return;
-        }
-
-        $this->order->update([
-            'status' => $this->newStatus,
-        ]);
+        $this->order->status->transitionTo($this->newStatus);
     }
 }

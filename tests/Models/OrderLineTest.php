@@ -17,6 +17,9 @@ use Just\Warehouse\Models\Inventory;
 use Just\Warehouse\Models\Order;
 use Just\Warehouse\Models\OrderLine;
 use Just\Warehouse\Models\Reservation;
+use Just\Warehouse\Models\States\Order\Backorder;
+use Just\Warehouse\Models\States\Order\Created;
+use Just\Warehouse\Models\States\Order\Open;
 use Just\Warehouse\Tests\TestCase;
 use LogicException;
 
@@ -146,7 +149,7 @@ class OrderLineTest extends TestCase
         $this->assertTrue($newLine->isFulfilled());
         tap($order->fresh(), function ($order) use ($inventory2) {
             $this->assertCount(1, $order->lines);
-            $this->assertEquals('created', $order->status);
+            $this->assertTrue($order->status->is(Created::class));
             $this->assertEquals('1300000000000', $order->lines->first()->gtin);
             $this->assertTrue($order->lines->first()->inventory->is($inventory2));
         });
@@ -174,7 +177,7 @@ class OrderLineTest extends TestCase
         $line = $order->addLine('1300000000000');
         $order->process();
 
-        $this->assertEquals('open', $order->fresh()->status);
+        $this->assertTrue($order->fresh()->status->is(Open::class));
 
         $newLine = $line->replace();
 
@@ -187,7 +190,7 @@ class OrderLineTest extends TestCase
 
         $this->assertFalse($newLine->is($line));
         $this->assertFalse($newLine->isFulfilled());
-        $this->assertEquals('backorder', $order->fresh()->status);
+        $this->assertTrue($order->fresh()->status->is(Backorder::class));
     }
 
     /** @test */

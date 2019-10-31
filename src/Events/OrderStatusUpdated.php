@@ -29,6 +29,7 @@ class OrderStatusUpdated
      * Create a new event instance.
      *
      * @param  \Just\Warehouse\Models\Order  $order
+     * @param  string  $originalStatus
      * @return void
      */
     public function __construct(Order $order, $originalStatus)
