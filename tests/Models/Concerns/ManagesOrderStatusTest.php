@@ -8,7 +8,6 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Event;
 use Just\Warehouse\Events\OrderFulfilled;
 use Just\Warehouse\Models\Inventory;
-use Just\Warehouse\Models\Order;
 use Just\Warehouse\Models\States\Order\Backorder;
 use Just\Warehouse\Models\States\Order\Created;
 use Just\Warehouse\Models\States\Order\Fulfilled;

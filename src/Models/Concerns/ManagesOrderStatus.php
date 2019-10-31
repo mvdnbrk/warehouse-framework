@@ -2,11 +2,8 @@
 
 namespace Just\Warehouse\Models\Concerns;
 
-use Illuminate\Database\Eloquent\Builder;
-use Just\Warehouse\Events\OrderFulfilled;
 use Just\Warehouse\Jobs\TransitionOrderStatus;
 use Just\Warehouse\Models\States\Order\Fulfilled;
-use LogicException;
 
 trait ManagesOrderStatus
 {
