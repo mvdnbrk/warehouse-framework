@@ -3,6 +3,7 @@
 namespace Just\Warehouse\Models;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Just\Warehouse\Jobs\TransitionOrderStatus;
 use Just\Warehouse\Models\States\Order\Backorder;
 use Just\Warehouse\Models\States\Order\Created;
 use Just\Warehouse\Models\States\Order\Fulfilled;
@@ -25,8 +26,7 @@ class Order extends AbstractModel
 {
     use HasStates,
         SoftDeletes,
-        Concerns\ManagesPickList,
-        Concerns\ManagesOrderStatus;
+        Concerns\ManagesPickList;
 
     /**
      * The attributes that should be cast to native types.
@@ -111,5 +111,27 @@ class Order extends AbstractModel
         }, range(1, $amount)));
 
         return $amount === 1 ? $instances->first() : $instances;
+    }
+
+    /**
+     * Mark the order as fulfilled.
+     *
+     * @return void
+     *
+     * @throws \Spatie\ModelStates\Exceptions\TransitionNotFound
+     */
+    public function markAsFulfilled()
+    {
+        $this->transitionTo(Fulfilled::class);
+    }
+
+    /**
+     * Process the order to be fulfilled.
+     *
+     * @return void
+     */
+    public function process()
+    {
+        TransitionOrderStatus::dispatch($this);
     }
 }
