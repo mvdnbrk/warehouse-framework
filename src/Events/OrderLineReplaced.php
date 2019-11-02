@@ -37,6 +37,8 @@ class OrderLineReplaced
     /**
      * Create a new event instance.
      *
+     * @param  \Just\Warehouse\Models\Order  $order
+     * @param  \Just\Warehouse\Models\Inventory  $inventory
      * @param  \Just\Warehouse\Models\OrderLine  $line
      * @return void
      */
