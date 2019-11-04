@@ -353,7 +353,7 @@ class OrderTest extends TestCase
     }
 
     /** @test */
-    public function it_has_the_correct_quantity()
+    public function a_picklist_has_the_correct_quantity()
     {
         OrderFactory::state('open')->withLines([
             '1300000000000',
@@ -367,7 +367,7 @@ class OrderTest extends TestCase
     }
 
     /** @test */
-    public function it_is_sorted_by_location_name()
+    public function a_picklist_is_sorted_by_location_name()
     {
         LocationFactory::withInventory('1300000000000')->create(['name' => 'Location B']);
         LocationFactory::withInventory('1300000000000')->create(['name' => 'Location A']);
