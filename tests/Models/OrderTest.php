@@ -102,7 +102,7 @@ class OrderTest extends TestCase
 
         $lines = $order->addLine('1300000000000', 2);
 
-        $this->assertInstanceOf(\Illuminate\Database\Eloquent\Collection::class, $lines);
+        $this->assertInstanceOf(Collection::class, $lines);
         $this->assertSame(2, $lines->count());
         $lines->each(function ($line) use ($order) {
             $this->assertEquals($order->id, $line->order_id);
@@ -390,7 +390,7 @@ class OrderTest extends TestCase
 
         $picklist = Order::first()->pickList();
 
-        $this->assertInstanceOf(\Illuminate\Support\Collection::class, $picklist);
+        $this->assertInstanceOf(Collection::class, $picklist);
         $this->assertTrue($picklist->isEmpty());
     }
 }
