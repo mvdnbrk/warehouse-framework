@@ -7,9 +7,11 @@ use Just\Warehouse\Jobs\TransitionOrderStatus;
 use Just\Warehouse\Models\States\Order\Backorder;
 use Just\Warehouse\Models\States\Order\Created;
 use Just\Warehouse\Models\States\Order\Fulfilled;
+use Just\Warehouse\Models\States\Order\Hold;
 use Just\Warehouse\Models\States\Order\Open;
 use Just\Warehouse\Models\States\Order\OrderState;
 use Just\Warehouse\Models\Transitions\Order\OpenToFulfilled;
+use Spatie\ModelStates\Exceptions\TransitionNotFound;
 use Spatie\ModelStates\HasStates;
 
 /**
@@ -54,11 +56,12 @@ class Order extends AbstractModel
     {
         $this->addState('status', OrderState::class)
             ->default(Created::class)
-            ->allowTransition(Created::class, Open::class)
-            ->allowTransition(Created::class, Backorder::class)
-            ->allowTransition(Backorder::class, Open::class)
-            ->allowTransition(Open::class, Backorder::class)
-            ->allowTransition(Open::class, Fulfilled::class, OpenToFulfilled::class);
+            ->allowTransition([Created::class, Backorder::class], Open::class)
+            ->allowTransition([Created::class, Open::class], Backorder::class)
+            ->allowTransition(Open::class, Fulfilled::class, OpenToFulfilled::class)
+            ->allowTransition([Created::class, Open::class, Backorder::class], Hold::class)
+            ->allowTransition(Hold::class, Open::class)
+            ->allowTransition(Hold::class, Backorder::class);
     }
 
     /**
@@ -132,6 +135,38 @@ class Order extends AbstractModel
     public function process()
     {
         TransitionOrderStatus::dispatch($this);
+    }
+
+    /**
+     * Put the order on hold.
+     *
+     * @return bool
+     */
+    public function hold()
+    {
+        try {
+            $this->transitionTo(Hold::class);
+        } catch (TransitionNotFound $e) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Unhold the order.
+     *
+     * @return bool
+     */
+    public function unhold()
+    {
+        if (! $this->status->is(Hold::class)) {
+            return false;
+        }
+
+        $this->process();
+
+        return true;
     }
 
     /**
