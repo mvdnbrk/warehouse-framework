@@ -14,3 +14,5 @@ $factory->state(Order::class, 'backorder', []);
 $factory->state(Order::class, 'fulfilled', []);
 
 $factory->state(Order::class, 'open', []);
+
+$factory->state(Order::class, 'hold', []);
