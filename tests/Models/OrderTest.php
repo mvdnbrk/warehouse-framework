@@ -442,7 +442,7 @@ class OrderTest extends TestCase
         $this->assertTrue($order->fresh()->status->is(Deleted::class));
     }
 
-     /** @test */
+    /** @test */
     public function a_backorder_which_is_unholded_returns_to_status_backorder()
     {
         $order = OrderFactory::state('backorder')->create();
