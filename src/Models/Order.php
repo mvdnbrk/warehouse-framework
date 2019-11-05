@@ -228,4 +228,54 @@ class Order extends AbstractModel
             ->sortBy('location')
             ->values();
     }
+
+    /**
+     * Determine if the order status is "created".
+     *
+     * @return bool
+     */
+    public function isCreated()
+    {
+        return $this->status->is(Created::class);
+    }
+
+    /**
+     * Determine if the order status is "backorder".
+     *
+     * @return bool
+     */
+    public function isBackorder()
+    {
+        return $this->status->is(Backorder::class);
+    }
+
+    /**
+     * Determine if the order is "open".
+     *
+     * @return bool
+     */
+    public function isOpen()
+    {
+        return $this->status->is(Open::class);
+    }
+
+    /**
+     * Determine if the order status is "hold".
+     *
+     * @return bool
+     */
+    public function isHold()
+    {
+        return $this->status->is(Hold::class);
+    }
+
+    /**
+     * Determine if the order status is "fulfilled".
+     *
+     * @return bool
+     */
+    public function isFulfilled()
+    {
+        return $this->status->is(Fulfilled::class);
+    }
 }
