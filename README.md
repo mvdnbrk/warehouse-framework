@@ -136,6 +136,19 @@ $order->hold();
 $order->unhold();
 ```
 
+### Order status
+
+You can determine the status of an order with the following methods:
+
+```php
+$order->isCreated();
+$order->isOpen();
+$order->isHold();
+$order->isBackorder();
+$order->isFulfilled();
+```
+
+
 ### Pick Lists
 
 Once you have created an order you may retrieve a pick list.  
