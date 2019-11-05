@@ -126,6 +126,16 @@ $order->process();
 
 This will update the order status to `open` and will be ready to be picked.
 
+### Put an order on hold
+
+You can put an order on hold by calling the `hold` method.
+Unhold it with the `unhold` method:
+
+```php
+$order->hold();
+$order->unhold();
+```
+
 ### Pick Lists
 
 Once you have created an order you may retrieve a pick list.  

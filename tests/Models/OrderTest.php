@@ -22,6 +22,7 @@ use Just\Warehouse\Models\States\Order\Backorder;
 use Just\Warehouse\Models\States\Order\Created;
 use Just\Warehouse\Models\States\Order\Deleted;
 use Just\Warehouse\Models\States\Order\Fulfilled;
+use Just\Warehouse\Models\States\Order\Hold;
 use Just\Warehouse\Models\States\Order\Open;
 use Just\Warehouse\Tests\TestCase;
 use LogicException;
@@ -392,5 +393,62 @@ class OrderTest extends TestCase
 
         $this->assertInstanceOf(Collection::class, $picklist);
         $this->assertTrue($picklist->isEmpty());
+    }
+
+    /** @test */
+    public function it_can_be_put_on_hold()
+    {
+        $order = OrderFactory::create();
+
+        $this->assertTrue($order->hold());
+        $this->assertTrue($order->status->is(Hold::class));
+    }
+
+    /** @test */
+    public function an_open_order_can_be_put_on_hold()
+    {
+        $order = OrderFactory::state('open')->create();
+
+        $this->assertTrue($order->hold());
+        $this->assertTrue($order->status->is(Hold::class));
+    }
+
+    /** @test */
+    public function a_backorder_can_be_put_on_hold()
+    {
+        $order = OrderFactory::state('backorder')->create();
+
+        $this->assertTrue($order->hold());
+        $this->assertTrue($order->status->is(Hold::class));
+    }
+
+    /** @test */
+    public function it_can_be_unholded()
+    {
+        $order = OrderFactory::state('open')->create();
+        $order->hold();
+
+        $this->assertTrue($order->unhold());
+        $this->assertTrue($order->fresh()->status->is(Open::class));
+    }
+
+    /** @test */
+    public function a_deleted_order_can_not_be_unholded()
+    {
+        $order = OrderFactory::create();
+        $order->delete();
+
+        $this->assertFalse($order->unhold());
+        $this->assertTrue($order->fresh()->status->is(Deleted::class));
+    }
+
+    /** @test */
+    public function a_backorder_which_is_unholded_returns_to_status_backorder()
+    {
+        $order = OrderFactory::state('backorder')->create();
+        $order->hold();
+
+        $this->assertTrue($order->unhold());
+        $this->assertTrue($order->fresh()->status->is(Backorder::class));
     }
 }
