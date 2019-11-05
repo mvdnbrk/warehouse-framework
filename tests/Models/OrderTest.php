@@ -451,4 +451,44 @@ class OrderTest extends TestCase
         $this->assertTrue($order->unhold());
         $this->assertTrue($order->fresh()->status->is(Backorder::class));
     }
+
+    /** @test */
+    public function it_can_determine_if_the_status_is_created()
+    {
+        $order = OrderFactory::create();
+
+        $this->assertTrue($order->isCreated());
+    }
+
+    /** @test */
+    public function it_can_determine_if_the_status_is_backorder()
+    {
+        $order = OrderFactory::state('backorder')->create();
+
+        $this->assertTrue($order->isBackorder());
+    }
+
+    /** @test */
+    public function it_can_determine_if_the_status_is_open()
+    {
+        $order = OrderFactory::state('open')->create();
+
+        $this->assertTrue($order->isOpen());
+    }
+
+    /** @test */
+    public function it_can_determine_if_the_status_is_fulfilled()
+    {
+        $order = OrderFactory::state('fulfilled')->create();
+
+        $this->assertTrue($order->isFulfilled());
+    }
+
+    /** @test */
+    public function it_can_determine_if_the_status_is_hold()
+    {
+        $order = OrderFactory::state('hold')->create();
+
+        $this->assertTrue($order->isHold());
+    }
 }

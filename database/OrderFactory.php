@@ -73,6 +73,10 @@ class OrderFactory
 
         $order->process();
 
+        if (in_array('hold', $this->states)) {
+            $order->hold();
+        }
+
         if (in_array('fulfilled', $this->states)) {
             $order->fresh()->markAsFulfilled();
         }
