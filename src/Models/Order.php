@@ -12,7 +12,7 @@ use Just\Warehouse\Models\States\Order\Hold;
 use Just\Warehouse\Models\States\Order\Open;
 use Just\Warehouse\Models\States\Order\OrderState;
 use Just\Warehouse\Models\Transitions\Order\OpenToFulfilled;
-use Mvdnbrk\ModelExpires\Expires;
+use Mvdnbrk\ModelExpires\Expirable;
 use Spatie\ModelStates\Exceptions\TransitionNotFound;
 use Spatie\ModelStates\HasStates;
 
@@ -28,7 +28,7 @@ use Spatie\ModelStates\HasStates;
  */
 class Order extends AbstractModel
 {
-    use Expires,
+    use Expirable,
         HasStates,
         SoftDeletes;
 
