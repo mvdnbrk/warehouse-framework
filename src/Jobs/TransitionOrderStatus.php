@@ -8,6 +8,7 @@ use Illuminate\Queue\SerializesModels;
 use Just\Warehouse\Models\Order;
 use Just\Warehouse\Models\States\Order\Backorder;
 use Just\Warehouse\Models\States\Order\Open;
+use Spatie\ModelStates\Exceptions\TransitionNotFound;
 
 class TransitionOrderStatus implements ShouldQueue
 {
@@ -64,6 +65,10 @@ class TransitionOrderStatus implements ShouldQueue
                 return false;
             }
         });
+
+        if ($this->order->status->is($this->newStatus)) {
+            return;
+        }
 
         $this->order->status->transitionTo($this->newStatus);
     }
