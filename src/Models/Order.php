@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Just\Warehouse\Jobs\TransitionOrderStatus;
 use Just\Warehouse\Models\States\Order\Backorder;
 use Just\Warehouse\Models\States\Order\Created;
+use Just\Warehouse\Models\States\Order\Deleted;
 use Just\Warehouse\Models\States\Order\Fulfilled;
 use Just\Warehouse\Models\States\Order\Hold;
 use Just\Warehouse\Models\States\Order\Open;
@@ -279,5 +280,15 @@ class Order extends AbstractModel
     public function isFulfilled()
     {
         return $this->status->is(Fulfilled::class);
+    }
+
+    /**
+     * Determine if the order status is "deleted".
+     *
+     * @return bool
+     */
+    public function isDeleted()
+    {
+        return $this->status->is(Deleted::class) && $this->trashed();
     }
 }

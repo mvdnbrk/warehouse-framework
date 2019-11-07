@@ -81,6 +81,10 @@ class OrderFactory
             $order->fresh()->markAsFulfilled();
         }
 
+        if (in_array('deleted', $this->states)) {
+            $order->delete();
+        }
+
         return $order->fresh();
     }
 

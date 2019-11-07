@@ -143,9 +143,10 @@ You can determine the status of an order with the following methods:
 ```php
 $order->isCreated();
 $order->isOpen();
-$order->isHold();
 $order->isBackorder();
+$order->isHold();
 $order->isFulfilled();
+$order->isDeleted();
 ```
 
 

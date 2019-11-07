@@ -491,4 +491,12 @@ class OrderTest extends TestCase
 
         $this->assertTrue($order->isHold());
     }
+
+    /** @test */
+    public function it_can_determine_if_the_status_is_deleted()
+    {
+        $order = OrderFactory::state('deleted')->create();
+
+        $this->assertTrue($order->isDeleted());
+    }
 }
