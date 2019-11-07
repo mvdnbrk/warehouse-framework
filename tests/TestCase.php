@@ -4,6 +4,7 @@ namespace Just\Warehouse\Tests;
 
 use Illuminate\Support\Facades\DB;
 use Just\Warehouse\WarehouseServiceProvider;
+use Mvdnbrk\ModelExpires\ModelExpiresServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
 
 abstract class TestCase extends Orchestra
@@ -54,6 +55,7 @@ abstract class TestCase extends Orchestra
     protected function getPackageProviders($app)
     {
         return [
+            ModelExpiresServiceProvider::class,
             WarehouseServiceProvider::class,
         ];
     }

@@ -19,6 +19,7 @@ class CreateOrdersTable extends Migration
             $table->json('meta')->nullable();
             $table->string('status', 16)->default('created');
             $table->timestamps();
+            $table->expires();
             $table->softDeletes();
             $table->timestamp('fulfilled_at')->nullable();
         });

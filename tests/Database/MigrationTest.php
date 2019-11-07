@@ -48,6 +48,7 @@ class MigrationTest extends TestCase
             'status',
             'created_at',
             'updated_at',
+            'expires_at',
             'deleted_at',
             'fulfilled_at',
         ], $columns);
