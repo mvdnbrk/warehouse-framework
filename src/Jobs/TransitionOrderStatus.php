@@ -8,7 +8,6 @@ use Illuminate\Queue\SerializesModels;
 use Just\Warehouse\Models\Order;
 use Just\Warehouse\Models\States\Order\Backorder;
 use Just\Warehouse\Models\States\Order\Open;
-use Spatie\ModelStates\Exceptions\TransitionNotFound;
 
 class TransitionOrderStatus implements ShouldQueue
 {
