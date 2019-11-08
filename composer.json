@@ -19,7 +19,7 @@
         "php": "^7.2",
         "illuminate/support": "^6.0",
         "mvdnbrk/gtin": "^2.3",
-        "mvdnbrk/laravel-model-expires": "^1.1",
+        "mvdnbrk/laravel-model-expires": "^1.4",
         "spatie/laravel-model-states": "^1.4",
         "staudenmeir/eloquent-has-many-deep": "^1.11"
     },

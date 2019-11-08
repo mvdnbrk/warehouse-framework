@@ -12,7 +12,7 @@ use Just\Warehouse\Models\States\Order\Hold;
 use Just\Warehouse\Models\States\Order\Open;
 use Just\Warehouse\Models\States\Order\OrderState;
 use Just\Warehouse\Models\Transitions\Order\OpenToFulfilled;
-use Mvdnbrk\ModelExpires\Expirable;
+use Mvdnbrk\EloquentExpirable\Expirable;
 use Spatie\ModelStates\Exceptions\TransitionNotFound;
 use Spatie\ModelStates\HasStates;
 
