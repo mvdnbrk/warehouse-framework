@@ -417,10 +417,29 @@ class OrderTest extends TestCase
     /** @test */
     public function it_can_be_put_on_hold()
     {
-        $order = OrderFactory::withLines(1)->create();
+        $order = OrderFactory::withLines(1)->create([
+            'expires_at' => 10,
+        ]);
 
         $this->assertTrue($order->hold());
-        $this->assertTrue($order->status->is(Hold::class));
+
+        tap($order->fresh(), function ($order) {
+            $this->assertFalse($order->willExpire());
+            $this->assertTrue($order->status->is(Hold::class));
+        });
+    }
+
+    /** @test */
+    public function it_can_be_put_on_hold_with_an_expiration()
+    {
+        $order = OrderFactory::withLines(1)->create();
+
+        $this->assertTrue($order->hold(60));
+
+        tap($order->fresh(), function ($order) {
+            $this->assertTrue($order->willExpire());
+            $this->assertTrue($order->status->is(Hold::class));
+        });
     }
 
     /** @test */

@@ -143,15 +143,17 @@ class Order extends AbstractModel
     /**
      * Put the order on hold.
      *
+     * @param  \DateTimeInterface|\DateInterval|int|null  $ttl
      * @return bool
      */
-    public function hold()
+    public function hold($ttl = null)
     {
         if ($this->lines->isEmpty()) {
             return false;
         }
 
         try {
+            $this->setExpiresAtAttribute($ttl);
             $this->transitionTo(Hold::class);
         } catch (TransitionNotFound $e) {
             return false;
