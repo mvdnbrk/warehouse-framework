@@ -77,6 +77,7 @@ class WarehouseServiceProvider extends ServiceProvider
                 Console\Commands\InstallCommand::class,
                 Console\Commands\MigrateCommand::class,
                 Console\Commands\MakeLocationCommand::class,
+                Console\Commands\OrdersUnholdCommand::class,
             ]);
         }
     }

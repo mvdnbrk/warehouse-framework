@@ -9,6 +9,12 @@ class OrderFactory
 {
     public $gtins = [];
     protected $states = [];
+    protected $expiration = 0;
+
+    public function make(array $overrides = [])
+    {
+        return factory(Order::class)->make($overrides);
+    }
 
     public function state($value)
     {
@@ -21,20 +27,11 @@ class OrderFactory
         return $this;
     }
 
-    protected function states($value)
+    public function withExpiration($ttl = 600)
     {
-        $this->states = is_array($value) ? $value : func_get_args();
+        $this->expiration = $ttl;
 
         return $this;
-    }
-
-    protected function shouldCreateInventory()
-    {
-        if (in_array('fulfilled', $this->states) || in_array('open', $this->states)) {
-            return true;
-        }
-
-        return false;
     }
 
     public function withLines($value)
@@ -54,7 +51,11 @@ class OrderFactory
 
     public function create(array $overrides = [])
     {
-        $order = factory(Order::class)->states($this->states)->create($overrides);
+        $order = factory(Order::class)->states($this->states)->create(
+            array_merge([
+                'expires_at' => $this->expiration
+            ], $overrides)
+        );
 
         foreach ($this->gtins as $gtin) {
             factory(OrderLine::class)->create([
@@ -74,7 +75,7 @@ class OrderFactory
         $order->process();
 
         if (in_array('hold', $this->states)) {
-            $order->hold();
+            $order->fresh()->hold($this->expiration);
         }
 
         if (in_array('fulfilled', $this->states)) {
@@ -88,8 +89,19 @@ class OrderFactory
         return $order->fresh();
     }
 
-    public function make(array $overrides = [])
+    protected function states($value)
     {
-        return factory(Order::class)->make($overrides);
+        $this->states = is_array($value) ? $value : func_get_args();
+
+        return $this;
+    }
+
+    protected function shouldCreateInventory()
+    {
+        if (in_array('fulfilled', $this->states) || in_array('open', $this->states)) {
+            return true;
+        }
+
+        return false;
     }
 }
