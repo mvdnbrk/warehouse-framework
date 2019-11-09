@@ -215,6 +215,7 @@ class Order extends AbstractModel
                 return $line->inventory->makeHidden([
                     'id',
                     'location_id',
+                    'reservation',
                 ]);
             })
             ->groupBy([
