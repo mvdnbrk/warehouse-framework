@@ -10,4 +10,14 @@ class Hold extends OrderState
      * @var string
      */
     public static $name = 'hold';
+
+    /**
+     * Get the displayable label of the state.
+     *
+     * @return string
+     */
+    public function label()
+    {
+        return 'on hold';
+    }
 }

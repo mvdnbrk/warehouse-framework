@@ -10,4 +10,14 @@ class Backorder extends OrderState
      * @var string
      */
     public static $name = 'backorder';
+
+    /**
+     * Get the displayable label of the state.
+     *
+     * @return string
+     */
+    public function label()
+    {
+        return 'in backorder';
+    }
 }
