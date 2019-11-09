@@ -53,7 +53,7 @@ class OrderFactory
     {
         $order = factory(Order::class)->states($this->states)->create(
             array_merge([
-                'expires_at' => $this->expiration
+                'expires_at' => $this->expiration,
             ], $overrides)
         );
 
