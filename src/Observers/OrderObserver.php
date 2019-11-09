@@ -65,6 +65,7 @@ class OrderObserver
         });
 
         $order->update([
+            'expires_at' => 0,
             'status' => Deleted::class,
         ]);
     }

@@ -163,15 +163,21 @@ class OrderTest extends TestCase
     /** @test */
     public function it_can_be_soft_deleted()
     {
-        $order = OrderFactory::create();
+        $order = OrderFactory::create([
+            'expires_at' => 10,
+        ]);
         $line = $order->addLine('1300000000000');
+        $this->assertTrue($order->willExpire());
 
         $this->assertTrue($order->delete());
 
         $this->assertCount(0, Order::all());
         $this->assertCount(0, Reservation::all());
-        $this->assertCount(1, Order::withTrashed()->get());
-        $this->assertTrue($order->fresh()->status->is(Deleted::class));
+        tap($order->fresh(), function ($order) {
+            $this->assertTrue($order->status->is(Deleted::class));
+            $this->assertTrue($order->trashed());
+            $this->assertFalse($order->willExpire());
+        });
         tap($line->fresh(), function ($line) {
             $this->assertFalse($line->isReserved());
             $this->assertFalse($line->isFulfilled());
