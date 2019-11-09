@@ -50,7 +50,7 @@
             "Just\\Warehouse\\Tests\\": "tests"
         },
         "classmap": [
-            "database"
+            "database/model-factories"
         ]
     },
     "minimum-stability": "dev",
