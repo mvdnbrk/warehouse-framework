@@ -278,13 +278,21 @@ class OrderTest extends TestCase
     public function it_can_be_processed()
     {
         $location = LocationFactory::withInventory('1300000000000')->create();
-        $order = OrderFactory::withLines('1300000000000')->create();
+        $order = OrderFactory::withLines('1300000000000')->create([
+            'expires_at' => 10,
+        ]);
 
-        $this->assertTrue($order->fresh()->status->is(Created::class));
+        tap($order->fresh(), function ($order) {
+            $this->assertTrue($order->willExpire());
+            $this->assertTrue($order->status->is(Created::class));
+        });
 
         $order->process();
 
-        $this->assertTrue($order->fresh()->status->is(Open::class));
+        tap($order->fresh(), function ($order) {
+            $this->assertFalse($order->willExpire());
+            $this->assertTrue($order->status->is(Open::class));
+        });
     }
 
     /** @test */
