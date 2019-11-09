@@ -298,11 +298,16 @@ class OrderTest extends TestCase
     /** @test */
     public function it_can_be_processed_with_unfilfilled_order_lines_which_results_in_status_backorder()
     {
-        $order = OrderFactory::withLines(1)->create();
+        $order = OrderFactory::withLines(1)->create([
+            'expires_at' => 10,
+        ]);
 
         $order->process();
 
-        $this->assertTrue($order->fresh()->status->is(Backorder::class));
+        tap($order->fresh(), function ($order) {
+            $this->assertFalse($order->willExpire());
+            $this->assertTrue($order->status->is(Backorder::class));
+        });
     }
 
     /** @test */
