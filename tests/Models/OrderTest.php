@@ -398,7 +398,7 @@ class OrderTest extends TestCase
     /** @test */
     public function it_can_be_put_on_hold()
     {
-        $order = OrderFactory::create();
+        $order = OrderFactory::withLines(1)->create();
 
         $this->assertTrue($order->hold());
         $this->assertTrue($order->status->is(Hold::class));
@@ -420,6 +420,15 @@ class OrderTest extends TestCase
 
         $this->assertTrue($order->hold());
         $this->assertTrue($order->status->is(Hold::class));
+    }
+
+    /** @test */
+    public function an_order_without_order_lines_can_not_be_put_on_hold()
+    {
+        $order = OrderFactory::create();
+
+        $this->assertFalse($order->hold());
+        $this->assertTrue($order->fresh()->status->is(Created::class));
     }
 
     /** @test */

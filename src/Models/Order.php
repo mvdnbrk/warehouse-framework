@@ -147,6 +147,10 @@ class Order extends AbstractModel
      */
     public function hold()
     {
+        if ($this->lines->isEmpty()) {
+            return false;
+        }
+
         try {
             $this->transitionTo(Hold::class);
         } catch (TransitionNotFound $e) {
