@@ -25,7 +25,6 @@
     },
     "require-dev": {
         "nunomaduro/collision": "^3.0",
-        "nunomaduro/larastan": "^0.4",
         "orchestra/testbench": "^4.0",
         "phpunit/phpunit": "^8.0",
         "scrutinizer/ocular": "^1.5"
