@@ -253,7 +253,7 @@ class OrderTest extends TestCase
             $order->forceDelete();
         } catch (LogicException $e) {
             $this->assertEquals('An order can not be force deleted.', $e->getMessage());
-            tap ($order->fresh(), function ($order) {
+            tap($order->fresh(), function ($order) {
                 $this->assertTrue($order->status->is(Created::class));
                 $this->assertFalse($order->trashed());
             });
