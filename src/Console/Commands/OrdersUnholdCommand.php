@@ -32,7 +32,9 @@ class OrdersUnholdCommand extends Command
         $orders = Order::whereState('status', Hold::class)->onlyExpired()->get();
 
         if ($orders->isEmpty()) {
-            return $this->info('Nothing to un-hold.');
+            $this->info('Nothing to un-hold.');
+
+            return;
         }
 
         $this->info('Number of orders that will be placed back in process: '.$orders->count());
