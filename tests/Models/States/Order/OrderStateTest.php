@@ -15,9 +15,6 @@ class OrderStateTest extends TestCase
 {
     protected $model;
 
-    /**
-     * This method is called before each test.
-     */
     protected function setUp(): void
     {
         $this->model = new Order;
