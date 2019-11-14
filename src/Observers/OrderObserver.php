@@ -18,6 +18,8 @@ class OrderObserver
      *
      * @param  \Just\Warehouse\Models\Order  $order
      * @return void
+     *
+     * @throws \InvalidOrderNumberException
      */
     public function creating(Order $order)
     {
@@ -44,6 +46,8 @@ class OrderObserver
      *
      * @param  \Just\Warehouse\Models\Order  $order
      * @return void
+     *
+     * @throws \LogicException
      */
     public function deleting(Order $order)
     {

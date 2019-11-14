@@ -12,6 +12,8 @@ class LocationObserver
      *
      * @param  \Just\Warehouse\Models\Location  $location
      * @return void
+     *
+     * @throws \LogicException
      */
     public function deleting(Location $location)
     {

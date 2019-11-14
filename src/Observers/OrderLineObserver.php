@@ -15,6 +15,8 @@ class OrderLineObserver
      *
      * @param  \Just\Warehouse\Models\OrderLine  $line
      * @return void
+     *
+     * @throws \InvalidGtinException
      */
     public function creating(OrderLine $line)
     {
@@ -50,6 +52,8 @@ class OrderLineObserver
      *
      * @param  \Just\Warehouse\Models\OrderLine  $line
      * @return void
+     *
+     * @throws \LogicException
      */
     public function updating(OrderLine $line)
     {
