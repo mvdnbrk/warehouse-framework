@@ -5,7 +5,6 @@ namespace Just\Warehouse\Tests\Model\States\Order;
 use Facades\OrderFactory;
 use Just\Warehouse\Tests\TestCase;
 
-
 class DetermineOrderStateTest extends TestCase
 {
     /** @test */
