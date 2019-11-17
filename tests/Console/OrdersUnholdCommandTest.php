@@ -20,7 +20,7 @@ class OrdersUnholdCommandTest extends TestCase
             ->assertExitCode(0);
 
         tap($order->fresh(), function ($order) {
-            $this->assertFalse($order->isHold());
+            $this->assertFalse($order->status->isHold());
             $this->assertFalse($order->willExpire());
         });
     }
@@ -35,7 +35,7 @@ class OrdersUnholdCommandTest extends TestCase
             ->assertExitCode(0);
 
         tap($order->fresh(), function ($order) {
-            $this->assertTrue($order->isHold());
+            $this->assertTrue($order->status->isHold());
             $this->assertTrue($order->willExpire());
         });
     }
@@ -54,7 +54,7 @@ class OrdersUnholdCommandTest extends TestCase
         Carbon::setTestNow();
 
         tap($order->fresh(), function ($order) {
-            $this->assertTrue($order->isCreated());
+            $this->assertTrue($order->status->isCreated());
             $this->assertTrue($order->willExpire());
         });
     }

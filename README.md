@@ -138,15 +138,15 @@ $order->unhold();
 
 ### Order status
 
-You can determine the status of an order with the following methods:
+You can determine the status of an order with the following methods on the `status` property:
 
 ```php
-$order->isCreated();
-$order->isOpen();
-$order->isBackorder();
-$order->isHold();
-$order->isFulfilled();
-$order->isDeleted();
+$order->status->isCreated();
+$order->status->isOpen();
+$order->status->isBackorder();
+$order->status->isHold();
+$order->status->isFulfilled();
+$order->status->isDeleted();
 ```
 
 

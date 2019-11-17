@@ -18,12 +18,6 @@ use Just\Warehouse\Models\Inventory;
 use Just\Warehouse\Models\Order;
 use Just\Warehouse\Models\OrderLine;
 use Just\Warehouse\Models\Reservation;
-use Just\Warehouse\Models\States\Order\Backorder;
-use Just\Warehouse\Models\States\Order\Created;
-use Just\Warehouse\Models\States\Order\Deleted;
-use Just\Warehouse\Models\States\Order\Fulfilled;
-use Just\Warehouse\Models\States\Order\Hold;
-use Just\Warehouse\Models\States\Order\Open;
 use Just\Warehouse\Tests\TestCase;
 use LogicException;
 use Spatie\ModelStates\Exceptions\TransitionNotFound;
@@ -59,7 +53,7 @@ class OrderTest extends TestCase
     {
         $order = OrderFactory::create(['status' => Open::class]);
 
-        $this->assertTrue($order->status->is(Created::class));
+        $this->assertTrue($order->status->isCreated());
     }
 
     /** @test */
@@ -156,7 +150,7 @@ class OrderTest extends TestCase
         Event::assertDispatched(OrderStatusUpdated::class, function ($event) use ($order) {
             return $event->order->is($order)
                 && $event->originalStatus == 'created'
-                && $event->order->status->is(Backorder::class);
+                && $event->order->status->isBackorder();
         });
     }
 
@@ -174,7 +168,7 @@ class OrderTest extends TestCase
         $this->assertCount(0, Order::all());
         $this->assertCount(0, Reservation::all());
         tap($order->fresh(), function ($order) {
-            $this->assertTrue($order->status->is(Deleted::class));
+            $this->assertTrue($order->status->isDeleted());
             $this->assertTrue($order->trashed());
             $this->assertFalse($order->willExpire());
         });
@@ -213,7 +207,7 @@ class OrderTest extends TestCase
 
         $this->assertTrue($order->restore());
 
-        $this->assertTrue($order->fresh()->status->is(Created::class));
+        $this->assertTrue($order->fresh()->status->isCreated());
         $this->assertCount(1, Order::all());
         $this->assertCount(1, Reservation::all());
         $this->assertCount(0, Order::onlyTrashed()->get());
@@ -254,7 +248,7 @@ class OrderTest extends TestCase
         } catch (LogicException $e) {
             $this->assertEquals('An order can not be force deleted.', $e->getMessage());
             tap($order->fresh(), function ($order) {
-                $this->assertTrue($order->status->is(Created::class));
+                $this->assertTrue($order->status->isCreated());
                 $this->assertFalse($order->trashed());
             });
 
@@ -269,11 +263,11 @@ class OrderTest extends TestCase
     {
         $order = OrderFactory::withLines('1300000000000')->create();
 
-        $this->assertTrue($order->status->is(Created::class));
+        $this->assertTrue($order->status->isCreated());
 
         LocationFactory::withInventory('1300000000000')->create();
 
-        $this->assertTrue($order->fresh()->status->is(Created::class));
+        $this->assertTrue($order->fresh()->status->isCreated());
     }
 
     /** @test */
@@ -286,14 +280,14 @@ class OrderTest extends TestCase
 
         tap($order->fresh(), function ($order) {
             $this->assertTrue($order->willExpire());
-            $this->assertTrue($order->status->is(Created::class));
+            $this->assertTrue($order->status->isCreated());
         });
 
         $order->process();
 
         tap($order->fresh(), function ($order) {
             $this->assertFalse($order->willExpire());
-            $this->assertTrue($order->status->is(Open::class));
+            $this->assertTrue($order->status->isOpen());
         });
     }
 
@@ -308,7 +302,7 @@ class OrderTest extends TestCase
 
         tap($order->fresh(), function ($order) {
             $this->assertFalse($order->willExpire());
-            $this->assertTrue($order->status->is(Backorder::class));
+            $this->assertTrue($order->status->isBackorder());
         });
     }
 
@@ -320,7 +314,7 @@ class OrderTest extends TestCase
 
         tap($order->fresh(), function ($order) {
             $order->markAsFulfilled();
-            $this->assertTrue($order->status->is(Fulfilled::class));
+            $this->assertTrue($order->status->isFulfilled());
             $this->assertEquals('2019-10-11 12:34:56', $order->fulfilled_at);
         });
         $this->assertTrue(Inventory::withTrashed()->first()->trashed());
@@ -335,7 +329,7 @@ class OrderTest extends TestCase
         try {
             $order->markAsFulfilled();
         } catch (TransitionNotFound $e) {
-            $this->assertTrue($order->status->is(Created::class));
+            $this->assertTrue($order->status->isCreated());
             $this->assertNull($order->fulfilled_at);
             Event::assertNotDispatched(OrderFulfilled::class);
 
@@ -427,7 +421,7 @@ class OrderTest extends TestCase
 
         tap($order->fresh(), function ($order) {
             $this->assertFalse($order->willExpire());
-            $this->assertTrue($order->status->is(Hold::class));
+            $this->assertTrue($order->status->isHold());
         });
     }
 
@@ -440,7 +434,7 @@ class OrderTest extends TestCase
 
         tap($order->fresh(), function ($order) {
             $this->assertTrue($order->willExpire());
-            $this->assertTrue($order->status->is(Hold::class));
+            $this->assertTrue($order->status->isHold());
         });
     }
 
@@ -450,7 +444,8 @@ class OrderTest extends TestCase
         $order = OrderFactory::state('open')->create();
 
         $this->assertTrue($order->hold());
-        $this->assertTrue($order->status->is(Hold::class));
+
+        $this->assertTrue($order->status->isHold());
     }
 
     /** @test */
@@ -459,7 +454,8 @@ class OrderTest extends TestCase
         $order = OrderFactory::state('backorder')->create();
 
         $this->assertTrue($order->hold());
-        $this->assertTrue($order->status->is(Hold::class));
+
+        $this->assertTrue($order->status->isHold());
     }
 
     /** @test */
@@ -468,7 +464,8 @@ class OrderTest extends TestCase
         $order = OrderFactory::create();
 
         $this->assertFalse($order->hold());
-        $this->assertTrue($order->fresh()->status->is(Created::class));
+
+        $this->assertTrue($order->fresh()->status->isCreated());
     }
 
     /** @test */
@@ -478,7 +475,8 @@ class OrderTest extends TestCase
         $order->hold();
 
         $this->assertTrue($order->unhold());
-        $this->assertTrue($order->fresh()->status->is(Open::class));
+
+        $this->assertTrue($order->fresh()->status->isOpen());
     }
 
     /** @test */
@@ -488,7 +486,7 @@ class OrderTest extends TestCase
         $order->delete();
 
         $this->assertFalse($order->unhold());
-        $this->assertTrue($order->fresh()->status->is(Deleted::class));
+        $this->assertTrue($order->fresh()->status->isDeleted());
     }
 
     /** @test */
@@ -498,54 +496,6 @@ class OrderTest extends TestCase
         $order->hold();
 
         $this->assertTrue($order->unhold());
-        $this->assertTrue($order->fresh()->status->is(Backorder::class));
-    }
-
-    /** @test */
-    public function it_can_determine_if_the_status_is_created()
-    {
-        $order = OrderFactory::create();
-
-        $this->assertTrue($order->isCreated());
-    }
-
-    /** @test */
-    public function it_can_determine_if_the_status_is_backorder()
-    {
-        $order = OrderFactory::state('backorder')->create();
-
-        $this->assertTrue($order->isBackorder());
-    }
-
-    /** @test */
-    public function it_can_determine_if_the_status_is_open()
-    {
-        $order = OrderFactory::state('open')->create();
-
-        $this->assertTrue($order->isOpen());
-    }
-
-    /** @test */
-    public function it_can_determine_if_the_status_is_fulfilled()
-    {
-        $order = OrderFactory::state('fulfilled')->create();
-
-        $this->assertTrue($order->isFulfilled());
-    }
-
-    /** @test */
-    public function it_can_determine_if_the_status_is_hold()
-    {
-        $order = OrderFactory::state('hold')->create();
-
-        $this->assertTrue($order->isHold());
-    }
-
-    /** @test */
-    public function it_can_determine_if_the_status_is_deleted()
-    {
-        $order = OrderFactory::state('deleted')->create();
-
-        $this->assertTrue($order->isDeleted());
+        $this->assertTrue($order->fresh()->status->isBackorder());
     }
 }
