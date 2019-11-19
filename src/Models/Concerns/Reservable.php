@@ -12,16 +12,6 @@ use Just\Warehouse\Models\Reservation;
 trait Reservable
 {
     /**
-     * Initialize the reservable trait for a model.
-     *
-     * @return void
-     */
-    public function initializeReservable()
-    {
-        $this->with[] = 'reservation';
-    }
-
-    /**
      * It has a reservation.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasOne

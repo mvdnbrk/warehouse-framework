@@ -36,15 +36,6 @@ class OrderLine extends AbstractModel
     public $timestamps = false;
 
     /**
-     * The relations to eager load on every query.
-     *
-     * @var array
-     */
-    protected $with = [
-        'location',
-    ];
-
-    /**
      * It belongs to an order.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
