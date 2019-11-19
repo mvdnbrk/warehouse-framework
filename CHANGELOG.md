@@ -42,7 +42,8 @@ All notable changes to `warehouse-framework` will be documented in this file.
 
 ## v0.1.0 - 2019-06-08
 
-[Unreleased]: https://github.com/mvdnbrk/warehouse-framework/compare/v0.11.1...HEAD
+[Unreleased]: https://github.com/mvdnbrk/warehouse-framework/compare/v0.11.2...HEAD
+[v0.11.2]: https://github.com/mvdnbrk/warehouse-framework/compare/v0.11.1...v0.11.2
 [v0.11.1]: https://github.com/mvdnbrk/warehouse-framework/compare/v0.11.0...v0.11.1
 [v0.11.0]: https://github.com/mvdnbrk/warehouse-framework/compare/v0.10.6...v0.11.0
 [v0.10.6]: https://github.com/mvdnbrk/warehouse-framework/compare/v0.10.5...v0.10.6
