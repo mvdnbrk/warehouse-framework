@@ -47,9 +47,15 @@ class OrderLineObserver
      *
      * @param  \Just\Warehouse\Models\OrderLine  $line
      * @return void
+     *
+     * @throws \LogicException
      */
     public function deleting(OrderLine $line)
     {
+        if (! $line->order->status->isOneOf([Created::class, Hold::class])) {
+            throw new LogicException('This order line can not be deleted.');
+        }
+
         ReleaseOrderLine::dispatchNow($line);
     }
 
