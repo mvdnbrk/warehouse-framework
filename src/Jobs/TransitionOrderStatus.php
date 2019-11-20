@@ -43,7 +43,7 @@ class TransitionOrderStatus implements ShouldQueue
     public function __construct(Order $order)
     {
         $this->order = $order;
-        $this->newStatus = Open::class;
+        $this->newStatus = new Open($this->order);
     }
 
     /**
@@ -59,7 +59,7 @@ class TransitionOrderStatus implements ShouldQueue
 
         $this->order->lines->each(function ($line) {
             if (! $line->isFulfilled()) {
-                $this->newStatus = Backorder::class;
+                $this->newStatus = new Backorder($this->order);
 
                 return false;
             }
