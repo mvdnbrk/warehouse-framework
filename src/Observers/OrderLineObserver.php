@@ -19,6 +19,7 @@ class OrderLineObserver
      * @return void
      *
      * @throws \InvalidGtinException
+     * @throws \LogicException
      */
     public function creating(OrderLine $line)
     {
