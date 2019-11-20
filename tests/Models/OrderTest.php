@@ -361,6 +361,28 @@ class OrderTest extends TestCase
     }
 
     /** @test */
+    public function processing_an_order_without_order_lines_keeps_the_order_status_to_created()
+    {
+        $order = OrderFactory::create();
+        $this->assertTrue($order->status->isCreated());
+
+        $order->process();
+
+        $this->assertTrue($order->fresh()->status->isCreated());
+    }
+
+    /** @test */
+    public function processing_an_order_with_status_open_keeps_the_status_to_open()
+    {
+        $order = OrderFactory::state('open')->create();
+        $this->assertTrue($order->status->isOpen());
+
+        $order->process();
+
+        $this->assertTrue($order->fresh()->status->isOpen());
+    }
+
+    /** @test */
     public function it_can_be_processed_with_unfilfilled_order_lines_which_results_in_status_backorder()
     {
         $order = OrderFactory::withLines(1)->create([
