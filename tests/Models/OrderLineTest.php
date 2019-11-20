@@ -217,6 +217,52 @@ class OrderLineTest extends TestCase
     }
 
     /** @test */
+    public function it_can_be_deleted_when_order_status_is_hold()
+    {
+        $order = OrderFactory::state('hold')->withLines(1)->create();
+
+        $this->assertTrue($order->lines->first()->delete());
+    }
+
+    /** @test */
+    public function it_can_not_be_deleted_when_order_status_is_open()
+    {
+        $order = OrderFactory::state('open')->withLines(1)->create();
+
+        $this->assertTrue($order->status->isOpen());
+
+        try {
+            $order->lines->first()->delete();
+        } catch (LogicException $e) {
+            $this->assertEquals('This order line can not be deleted.', $e->getMessage());
+            $this->assertCount(1, $order->lines);
+
+            return;
+        }
+
+        $this->fail('Deleting an order line of an order with status `open` succeeded.');
+    }
+
+    /** @test */
+    public function it_can_not_be_deleted_when_order_status_is_fulfilled()
+    {
+        $order = OrderFactory::state('fulfilled')->withLines(1)->create();
+
+        $this->assertTrue($order->status->isFulfilled());
+
+        try {
+            $order->lines->first->delete();
+        } catch (LogicException $e) {
+            $this->assertEquals('This order line can not be deleted.', $e->getMessage());
+            $this->assertCount(1, $order->lines);
+
+            return;
+        }
+
+        $this->fail('Deleting an order line of an order with status `fulfilled` succeeded.');
+    }
+
+    /** @test */
     public function it_can_be_reserved()
     {
         $line = OrderLineFactory::create(['id' => '1234']);
