@@ -63,12 +63,11 @@ class OrderLineObserver
     /**
      * Handle the OrderLine "updating" event.
      *
-     * @param  \Just\Warehouse\Models\OrderLine  $line
      * @return void
      *
      * @throws \LogicException
      */
-    public function updating(OrderLine $line)
+    public function updating()
     {
         throw new LogicException('An order line can not be updated.');
     }
