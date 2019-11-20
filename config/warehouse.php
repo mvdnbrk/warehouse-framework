@@ -13,6 +13,7 @@ return [
     | may change this to anything you want.
     |
     */
+
     'database_connection' => env('WAREHOUSE_DB_CONNECTION', 'warehouse'),
 
 ];
