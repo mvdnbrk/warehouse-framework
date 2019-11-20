@@ -91,7 +91,7 @@ class OrderLineTest extends TestCase
     }
 
     /** @test */
-    public function once_it_has_been_created_the_gtin_can_not_be_altered()
+    public function once_it_has_been_created_the_gtin_attribute_can_not_be_updated()
     {
         $line = OrderLineFactory::create([
             'gtin' => '1300000000000',
@@ -102,17 +102,17 @@ class OrderLineTest extends TestCase
                 'gtin' => '14000000000003',
             ]);
         } catch (LogicException $e) {
-            $this->assertEquals('The GTIN attribute can not be changed.', $e->getMessage());
+            $this->assertEquals('An order line can not be updated.', $e->getMessage());
             $this->assertEquals('1300000000000', $line->fresh()->gtin);
 
             return;
         }
 
-        $this->fail('The GTIN attribute has changed.');
+        $this->fail('The GTIN attribute has been updated.');
     }
 
     /** @test */
-    public function once_it_has_been_created_the_order_id_can_not_be_altered()
+    public function once_it_has_been_created_the_order_id_attribute_can_not_be_updated()
     {
         $order = OrderFactory::create([
             'id' => 111,
@@ -124,13 +124,13 @@ class OrderLineTest extends TestCase
                 'order_id' => 999,
             ]);
         } catch (LogicException $e) {
-            $this->assertEquals('The order ID attribute can not be changed.', $e->getMessage());
+            $this->assertEquals('An order line can not be updated.', $e->getMessage());
             $this->assertSame(111, $line->fresh()->order_id);
 
             return;
         }
 
-        $this->fail('The order ID attribute has changed.');
+        $this->fail('The order ID attribute has been updated.');
     }
 
     /** @test */

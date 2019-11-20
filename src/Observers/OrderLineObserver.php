@@ -57,12 +57,6 @@ class OrderLineObserver
      */
     public function updating(OrderLine $line)
     {
-        if ($line->gtin !== $line->getOriginal('gtin')) {
-            throw new LogicException('The GTIN attribute can not be changed.');
-        }
-
-        if ($line->order_id !== $line->getOriginal('order_id')) {
-            throw new LogicException('The order ID attribute can not be changed.');
-        }
+        throw new LogicException('An order line can not be updated.');
     }
 }
