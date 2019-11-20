@@ -90,6 +90,18 @@ class OrderTest extends TestCase
     }
 
     /** @test */
+    public function it_can_add_an_order_line_when_status_is_on_hold()
+    {
+        $order = OrderFactory::state('hold')->withLines(1)->create();
+        $this->assertTrue($order->status->isHold());
+
+        $line = $order->addLine('1300000000000');
+
+        $this->assertInstanceOf(OrderLine::class, $line);
+        $this->assertCount(2, OrderLine::all());
+    }
+
+    /** @test */
     public function it_can_add_multiple_order_lines()
     {
         Event::fake(OrderLineCreated::class);
