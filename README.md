@@ -84,7 +84,7 @@ $location->moveMany([
 ], $location2);
 ```
 
-**note**: If you are trying to move many items at once and a failure occurs, an exception will be thrown and none of the items will be moved from one location to another.
+> **note**: If you are trying to move many items at once and a failure occurs, an exception will be thrown and none of the items will be moved from one location to another.
 
 Remove inventory from a location:
 
@@ -117,6 +117,9 @@ $order->addLine('1300000000000');
 $order->addLine('1234567890005', 2);
 $order->addLine(...);
 ```
+
+> **note**: You can only add order lines when the status of an order is either `created` or `hold`.  
+> The same is true if you try to delete an order line.
 
 Process the order:
 
