@@ -153,58 +153,58 @@ class OrderTest extends TestCase
     /** @test */
     public function it_can_not_add_an_order_line_when_status_is_open()
     {
-         $order = OrderFactory::state('open')->withLines(1)->create();
+        $order = OrderFactory::state('open')->withLines(1)->create();
 
-         $this->assertTrue($order->status->isOpen());
+        $this->assertTrue($order->status->isOpen());
 
-         try {
+        try {
             $order->addLine('1300000000000');
-         }  catch (LogicException $e) {
+        } catch (LogicException $e) {
             $this->assertEquals('An order line can not be created.', $e->getMessage());
             $this->assertCount(1, $order->lines);
 
             return;
-         }
+        }
 
-         $this->fail('Adding an order line to an order with status `open` succeeded.');
+        $this->fail('Adding an order line to an order with status `open` succeeded.');
     }
 
     /** @test */
     public function it_can_not_add_an_order_line_when_status_is_fulfilled()
     {
-         $order = OrderFactory::state('fulfilled')->withLines(1)->create();
+        $order = OrderFactory::state('fulfilled')->withLines(1)->create();
 
-         $this->assertTrue($order->status->isFulfilled());
+        $this->assertTrue($order->status->isFulfilled());
 
-         try {
+        try {
             $order->addLine('1300000000000');
-         }  catch (LogicException $e) {
+        } catch (LogicException $e) {
             $this->assertEquals('An order line can not be created.', $e->getMessage());
             $this->assertCount(1, $order->lines);
 
             return;
-         }
+        }
 
-         $this->fail('Adding an order line to an order with status `fulfilled` succeeded.');
+        $this->fail('Adding an order line to an order with status `fulfilled` succeeded.');
     }
 
     /** @test */
     public function it_can_not_add_an_order_line_when_status_is_deleted()
     {
-         $order = OrderFactory::state('deleted')->withLines(1)->create();
+        $order = OrderFactory::state('deleted')->withLines(1)->create();
 
-         $this->assertTrue($order->status->isDeleted());
+        $this->assertTrue($order->status->isDeleted());
 
-         try {
+        try {
             $order->addLine('1300000000000');
-         }  catch (LogicException $e) {
+        } catch (LogicException $e) {
             $this->assertEquals('An order line can not be created.', $e->getMessage());
             $this->assertCount(1, $order->lines);
 
             return;
-         }
+        }
 
-         $this->fail('Adding an order line to an order with status `deleted` succeeded.');
+        $this->fail('Adding an order line to an order with status `deleted` succeeded.');
     }
 
     /** @test */

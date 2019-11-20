@@ -4,7 +4,6 @@ namespace Just\Warehouse\Models;
 
 use Just\Warehouse\Events\OrderLineReplaced;
 use Just\Warehouse\Models\States\Order\Hold;
-use Just\Warehouse\Models\States\Order\Open;
 use LogicException;
 use Staudenmeir\EloquentHasManyDeep\HasRelationships;
 
