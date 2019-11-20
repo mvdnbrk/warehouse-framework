@@ -159,7 +159,7 @@ class OrderLineTest extends TestCase
 
         $this->assertTrue($order->fresh()->status->is(Open::class));
 
-        $newLine = $line->replace();
+        $newLine = $line->fresh()->replace();
 
         $this->assertCount(0, Inventory::all());
         tap($inventory->fresh(), function ($inventory) {

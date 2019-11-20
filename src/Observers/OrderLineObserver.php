@@ -6,6 +6,8 @@ use Just\Warehouse\Events\OrderLineCreated;
 use Just\Warehouse\Exceptions\InvalidGtinException;
 use Just\Warehouse\Jobs\ReleaseOrderLine;
 use Just\Warehouse\Models\OrderLine;
+use Just\Warehouse\Models\States\Order\Created;
+use Just\Warehouse\Models\States\Order\Hold;
 use LogicException;
 
 class OrderLineObserver
@@ -22,6 +24,10 @@ class OrderLineObserver
     {
         if (! is_gtin($line->gtin)) {
             throw new InvalidGtinException;
+        }
+
+        if (! $line->order->status->isOneOf([Created::class, Hold::class])) {
+            throw new LogicException('An order line can not be created.');
         }
     }
 

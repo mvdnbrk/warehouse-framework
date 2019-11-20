@@ -139,6 +139,63 @@ class OrderTest extends TestCase
     }
 
     /** @test */
+    public function it_can_not_add_an_order_line_when_status_is_open()
+    {
+         $order = OrderFactory::state('open')->withLines(1)->create();
+
+         $this->assertTrue($order->status->isOpen());
+
+         try {
+            $order->addLine('1300000000000');
+         }  catch (LogicException $e) {
+            $this->assertEquals('An order line can not be created.', $e->getMessage());
+            $this->assertCount(1, $order->lines);
+
+            return;
+         }
+
+         $this->fail('Adding an order line to an order with status `open` succeeded.');
+    }
+
+    /** @test */
+    public function it_can_not_add_an_order_line_when_status_is_fulfilled()
+    {
+         $order = OrderFactory::state('fulfilled')->withLines(1)->create();
+
+         $this->assertTrue($order->status->isFulfilled());
+
+         try {
+            $order->addLine('1300000000000');
+         }  catch (LogicException $e) {
+            $this->assertEquals('An order line can not be created.', $e->getMessage());
+            $this->assertCount(1, $order->lines);
+
+            return;
+         }
+
+         $this->fail('Adding an order line to an order with status `fulfilled` succeeded.');
+    }
+
+    /** @test */
+    public function it_can_not_add_an_order_line_when_status_is_deleted()
+    {
+         $order = OrderFactory::state('deleted')->withLines(1)->create();
+
+         $this->assertTrue($order->status->isDeleted());
+
+         try {
+            $order->addLine('1300000000000');
+         }  catch (LogicException $e) {
+            $this->assertEquals('An order line can not be created.', $e->getMessage());
+            $this->assertCount(1, $order->lines);
+
+            return;
+         }
+
+         $this->fail('Adding an order line to an order with status `deleted` succeeded.');
+    }
+
+    /** @test */
     public function it_dispatches_an_order_status_updated_event_when_the_status_has_changed()
     {
         Event::fake(OrderStatusUpdated::class);

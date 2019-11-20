@@ -3,6 +3,7 @@
 namespace Just\Warehouse\Models;
 
 use Just\Warehouse\Events\OrderLineReplaced;
+use Just\Warehouse\Models\States\Order\Hold;
 use Just\Warehouse\Models\States\Order\Open;
 use LogicException;
 use Staudenmeir\EloquentHasManyDeep\HasRelationships;
@@ -88,11 +89,15 @@ class OrderLine extends AbstractModel
             throw new LogicException('This order line can not be replaced.');
         }
 
+        if ($this->order->status->isOpen()) {
+            $this->order->status->transitionTo(Hold::class);
+        }
+
         return tap($this->order->addLine($this->gtin), function ($line) {
             $this->inventory->delete();
             $this->delete();
 
-            if ($this->order->status->is(Open::class)) {
+            if ($this->order->status->isHold()) {
                 $this->order->process();
             }
 
