@@ -42,6 +42,18 @@ class OrderLineTest extends TestCase
     }
 
     /** @test */
+    public function it_can_retrieve_a_soft_deleted_order_relation()
+    {
+        $order = OrderFactory::create();
+        $line = $order->addLine('1300000000000');
+
+        $order->delete();
+        $this->assertTrue($order->status->isDeleted());
+
+        $this->assertTrue($line->fresh()->order->is($order));
+    }
+
+    /** @test */
     public function it_has_a_reservation()
     {
         $line = OrderLineFactory::create();
