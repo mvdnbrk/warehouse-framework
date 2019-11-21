@@ -4,6 +4,7 @@ namespace Just\Warehouse\Models;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
 use LogicException;
+use Staudenmeir\EloquentHasManyDeep\HasRelationships;
 
 /**
  * @property int $id
@@ -16,8 +17,9 @@ use LogicException;
  */
 class Inventory extends AbstractModel
 {
-    use SoftDeletes,
-        Concerns\Reservable;
+    use Concerns\Reservable,
+        HasRelationships,
+        SoftDeletes;
 
     /**
      * The attributes that should be cast to native types.
@@ -45,6 +47,19 @@ class Inventory extends AbstractModel
     public function location()
     {
         return $this->belongsTo(Location::class);
+    }
+
+    /**
+     * It has an order through the orderline relation.
+     *
+     * @return \Staudenmeir\EloquentHasManyDeep\HasOneDeep
+     */
+    public function order()
+    {
+        return $this->hasOneDeepFromRelations(
+                $this->orderline(),
+                (new OrderLine)->order()
+            );
     }
 
     /**

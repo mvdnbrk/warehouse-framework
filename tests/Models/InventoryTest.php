@@ -4,6 +4,7 @@ namespace Just\Warehouse\Tests\Model;
 
 use Facades\InventoryFactory;
 use Facades\LocationFactory;
+use Facades\OrderFactory;
 use Facades\OrderLineFactory;
 use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 use Illuminate\Support\Facades\Event;
@@ -14,6 +15,7 @@ use Just\Warehouse\Models\Location;
 use Just\Warehouse\Models\Reservation;
 use Just\Warehouse\Tests\TestCase;
 use LogicException;
+use Staudenmeir\EloquentHasManyDeep\HasOneDeep;
 
 class InventoryTest extends TestCase
 {
@@ -57,6 +59,25 @@ class InventoryTest extends TestCase
         tap($inventory->fresh(), function ($inventory) use ($line) {
             $this->assertTrue($inventory->orderline->is($line));
             $this->assertArrayNotHasKey('laravel_through_key', $inventory->orderline->toArray());
+        });
+    }
+
+    /** @test */
+    public function it_has_an_order_through_the_orderline_relation()
+    {
+        $inventory = InventoryFactory::create([
+            'id' => 123,
+            'gtin' => '1300000000000',
+        ]);
+
+        $this->assertInstanceOf(HasOneDeep::class, $inventory->order());
+        $this->assertNull($inventory->line);
+
+        $order = OrderFactory::withLines('1300000000000')->create();
+
+        tap($inventory->fresh(), function ($inventory) use ($order) {
+            $this->assertTrue($inventory->order->is($order));
+            $this->assertArrayNotHasKey('laravel_through_key', $inventory->order->toArray());
         });
     }
 
