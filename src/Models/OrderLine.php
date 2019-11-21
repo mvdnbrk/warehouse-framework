@@ -16,8 +16,8 @@ use Staudenmeir\EloquentHasManyDeep\HasRelationships;
  */
 class OrderLine extends AbstractModel
 {
-    use HasRelationships,
-        Concerns\Reservable;
+    use Concerns\Reservable,
+        HasRelationships;
 
     /**
      * The attributes that should be cast to native types.
