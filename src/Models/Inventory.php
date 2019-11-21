@@ -38,6 +38,16 @@ class Inventory extends AbstractModel
     ];
 
     /**
+     * It has a location.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function location()
+    {
+        return $this->belongsTo(Location::class);
+    }
+
+    /**
      * It has an order line through a reservation.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasOneThrough
@@ -52,16 +62,6 @@ class Inventory extends AbstractModel
             'id',
             'order_line_id'
         );
-    }
-
-    /**
-     * It has a location.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function location()
-    {
-        return $this->belongsTo(Location::class);
     }
 
     /**
