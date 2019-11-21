@@ -29,6 +29,15 @@ class OrderLine extends AbstractModel
     ];
 
     /**
+     * The attributes that should be hidden for serialization.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'laravel_through_key',
+    ];
+
+    /**
      * Indicates if the model should be timestamped.
      *
      * @var bool

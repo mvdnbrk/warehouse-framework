@@ -38,6 +38,23 @@ class Inventory extends AbstractModel
     ];
 
     /**
+     * It has an order line through a reservation.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOneThrough
+     */
+    public function orderline()
+    {
+        return $this->hasOneThrough(
+            OrderLine::class,
+            Reservation::class,
+            'inventory_id',
+            'id',
+            'id',
+            'order_line_id'
+        );
+    }
+
+    /**
      * It has a location.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

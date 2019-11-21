@@ -5,6 +5,7 @@ namespace Just\Warehouse\Tests\Model;
 use Facades\InventoryFactory;
 use Facades\LocationFactory;
 use Facades\OrderLineFactory;
+use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 use Illuminate\Support\Facades\Event;
 use Just\Warehouse\Events\InventoryCreated;
 use Just\Warehouse\Exceptions\InvalidGtinException;
@@ -38,6 +39,25 @@ class InventoryTest extends TestCase
         $inventory = InventoryFactory::create();
 
         $this->assertInstanceOf(Reservation::class, $inventory->reservation);
+    }
+
+    /** @test */
+    public function it_has_an_order_line_through_a_reservation()
+    {
+        $inventory = InventoryFactory::create([
+            'id' => 999,
+            'gtin' => '1300000000000',
+        ]);
+
+        $this->assertInstanceOf(HasOneThrough::class, $inventory->orderline());
+        $this->assertNull($inventory->line);
+
+        $line = OrderLineFactory::create(['gtin' => '1300000000000']);
+
+        tap($inventory->fresh(), function ($inventory) use ($line) {
+            $this->assertTrue($inventory->orderline->is($line));
+            $this->assertArrayNotHasKey('laravel_through_key', $inventory->orderline->toArray());
+        });
     }
 
     /** @test */
