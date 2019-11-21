@@ -18,7 +18,7 @@ class InventoryFactory
     {
         if (! in_array('deleted', $this->states)) {
             return factory(Inventory::class)->states($this->states)->create($overrides);
-        };
+        }
 
         return Event::fakeFor(function () use ($overrides) {
             return factory(Inventory::class)->states($this->states)->create($overrides);

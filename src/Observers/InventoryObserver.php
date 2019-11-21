@@ -7,8 +7,6 @@ use Just\Warehouse\Exceptions\InvalidGtinException;
 use Just\Warehouse\Jobs\PairInventory;
 use Just\Warehouse\Models\Inventory;
 use Just\Warehouse\Models\States\Order\Created;
-use Just\Warehouse\Models\States\Order\Fulfilled;
-use Just\Warehouse\Models\States\Order\Hold;
 use LogicException;
 
 class InventoryObserver
