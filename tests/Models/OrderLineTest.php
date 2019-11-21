@@ -96,6 +96,9 @@ class OrderLineTest extends TestCase
             $this->assertTrue($line->location->is($location));
             $this->assertArrayNotHasKey('laravel_through_key', $line->location->toArray());
         });
+
+        Inventory::first()->delete();
+        $this->assertTrue($line->fresh()->location->is($location));
     }
 
     /** @test */
