@@ -187,6 +187,44 @@ class InventoryTest extends TestCase
     }
 
     /** @test */
+    public function it_can_not_be_deleted_if_it_is_reserved()
+    {
+        $inventory = InventoryFactory::create();
+        $inventory->reserve();
+
+        $this->assertTrue($inventory->isReserved());
+
+        try {
+            $inventory->delete();
+        } catch (LogicException $e) {
+            $this->assertEquals('A reserved inventory item can not be deleted.', $e->getMessage());
+            $this->assertFalse($inventory->fresh()->trashed());
+
+            return;
+        }
+
+        $this->fail('Deleting a reserved inventory item succceeded.');
+    }
+
+    /** @test */
+    public function it_can_not_be_force_deleted_if_the_order_is_fulfilled()
+    {
+        $order = OrderFactory::state('fulfilled')->create();
+        $inventory = $order->lines->first()->inventory;
+
+        try {
+            $inventory->forceDelete();
+        } catch (LogicException $e) {
+            $this->assertEquals('A reserved inventory item can not be deleted.', $e->getMessage());
+            $this->assertTrue($inventory->exists);
+
+            return;
+        }
+
+        $this->fail('Force deleting a reserved inventory item succceeded.');
+    }
+
+    /** @test */
     public function it_can_be_moved_to_another_location()
     {
         $location1 = LocationFactory::create();
@@ -244,10 +282,9 @@ class InventoryTest extends TestCase
     /** @test */
     public function restoring_a_deleted_inventory_item_will_pair_with_an_order_line()
     {
-        $inventory = InventoryFactory::create([
+        $inventory = InventoryFactory::state('deleted')->create([
             'gtin' => '1300000000000',
         ]);
-        $inventory->delete();
         $line = OrderLineFactory::create([
             'gtin' => '1300000000000',
         ]);
