@@ -14,6 +14,20 @@ abstract class AbstractModel extends Model
     protected $guarded = [];
 
     /**
+     * The "booting" method of the model.
+     *
+     * @return void
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::retrieved(function (Model $model) {
+            $model->addHidden('laravel_through_key');
+        });
+    }
+
+    /**
      * Get the current connection name for the model.
      *
      * @return string

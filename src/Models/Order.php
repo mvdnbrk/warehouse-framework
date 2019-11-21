@@ -51,15 +51,6 @@ class Order extends AbstractModel
     ];
 
     /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array
-     */
-    protected $hidden = [
-        'laravel_through_key',
-    ];
-
-    /**
      * Register the states for this model.
      *
      * @return void

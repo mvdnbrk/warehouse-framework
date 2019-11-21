@@ -16,15 +16,6 @@ use LogicException;
 class Location extends AbstractModel
 {
     /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array
-     */
-    protected $hidden = [
-        'laravel_through_key',
-    ];
-
-    /**
      * The inventory associated with this location.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
