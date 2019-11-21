@@ -92,7 +92,10 @@ class OrderLineTest extends TestCase
 
         $location = LocationFactory::withInventory('1300000000000')->create();
 
-        $this->assertTrue($line->fresh()->location->is($location));
+        tap($line->fresh(), function ($line) use ($location) {
+            $this->assertTrue($line->location->is($location));
+            $this->assertArrayNotHasKey('laravel_through_key', $line->location->toArray());
+        });
     }
 
     /** @test */
