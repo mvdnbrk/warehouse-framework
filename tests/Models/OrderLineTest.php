@@ -64,13 +64,13 @@ class OrderLineTest extends TestCase
     /** @test */
     public function it_has_a_location_through_the_inventory_relation()
     {
-        $order = OrderFactory::withLines('1300000000000')->create();
+        $line = OrderLineFactory::create(['gtin' => '1300000000000']);
 
-        $this->assertNull(OrderLine::first()->location);
+        $this->assertNull($line->location);
 
         $location = LocationFactory::withInventory('1300000000000')->create();
 
-        $this->assertTrue(OrderLine::first()->location->is($location));
+        $this->assertTrue($line->fresh()->location->is($location));
     }
 
     /** @test */
