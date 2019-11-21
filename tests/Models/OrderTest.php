@@ -324,7 +324,7 @@ class OrderTest extends TestCase
             return;
         }
 
-        $this->fail('Force deleting an order succceeded.');
+        $this->fail('Force deleting an order succeeded.');
     }
 
     /** @test */

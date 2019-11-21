@@ -203,7 +203,7 @@ class InventoryTest extends TestCase
             return;
         }
 
-        $this->fail('Deleting a reserved inventory item succceeded.');
+        $this->fail('Deleting a reserved inventory item succeeded.');
     }
 
     /** @test */
@@ -221,7 +221,7 @@ class InventoryTest extends TestCase
             return;
         }
 
-        $this->fail('Force deleting a reserved inventory item succceeded.');
+        $this->fail('Force deleting a reserved inventory item succeeded.');
     }
 
     /** @test */
