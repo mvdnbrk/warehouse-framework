@@ -6,6 +6,7 @@ use Just\Warehouse\Events\InventoryCreated;
 use Just\Warehouse\Exceptions\InvalidGtinException;
 use Just\Warehouse\Jobs\PairInventory;
 use Just\Warehouse\Models\Inventory;
+use Just\Warehouse\Models\States\Order\Created;
 use LogicException;
 
 class InventoryObserver
@@ -36,6 +37,31 @@ class InventoryObserver
         $inventory->reserve();
 
         InventoryCreated::dispatch($inventory);
+    }
+
+    /**
+     * Handle the Inventory "deleting" event.
+     *
+     * @param  \Just\Warehouse\Models\Inventory  $inventory
+     * @return void
+     *
+     * @throws \LogicException
+     */
+    public function deleting(Inventory $inventory)
+    {
+        if (! $inventory->isReserved()) {
+            return;
+        }
+
+        if (
+            $inventory->isFulfilled() &&
+            $inventory->order->status->isFulfilled() &&
+            $inventory->isForceDeleting() === false
+        ) {
+            return;
+        }
+
+        throw new LogicException('A reserved inventory item can not be deleted.');
     }
 
     /**

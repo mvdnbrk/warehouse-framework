@@ -95,7 +95,10 @@ class OrderLine extends AbstractModel
         }
 
         return tap($this->order->addLine($this->gtin), function ($line) {
-            $this->inventory->delete();
+            $this->inventory->update([
+                'deleted_at' => $this->freshTimeStamp(),
+            ]);
+
             $this->delete();
 
             if ($this->order->status->isHold()) {
