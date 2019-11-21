@@ -62,6 +62,18 @@ class OrderLineTest extends TestCase
     }
 
     /** @test */
+    public function it_has_inventory_through_a_reservation()
+    {
+        $line = OrderLineFactory::create(['gtin' => '1300000000000']);
+
+        $this->assertNull($line->inventory);
+
+        $inventory = InventoryFactory::create(['gtin' => '1300000000000']);
+
+        $this->assertTrue($line->fresh()->inventory->is($inventory));
+    }
+
+    /** @test */
     public function it_has_a_location_through_the_inventory_relation()
     {
         $line = OrderLineFactory::create(['gtin' => '1300000000000']);
