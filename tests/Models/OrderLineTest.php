@@ -7,6 +7,7 @@ use Facades\LocationFactory;
 use Facades\OrderFactory;
 use Facades\OrderLineFactory;
 use Facades\ReservationFactory;
+use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Queue;
 use Just\Warehouse\Events\OrderLineCreated;
@@ -22,6 +23,7 @@ use Just\Warehouse\Models\States\Order\Created;
 use Just\Warehouse\Models\States\Order\Open;
 use Just\Warehouse\Tests\TestCase;
 use LogicException;
+use Staudenmeir\EloquentHasManyDeep\HasOneDeep;
 
 class OrderLineTest extends TestCase
 {
@@ -69,6 +71,7 @@ class OrderLineTest extends TestCase
             'gtin' => '1300000000000',
         ]);
 
+        $this->assertInstanceOf(HasOneThrough::class, $line->inventory());
         $this->assertNull($line->inventory);
 
         $inventory = InventoryFactory::create(['gtin' => '1300000000000']);
@@ -84,6 +87,7 @@ class OrderLineTest extends TestCase
     {
         $line = OrderLineFactory::create(['gtin' => '1300000000000']);
 
+        $this->assertInstanceOf(HasOneDeep::class, $line->location());
         $this->assertNull($line->location);
 
         $location = LocationFactory::withInventory('1300000000000')->create();
