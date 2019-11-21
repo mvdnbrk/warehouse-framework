@@ -64,13 +64,19 @@ class OrderLineTest extends TestCase
     /** @test */
     public function it_has_inventory_through_a_reservation()
     {
-        $line = OrderLineFactory::create(['gtin' => '1300000000000']);
+        $line = OrderLineFactory::create([
+            'id' => 999,
+            'gtin' => '1300000000000',
+        ]);
 
         $this->assertNull($line->inventory);
 
         $inventory = InventoryFactory::create(['gtin' => '1300000000000']);
 
-        $this->assertTrue($line->fresh()->inventory->is($inventory));
+        tap($line->fresh(), function ($line) use ($inventory) {
+            $this->assertTrue($line->inventory->is($inventory));
+            $this->assertArrayNotHasKey('laravel_through_key', $line->inventory->toArray());
+        });
     }
 
     /** @test */
