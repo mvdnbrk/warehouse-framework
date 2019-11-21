@@ -15,6 +15,7 @@ use Just\Warehouse\Events\OrderLineReplaced;
 use Just\Warehouse\Exceptions\InvalidGtinException;
 use Just\Warehouse\Jobs\ReleaseOrderLine;
 use Just\Warehouse\Models\Inventory;
+use Just\Warehouse\Models\Location;
 use Just\Warehouse\Models\Order;
 use Just\Warehouse\Models\OrderLine;
 use Just\Warehouse\Models\Reservation;
@@ -96,9 +97,17 @@ class OrderLineTest extends TestCase
             $this->assertTrue($line->location->is($location));
             $this->assertArrayNotHasKey('laravel_through_key', $line->location->toArray());
         });
+    }
 
-        Inventory::first()->delete();
-        $this->assertTrue($line->fresh()->location->is($location));
+    /** @test */
+    public function it_can_retrieve_a_location_through_a_deleted_inventory_relation()
+    {
+        $order = OrderFactory::state('fulfilled')->create();
+
+        tap($order->lines->first(), function ($line) {
+            $this->assertTrue($line->inventory->trashed());
+            $this->assertInstanceOf(Location::class, $line->location);
+        });
     }
 
     /** @test */
