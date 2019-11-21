@@ -296,4 +296,22 @@ class InventoryTest extends TestCase
             $this->assertTrue($line->inventory->is($inventory));
         });
     }
+
+    /** @test */
+    public function it_can_not_be_restored_if_the_order_is_fulfilled()
+    {
+        $order = OrderFactory::state('fulfilled')->create();
+        $inventory = $order->lines->first()->inventory;
+
+        try {
+            $inventory->restore();
+        } catch (LogicException $e) {
+            $this->assertEquals('This inventory item can not be restored.', $e->getMessage());
+            $this->assertTrue($inventory->trashed());
+
+            return;
+        }
+
+        $this->fail('Restoring a deleted inventory item associated with a fulfilled order succeeded.');
+    }
 }

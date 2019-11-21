@@ -80,6 +80,21 @@ class InventoryObserver
     }
 
     /**
+     * Handle the Inventory "restoring" event.
+     *
+     * @param  \Just\Warehouse\Models\Inventory  $inventory
+     * @return void
+     */
+    public function restoring(Inventory $inventory)
+    {
+        if (! $inventory->isReserved()) {
+            return;
+        }
+
+        throw new LogicException('This inventory item can not be restored.');
+    }
+
+    /**
      * Handle the Inventory "restored" event.
      *
      * @param  \Just\Warehouse\Models\Inventory  $inventory
