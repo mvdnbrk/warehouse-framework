@@ -55,7 +55,6 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "scripts": {
-        "analyse": "vendor/bin/phpstan analyse",
         "test": "vendor/bin/phpunit"
     }
 }
