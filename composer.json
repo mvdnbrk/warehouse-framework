@@ -25,9 +25,9 @@
     },
     "require-dev": {
         "nunomaduro/collision": "^3.0",
-        "orchestra/testbench": "^4.0",
-        "phpunit/phpunit": "^8.0",
-        "scrutinizer/ocular": "^1.5"
+        "orchestra/testbench": "^4.4",
+        "phpunit/phpunit": "^8.4",
+        "scrutinizer/ocular": "^1.6"
     },
     "config": {
         "sort-packages": true
