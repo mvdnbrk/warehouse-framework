@@ -38,7 +38,7 @@ class WarehouseServiceProvider extends ServiceProvider
     }
 
     /**
-     * Setup the configuration for Warehouse.
+     * Setup the configuration.
      *
      * @return void
      */
@@ -51,7 +51,7 @@ class WarehouseServiceProvider extends ServiceProvider
     }
 
     /**
-     * Setup the resource publishing for Warehouse.
+     * Setup the resource publishing.
      *
      * @return void
      */
