@@ -16,7 +16,7 @@ class CreateInventoriesTable extends Migration
         Schema::create('inventories', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('location_id');
-            $table->string('gtin', 14);
+            $table->gtin();
             $table->timestamps();
             $table->softDeletes();
 
