@@ -20,7 +20,7 @@
         "illuminate/support": "^6.0",
         "mvdnbrk/gtin": "^2.4.2",
         "mvdnbrk/laravel-model-expires": "^1.4",
-        "spatie/laravel-model-states": "^1.4",
+        "spatie/laravel-model-states": "^1.5",
         "staudenmeir/eloquent-has-many-deep": "^1.11"
     },
     "require-dev": {
