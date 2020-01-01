@@ -88,4 +88,3 @@ class FooBar extends OrderState
 {
     //
 }
-
