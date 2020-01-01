@@ -9,6 +9,7 @@ use Just\Warehouse\Models\States\Order\Deleted;
 use Just\Warehouse\Models\States\Order\Fulfilled;
 use Just\Warehouse\Models\States\Order\Hold;
 use Just\Warehouse\Models\States\Order\Open;
+use Just\Warehouse\Models\States\Order\OrderState;
 use PHPUnit\Framework\TestCase;
 
 class OrderStateTest extends TestCase
@@ -73,4 +74,18 @@ class OrderStateTest extends TestCase
         $this->assertEquals('open', $state::$name);
         $this->assertEquals('open', $state->label());
     }
+
+    /** @test */
+    public function it_can_get_the_label_based_on_the_class_name()
+    {
+        $state = new FooBar($this->model);
+
+        $this->assertEquals('foo bar', $state->label());
+    }
 }
+
+class FooBar extends OrderState
+{
+    //
+}
+

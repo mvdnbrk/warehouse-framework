@@ -2,6 +2,7 @@
 
 namespace Just\Warehouse\Models\States\Order;
 
+use Illuminate\Support\Str;
 use Spatie\ModelStates\State;
 
 abstract class OrderState extends State
@@ -13,7 +14,7 @@ abstract class OrderState extends State
      */
     public function label()
     {
-        $value = $this::$name ?: class_basename(get_called_class());
+        $value = $this::$name ?? Str::snake(class_basename($this), ' ');
 
         return $value;
     }
