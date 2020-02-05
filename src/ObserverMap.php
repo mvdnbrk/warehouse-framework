@@ -5,7 +5,7 @@ namespace Just\Warehouse;
 trait ObserverMap
 {
     /**
-     * All of the Warehouse model / oberserver mappings.
+     * All of the model / oberserver mappings.
      *
      * @var array
      */

@@ -5,7 +5,7 @@ namespace Just\Warehouse;
 trait EventMap
 {
     /**
-     * All of the Warehouse event / listener mappings.
+     * All of the event / listener mappings.
      *
      * @var array
      */

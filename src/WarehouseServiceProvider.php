@@ -65,7 +65,7 @@ class WarehouseServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register the Warehouse Artisan commands.
+     * Register the Artisan commands.
      *
      * @return void
      */
@@ -83,7 +83,7 @@ class WarehouseServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register the Warhouse events.
+     * Register the events.
      *
      * @return void
      */
@@ -99,7 +99,7 @@ class WarehouseServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register the Warhouse model observers.
+     * Register the model observers.
      *
      * @return void
      */
