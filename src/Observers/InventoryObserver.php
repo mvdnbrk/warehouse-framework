@@ -74,7 +74,7 @@ class InventoryObserver
      */
     public function updating(Inventory $inventory)
     {
-        if ($inventory->gtin !== $inventory->getOriginal('gtin')) {
+        if ($inventory->isDirty('gtin')) {
             throw new LogicException('The GTIN attribute can not be changed.');
         }
     }
