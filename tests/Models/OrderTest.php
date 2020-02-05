@@ -120,7 +120,7 @@ class OrderTest extends TestCase
     }
 
     /** @test */
-    public function it_does_not_add_order_lines_when_passing_amount_less_than_one()
+    public function it_does_not_add_order_lines_when_passing_a_quantity_less_than_one()
     {
         Event::fake(OrderLineCreated::class);
         $order = OrderFactory::create();
