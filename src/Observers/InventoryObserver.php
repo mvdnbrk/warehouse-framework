@@ -17,7 +17,7 @@ class InventoryObserver
      * @param  \Just\Warehouse\Models\Inventory  $inventory
      * @return void
      *
-     * @throws \InvalidGtinException
+     * @throws \Just\Warehouse\Exceptions\InvalidGtinException
      */
     public function creating(Inventory $inventory)
     {
@@ -84,6 +84,8 @@ class InventoryObserver
      *
      * @param  \Just\Warehouse\Models\Inventory  $inventory
      * @return void
+     *
+     * @throws \LogicException
      */
     public function restoring(Inventory $inventory)
     {

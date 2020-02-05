@@ -19,7 +19,7 @@ class OrderObserver
      * @param  \Just\Warehouse\Models\Order  $order
      * @return void
      *
-     * @throws \InvalidOrderNumberException
+     * @throws \Just\Warehouse\Exceptions\InvalidOrderNumberException
      */
     public function creating(Order $order)
     {
