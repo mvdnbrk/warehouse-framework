@@ -14,9 +14,7 @@ abstract class OrderState extends State
      */
     public function label()
     {
-        $value = $this::$name ?? Str::snake(class_basename($this), ' ');
-
-        return $value;
+        return $this::$name ?? Str::snake(class_basename($this), ' ');
     }
 
     /**
