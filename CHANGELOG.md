@@ -4,6 +4,8 @@ All notable changes to `warehouse-framework` will be documented in this file.
 
 ## [Unreleased]
 
+## [v0.11.8] - 2020-02-11
+
 ## [v0.11.7] - 2020-01-01
 
 ## [v0.11.6] - 2019-11-21
