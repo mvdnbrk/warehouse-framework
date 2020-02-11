@@ -11,6 +11,7 @@ use Staudenmeir\EloquentHasManyDeep\HasRelationships;
  * @property string $gtin
  * @property int $location_id
  * @property \Just\Warehouse\Models\Location $location
+ * @property \Just\Warehouse\Models\Order $order
  * @property \Illuminate\Support\Carbon $created_at
  * @property \Illuminate\Support\Carbon $updated_at
  * @property \Illuminate\Support\Carbon $deleted_at
