@@ -18,12 +18,14 @@ use Spatie\ModelStates\HasStates;
 
 /**
  * @property int $id
- * @property array $meta
- * @property string $status
  * @property string $order_number
+ * @property array $meta
+ * @property \Just\Warehouse\Models\States\Order\OrderState $status
  * @property \Illuminate\Support\Carbon $created_at
  * @property \Illuminate\Support\Carbon $updated_at
+ * @property \Illuminate\Support\Carbon $expires_at
  * @property \Illuminate\Support\Carbon $deleted_at
+ * @property \Illuminate\Support\Carbon $fulfilled_at
  * @property \Illuminate\Database\Eloquent\Collection $lines
  */
 class Order extends AbstractModel
