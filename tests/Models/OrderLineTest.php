@@ -37,6 +37,14 @@ class OrderLineTest extends TestCase
     }
 
     /** @test */
+    public function it_does_not_use_timestamps()
+    {
+        $line = OrderLineFactory::make();
+
+        $this->assertFalse($line->usesTimestamps());
+    }
+
+    /** @test */
     public function it_belongs_to_an_order()
     {
         $line = OrderLineFactory::create();
