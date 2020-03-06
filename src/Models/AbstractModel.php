@@ -23,7 +23,7 @@ abstract class AbstractModel extends Model
         parent::boot();
 
         static::retrieved(function (Model $model) {
-            $model->addHidden('laravel_through_key');
+            $model->makeHidden('laravel_through_key');
         });
     }
 
