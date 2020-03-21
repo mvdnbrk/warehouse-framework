@@ -15,10 +15,8 @@ class CreateOrderLinesTable extends Migration
     {
         Schema::create('order_lines', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('order_id');
+            $table->foreignId('order_id')->constrained();
             $table->gtin();
-
-            $table->foreign('order_id')->references('id')->on('orders');
         });
     }
 

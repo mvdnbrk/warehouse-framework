@@ -15,15 +15,10 @@ class CreateInventoriesTable extends Migration
     {
         Schema::create('inventories', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('location_id');
+            $table->foreignId('location_id')->constrained()->onUpdate('cascade');
             $table->gtin();
             $table->timestamps();
             $table->softDeletes();
-
-            $table->foreign('location_id')
-                  ->references('id')
-                  ->on('locations')
-                  ->onUpdate('cascade');
         });
     }
 
