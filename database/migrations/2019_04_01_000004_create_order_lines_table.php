@@ -14,7 +14,7 @@ class CreateOrderLinesTable extends Migration
     public function up()
     {
         Schema::create('order_lines', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->unsignedBigInteger('order_id');
             $table->gtin();
 

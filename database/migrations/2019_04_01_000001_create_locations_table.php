@@ -14,7 +14,7 @@ class CreateLocationsTable extends Migration
     public function up()
     {
         Schema::create('locations', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->gtin('gln', 13)->unique()->nullable();
             $table->string('name', 24)->unique();
             $table->timestamps();
