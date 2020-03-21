@@ -17,7 +17,7 @@
     ],
     "require": {
         "php": "^7.4",
-        "illuminate/support": "^7.0",
+        "illuminate/support": "^7.2",
         "mvdnbrk/gtin": "^2.5",
         "mvdnbrk/laravel-model-expires": "^1.5",
         "spatie/laravel-model-states": "^1.5",
