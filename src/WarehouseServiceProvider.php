@@ -10,22 +10,12 @@ class WarehouseServiceProvider extends ServiceProvider
     use EventMap,
         ObserverMap;
 
-    /**
-     * Bootstrap the application services.
-     *
-     * @return void
-     */
     public function boot(): void
     {
         $this->registerEvents();
         $this->registerObservers();
     }
 
-    /**
-     * Register the application services.
-     *
-     * @return void
-     */
     public function register(): void
     {
         $this->configure();
@@ -37,11 +27,6 @@ class WarehouseServiceProvider extends ServiceProvider
         });
     }
 
-    /**
-     * Setup the configuration.
-     *
-     * @return void
-     */
     protected function configure(): void
     {
         $this->mergeConfigFrom(
@@ -50,11 +35,6 @@ class WarehouseServiceProvider extends ServiceProvider
         );
     }
 
-    /**
-     * Setup the resource publishing.
-     *
-     * @return void
-     */
     protected function offerPublishing(): void
     {
         if ($this->app->runningInConsole()) {
@@ -64,11 +44,6 @@ class WarehouseServiceProvider extends ServiceProvider
         }
     }
 
-    /**
-     * Register the Artisan commands.
-     *
-     * @return void
-     */
     protected function registerCommands(): void
     {
         if ($this->app->runningInConsole()) {
@@ -82,11 +57,6 @@ class WarehouseServiceProvider extends ServiceProvider
         }
     }
 
-    /**
-     * Register the events.
-     *
-     * @return void
-     */
     protected function registerEvents(): void
     {
         $dispatcher = $this->app->make(Dispatcher::class);
@@ -98,11 +68,6 @@ class WarehouseServiceProvider extends ServiceProvider
         }
     }
 
-    /**
-     * Register the model observers.
-     *
-     * @return void
-     */
     public function registerObservers(): void
     {
         foreach ($this->observers as $model => $observer) {
