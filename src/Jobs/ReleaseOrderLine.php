@@ -42,7 +42,7 @@ class ReleaseOrderLine implements ShouldQueue
      *
      * @return void
      */
-    public function handle()
+    public function handle(): void
     {
         tap($this->line->inventory, function (?Inventory $inventory) {
             if (is_null($inventory) || $inventory->trashed()) {

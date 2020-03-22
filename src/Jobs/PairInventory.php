@@ -43,7 +43,7 @@ class PairInventory implements ShouldQueue
      *
      * @return void
      */
-    public function handle()
+    public function handle(): void
     {
         $line = OrderLine::join('reservation', 'order_lines.id', '=', 'reservation.order_line_id')
             ->select(['order_lines.id', 'order_lines.order_id'])
