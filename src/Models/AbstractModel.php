@@ -6,18 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 abstract class AbstractModel extends Model
 {
-    /**
-     * The attributes that aren't mass assignable.
-     *
-     * @var array
-     */
     protected $guarded = [];
 
-    /**
-     * The "booting" method of the model.
-     *
-     * @return void
-     */
     protected static function boot(): void
     {
         parent::boot();
@@ -27,11 +17,6 @@ abstract class AbstractModel extends Model
         });
     }
 
-    /**
-     * Get the current connection name for the model.
-     *
-     * @return string
-     */
     public function getConnectionName(): string
     {
         return config('warehouse.database_connection');
