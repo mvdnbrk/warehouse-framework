@@ -18,12 +18,6 @@ class OrderFulfilled
      */
     public $order;
 
-    /**
-     * Create a new event instance.
-     *
-     * @param  \Just\Warehouse\Models\Order  $order
-     * @return void
-     */
     public function __construct(Order $order)
     {
         $this->order = $order;

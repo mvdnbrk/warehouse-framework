@@ -18,12 +18,6 @@ class InventoryCreated
      */
     public $inventory;
 
-    /**
-     * Create a new event instance.
-     *
-     * @param  \Just\Warehouse\Models\Inventory  $inventory
-     * @return void
-     */
     public function __construct(Inventory $inventory)
     {
         $this->inventory = $inventory;

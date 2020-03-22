@@ -25,14 +25,7 @@ class OrderStatusUpdated
      */
     public $originalStatus;
 
-    /**
-     * Create a new event instance.
-     *
-     * @param  \Just\Warehouse\Models\Order  $order
-     * @param  string  $originalStatus
-     * @return void
-     */
-    public function __construct(Order $order, $originalStatus)
+    public function __construct(Order $order, string $originalStatus)
     {
         $this->order = $order;
         $this->originalStatus = $originalStatus;

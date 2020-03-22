@@ -18,12 +18,6 @@ class OrderLineCreated
      */
     public $line;
 
-    /**
-     * Create a new event instance.
-     *
-     * @param  \Just\Warehouse\Models\OrderLine  $line
-     * @return void
-     */
     public function __construct(OrderLine $line)
     {
         $this->line = $line;

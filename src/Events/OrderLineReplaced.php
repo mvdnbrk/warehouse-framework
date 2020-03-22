@@ -34,14 +34,6 @@ class OrderLineReplaced
      */
     public $line;
 
-    /**
-     * Create a new event instance.
-     *
-     * @param  \Just\Warehouse\Models\Order  $order
-     * @param  \Just\Warehouse\Models\Inventory  $inventory
-     * @param  \Just\Warehouse\Models\OrderLine  $line
-     * @return void
-     */
     public function __construct(Order $order, Inventory $inventory, OrderLine $line)
     {
         $this->order = $order;
