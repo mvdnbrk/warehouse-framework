@@ -46,12 +46,7 @@ class MakeLocationCommand extends Command
         });
     }
 
-    /**
-     * Custom error messages for location validation.
-     *
-     * @return array
-     */
-    protected function errorMessages()
+    protected function errorMessages(): array
     {
         return [
             'name.required' => 'A location name is required!',
@@ -60,12 +55,7 @@ class MakeLocationCommand extends Command
         ];
     }
 
-    /**
-     * Validation rules for a location.
-     *
-     * @return array
-     */
-    protected function validationRules()
+    protected function validationRules(): array
     {
         return [
             'name' => [
