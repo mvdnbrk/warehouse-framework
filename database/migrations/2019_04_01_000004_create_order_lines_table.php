@@ -6,12 +6,7 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateOrderLinesTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
-    public function up()
+    public function up(): void
     {
         Schema::create('order_lines', function (Blueprint $table) {
             $table->id();
@@ -20,12 +15,7 @@ class CreateOrderLinesTable extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('order_lines');
     }

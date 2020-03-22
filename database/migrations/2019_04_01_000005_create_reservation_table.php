@@ -6,12 +6,7 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateReservationTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
-    public function up()
+    public function up(): void
     {
         Schema::create('reservation', function (Blueprint $table) {
             $table->foreignId('inventory_id')->nullable()->unique()->constrained();
@@ -20,12 +15,7 @@ class CreateReservationTable extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('reservation');
     }
