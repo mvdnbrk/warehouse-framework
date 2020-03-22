@@ -15,7 +15,7 @@ class WarehouseServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         $this->registerEvents();
         $this->registerObservers();
@@ -26,7 +26,7 @@ class WarehouseServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function register()
+    public function register(): void
     {
         $this->configure();
         $this->offerPublishing();
@@ -42,7 +42,7 @@ class WarehouseServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this->mergeConfigFrom(
             __DIR__.'/../config/warehouse.php',
@@ -55,7 +55,7 @@ class WarehouseServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    protected function offerPublishing()
+    protected function offerPublishing(): void
     {
         if ($this->app->runningInConsole()) {
             $this->publishes([
@@ -69,7 +69,7 @@ class WarehouseServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    protected function registerCommands()
+    protected function registerCommands(): void
     {
         if ($this->app->runningInConsole()) {
             $this->commands([
@@ -87,7 +87,7 @@ class WarehouseServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    protected function registerEvents()
+    protected function registerEvents(): void
     {
         $dispatcher = $this->app->make(Dispatcher::class);
 
@@ -103,7 +103,7 @@ class WarehouseServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function registerObservers()
+    public function registerObservers(): void
     {
         foreach ($this->observers as $model => $observer) {
             $model::observe($observer);
