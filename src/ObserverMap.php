@@ -4,12 +4,7 @@ namespace Just\Warehouse;
 
 trait ObserverMap
 {
-    /**
-     * All of the model / oberserver mappings.
-     *
-     * @var array
-     */
-    protected $observers = [
+    protected array $observers = [
         Models\Order::class => Observers\OrderObserver::class,
         Models\Location::class => Observers\LocationObserver::class,
         Models\Inventory::class => Observers\InventoryObserver::class,

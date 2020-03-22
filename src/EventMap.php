@@ -4,12 +4,7 @@ namespace Just\Warehouse;
 
 trait EventMap
 {
-    /**
-     * All of the event / listener mappings.
-     *
-     * @var array
-     */
-    protected $events = [
+    protected array $events = [
         Events\OrderFulfilled::class => [
             Listeners\DeleteInventoryForOrder::class,
         ],
