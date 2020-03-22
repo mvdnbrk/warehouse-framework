@@ -34,7 +34,7 @@ trait Reservable
     /**
      * Release the model from being reserved.
      *
-     * @return int
+     * @return bool|null
      */
     public function release()
     {
