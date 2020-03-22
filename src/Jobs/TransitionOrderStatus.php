@@ -35,23 +35,12 @@ class TransitionOrderStatus implements ShouldQueue
      */
     protected $newStatus;
 
-    /**
-     * Create a new job instance.
-     *
-     * @param  \Just\Warehouse\Models\Order  $order
-     * @return void
-     */
     public function __construct(Order $order)
     {
         $this->order = $order;
         $this->newStatus = new Open($this->order);
     }
 
-    /**
-     * Execute the job.
-     *
-     * @return void
-     */
     public function handle(): void
     {
         if ($this->order->lines->isEmpty()) {

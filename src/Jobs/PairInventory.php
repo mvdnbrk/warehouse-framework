@@ -27,22 +27,11 @@ class PairInventory implements ShouldQueue
      */
     public $inventory;
 
-    /**
-     * Create a new job instance.
-     *
-     * @param  \Just\Warehouse\Models\Inventory  $inventory
-     * @return void
-     */
     public function __construct(Inventory $inventory)
     {
         $this->inventory = $inventory;
     }
 
-    /**
-     * Execute the job.
-     *
-     * @return void
-     */
     public function handle(): void
     {
         $line = OrderLine::join('reservation', 'order_lines.id', '=', 'reservation.order_line_id')

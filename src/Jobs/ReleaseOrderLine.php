@@ -26,22 +26,11 @@ class ReleaseOrderLine implements ShouldQueue
      */
     public $line;
 
-    /**
-     * Create a new job instance.
-     *
-     * @param  \Just\Warehouse\Models\OrderLine  $line
-     * @return void
-     */
     public function __construct(OrderLine $line)
     {
         $this->line = $line;
     }
 
-    /**
-     * Execute the job.
-     *
-     * @return void
-     */
     public function handle(): void
     {
         tap($this->line->inventory, function (?Inventory $inventory) {
