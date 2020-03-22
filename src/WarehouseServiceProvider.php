@@ -7,8 +7,7 @@ use Illuminate\Support\ServiceProvider;
 
 class WarehouseServiceProvider extends ServiceProvider
 {
-    use EventMap,
-        ObserverMap;
+    use EventMap, ObserverMap;
 
     public function boot(): void
     {
