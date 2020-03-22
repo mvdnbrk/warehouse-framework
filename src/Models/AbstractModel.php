@@ -18,7 +18,7 @@ abstract class AbstractModel extends Model
      *
      * @return void
      */
-    protected static function boot()
+    protected static function boot(): void
     {
         parent::boot();
 
@@ -32,7 +32,7 @@ abstract class AbstractModel extends Model
      *
      * @return string
      */
-    public function getConnectionName()
+    public function getConnectionName(): string
     {
         return config('warehouse.database_connection');
     }
