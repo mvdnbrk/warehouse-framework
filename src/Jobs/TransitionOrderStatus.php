@@ -6,6 +6,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use Just\Warehouse\Models\Order;
+use Just\Warehouse\Models\OrderLine;
 use Just\Warehouse\Models\States\Order\Backorder;
 use Just\Warehouse\Models\States\Order\Open;
 
@@ -57,7 +58,7 @@ class TransitionOrderStatus implements ShouldQueue
             return;
         }
 
-        $this->order->lines->each(function ($line) {
+        $this->order->lines->each(function (OrderLine $line) {
             if (! $line->isFulfilled()) {
                 $this->newStatus = new Backorder($this->order);
 

@@ -4,6 +4,7 @@ namespace Just\Warehouse\Listeners;
 
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Just\Warehouse\Events\OrderFulfilled;
+use Just\Warehouse\Models\OrderLine;
 
 class DeleteInventoryForOrder implements ShouldQueue
 {
@@ -15,7 +16,7 @@ class DeleteInventoryForOrder implements ShouldQueue
      */
     public function handle(OrderFulfilled $event)
     {
-        $event->order->lines->each(function ($line) {
+        $event->order->lines->each(function (OrderLine $line) {
             $line->inventory->delete();
         });
     }

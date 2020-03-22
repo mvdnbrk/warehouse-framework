@@ -5,6 +5,7 @@ namespace Just\Warehouse\Jobs;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\SerializesModels;
+use Just\Warehouse\Models\Inventory;
 use Just\Warehouse\Models\OrderLine;
 
 class ReleaseOrderLine implements ShouldQueue
@@ -43,7 +44,7 @@ class ReleaseOrderLine implements ShouldQueue
      */
     public function handle()
     {
-        tap($this->line->inventory, function ($inventory) {
+        tap($this->line->inventory, function (?Inventory $inventory) {
             if (is_null($inventory) || $inventory->trashed()) {
                 return $this->line->release();
             }
