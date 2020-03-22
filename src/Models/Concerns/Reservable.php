@@ -12,21 +12,11 @@ use Just\Warehouse\Models\Reservation;
  */
 trait Reservable
 {
-    /**
-     * It has a reservation.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
-     */
     public function reservation(): HasOne
     {
         return $this->hasOne(Reservation::class)->withDefault();
     }
 
-    /**
-     * Reserve the model.
-     *
-     * @return bool
-     */
     public function reserve(): bool
     {
         return $this->reservation->save();
@@ -42,31 +32,16 @@ trait Reservable
         return $this->reservation->delete();
     }
 
-    /**
-     * Determine if the model is available.
-     *
-     * @return bool
-     */
     public function isAvailable(): bool
     {
         return $this->reservation->exists === false;
     }
 
-    /**
-     * Determine if the model is reserved.
-     *
-     * @return bool
-     */
     public function isReserved(): bool
     {
         return $this->reservation->exists;
     }
 
-    /**
-     * Determine if the reservation is fulfilled.
-     *
-     * @return bool
-     */
     public function isFulfilled()
     {
         return ! is_null($this->reservation->inventory_id)
