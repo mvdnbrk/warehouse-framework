@@ -13,11 +13,6 @@ class Stock
      */
     protected $gtin;
 
-    /**
-     * Get the available stock quantity.
-     *
-     * @return int
-     */
     public function available(): int
     {
         return Inventory::join('reservation', 'inventories.id', '=', 'reservation.inventory_id', 'left')
@@ -28,11 +23,6 @@ class Stock
             ->count();
     }
 
-    /**
-     * Get the quantity of items in backorder.
-     *
-     * @return int
-     */
     public function backorder(): int
     {
         return Reservation::whereNull('inventory_id')
@@ -44,11 +34,6 @@ class Stock
             ->count();
     }
 
-    /**
-     * Get the reserved stock quantity.
-     *
-     * @return int
-     */
     public function reserved(): int
     {
         return Inventory::join('reservation', 'inventories.id', '=', 'reservation.inventory_id', 'left')
