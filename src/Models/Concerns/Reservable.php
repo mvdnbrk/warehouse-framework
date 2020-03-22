@@ -2,6 +2,7 @@
 
 namespace Just\Warehouse\Models\Concerns;
 
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Just\Warehouse\Models\Reservation;
 
 /**
@@ -16,7 +17,7 @@ trait Reservable
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function reservation()
+    public function reservation(): HasOne
     {
         return $this->hasOne(Reservation::class)->withDefault();
     }
@@ -26,7 +27,7 @@ trait Reservable
      *
      * @return bool
      */
-    public function reserve()
+    public function reserve(): bool
     {
         return $this->reservation->save();
     }
@@ -46,7 +47,7 @@ trait Reservable
      *
      * @return bool
      */
-    public function isAvailable()
+    public function isAvailable(): bool
     {
         return $this->reservation->exists === false;
     }
@@ -56,7 +57,7 @@ trait Reservable
      *
      * @return bool
      */
-    public function isReserved()
+    public function isReserved(): bool
     {
         return $this->reservation->exists;
     }
