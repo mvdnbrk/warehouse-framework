@@ -8,8 +8,7 @@ use Just\Warehouse\Models\Order;
 
 class OrderStatusUpdated
 {
-    use Dispatchable,
-        SerializesModels;
+    use Dispatchable, SerializesModels;
 
     /**
      * The order that updated it's status.

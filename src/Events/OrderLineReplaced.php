@@ -10,8 +10,7 @@ use Just\Warehouse\Models\OrderLine;
 
 class OrderLineReplaced
 {
-    use Dispatchable,
-        SerializesModels;
+    use Dispatchable, SerializesModels;
 
     /**
      * The order for which an order line is replaced.

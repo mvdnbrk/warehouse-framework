@@ -8,8 +8,7 @@ use Just\Warehouse\Models\Order;
 
 class OrderFulfilled
 {
-    use Dispatchable,
-        SerializesModels;
+    use Dispatchable, SerializesModels;
 
     /**
      * The order that was fulfilled.

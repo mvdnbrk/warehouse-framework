@@ -8,8 +8,7 @@ use Just\Warehouse\Models\Inventory;
 
 class InventoryCreated
 {
-    use Dispatchable,
-        SerializesModels;
+    use Dispatchable, SerializesModels;
 
     /**
      * The inventory model that was created.
