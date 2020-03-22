@@ -18,7 +18,7 @@ class Stock
      *
      * @return int
      */
-    public function available()
+    public function available(): int
     {
         return Inventory::join('reservation', 'inventories.id', '=', 'reservation.inventory_id', 'left')
             ->whereNull('reservation.inventory_id')
@@ -33,7 +33,7 @@ class Stock
      *
      * @return int
      */
-    public function backorder()
+    public function backorder(): int
     {
         return Reservation::whereNull('inventory_id')
             ->when($this->gtin, function ($query) {
@@ -49,7 +49,7 @@ class Stock
      *
      * @return int
      */
-    public function reserved()
+    public function reserved(): int
     {
         return Inventory::join('reservation', 'inventories.id', '=', 'reservation.inventory_id', 'left')
             ->whereNotNull('reservation.inventory_id')
