@@ -8,10 +8,8 @@ abstract class AbstractModel extends Model
 {
     protected $guarded = [];
 
-    protected static function boot(): void
+    protected static function booted(): void
     {
-        parent::boot();
-
         static::retrieved(function (Model $model) {
             $model->makeHidden('laravel_through_key');
         });
