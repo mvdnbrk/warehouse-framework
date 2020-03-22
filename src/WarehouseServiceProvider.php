@@ -68,7 +68,7 @@ class WarehouseServiceProvider extends ServiceProvider
         }
     }
 
-    public function registerObservers(): void
+    protected function registerObservers(): void
     {
         foreach ($this->observers as $model => $observer) {
             $model::observe($observer);
