@@ -29,21 +29,11 @@ class Inventory extends AbstractModel
         'location_id' => 'integer',
     ];
 
-    /**
-     * It has a location.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
     public function location(): BelongsTo
     {
         return $this->belongsTo(Location::class);
     }
 
-    /**
-     * It has an order through the orderline relation.
-     *
-     * @return \Staudenmeir\EloquentHasManyDeep\HasOneDeep
-     */
     public function order(): HasOneDeep
     {
         return $this->hasOneDeepFromRelations(
@@ -52,11 +42,6 @@ class Inventory extends AbstractModel
             );
     }
 
-    /**
-     * It has an order line through a reservation.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasOneThrough
-     */
     public function orderline(): HasOneThrough
     {
         return $this->hasOneThrough(

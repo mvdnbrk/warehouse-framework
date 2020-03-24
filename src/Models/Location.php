@@ -16,11 +16,6 @@ use LogicException;
  */
 class Location extends AbstractModel
 {
-    /**
-     * The inventory associated with this location.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
     public function inventory(): HasMany
     {
         return $this->hasMany(Inventory::class);
@@ -128,11 +123,6 @@ class Location extends AbstractModel
         return $model->delete();
     }
 
-    /**
-     * Remove all inventory from this location.
-     *
-     * @return int
-     */
     public function removeAllInventory(): int
     {
         return $this->inventory()->delete();

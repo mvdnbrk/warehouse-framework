@@ -43,11 +43,6 @@ class Order extends AbstractModel
         'fulfilled_at',
     ];
 
-    /**
-     * Register the states for this model.
-     *
-     * @return void
-     */
     protected function registerStates(): void
     {
         $this->addState('status', OrderState::class)
@@ -77,11 +72,6 @@ class Order extends AbstractModel
         $this->attributes['status'] = $value;
     }
 
-    /**
-     * The order lines associated with this order.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
     public function lines(): HasMany
     {
         return $this->hasMany(OrderLine::class);
@@ -123,11 +113,6 @@ class Order extends AbstractModel
         $this->transitionTo(Fulfilled::class);
     }
 
-    /**
-     * Process the order to be fulfilled.
-     *
-     * @return void
-     */
     public function process(): void
     {
         TransitionOrderStatus::dispatch($this);
@@ -155,11 +140,6 @@ class Order extends AbstractModel
         return true;
     }
 
-    /**
-     * Unhold the order.
-     *
-     * @return bool
-     */
     public function unhold(): bool
     {
         if (! $this->status->is(Hold::class)) {
@@ -171,21 +151,11 @@ class Order extends AbstractModel
         return true;
     }
 
-    /**
-     * Determine if a pick list is available.
-     *
-     * @return bool
-     */
     public function hasPickList(): bool
     {
         return $this->status->is(Open::class);
     }
 
-    /**
-     * Retrieve a picklist.
-     *
-     * @return \Illuminate\Support\Collection
-     */
     public function pickList(): Collection
     {
         if (! $this->hasPickList()) {
