@@ -2,7 +2,9 @@
 
 namespace Just\Warehouse\Models;
 
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Collection;
 use Just\Warehouse\Jobs\TransitionOrderStatus;
 use Just\Warehouse\Models\States\Order\Backorder;
 use Just\Warehouse\Models\States\Order\Created;
@@ -46,7 +48,7 @@ class Order extends AbstractModel
      *
      * @return void
      */
-    protected function registerStates()
+    protected function registerStates(): void
     {
         $this->addState('status', OrderState::class)
             ->default(Created::class)
@@ -80,7 +82,7 @@ class Order extends AbstractModel
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function lines()
+    public function lines(): HasMany
     {
         return $this->hasMany(OrderLine::class);
     }
@@ -126,7 +128,7 @@ class Order extends AbstractModel
      *
      * @return void
      */
-    public function process()
+    public function process(): void
     {
         TransitionOrderStatus::dispatch($this);
     }
@@ -158,7 +160,7 @@ class Order extends AbstractModel
      *
      * @return bool
      */
-    public function unhold()
+    public function unhold(): bool
     {
         if (! $this->status->is(Hold::class)) {
             return false;
@@ -174,7 +176,7 @@ class Order extends AbstractModel
      *
      * @return bool
      */
-    public function hasPickList()
+    public function hasPickList(): bool
     {
         return $this->status->is(Open::class);
     }
@@ -184,7 +186,7 @@ class Order extends AbstractModel
      *
      * @return \Illuminate\Support\Collection
      */
-    public function pickList()
+    public function pickList(): Collection
     {
         if (! $this->hasPickList()) {
             return collect();

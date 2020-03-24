@@ -2,9 +2,12 @@
 
 namespace Just\Warehouse\Models;
 
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 use Just\Warehouse\Events\OrderLineReplaced;
 use Just\Warehouse\Models\States\Order\Hold;
 use LogicException;
+use Staudenmeir\EloquentHasManyDeep\HasOneDeep;
 use Staudenmeir\EloquentHasManyDeep\HasRelationships;
 
 /**
@@ -25,22 +28,12 @@ class OrderLine extends AbstractModel
 
     public $timestamps = false;
 
-    /**
-     * It belongs to an order.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function order()
+    public function order(): BelongsTo
     {
         return $this->belongsTo(Order::class)->withTrashed();
     }
 
-    /**
-     * It has a location through the inventory relation.
-     *
-     * @return \Staudenmeir\EloquentHasManyDeep\HasOneDeep
-     */
-    public function location()
+    public function location(): HasOneDeep
     {
         return $this->hasOneDeepFromRelations(
                 $this->inventory(),
@@ -49,12 +42,7 @@ class OrderLine extends AbstractModel
             ->withTrashed('inventories.deleted_at');
     }
 
-    /**
-     * It has an inventory item through a reservation.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasOneThrough
-     */
-    public function inventory()
+    public function inventory(): HasOneThrough
     {
         return $this->hasOneThrough(
                 Inventory::class,

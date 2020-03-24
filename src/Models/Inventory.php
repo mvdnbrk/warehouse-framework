@@ -2,8 +2,11 @@
 
 namespace Just\Warehouse\Models;
 
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use LogicException;
+use Staudenmeir\EloquentHasManyDeep\HasOneDeep;
 use Staudenmeir\EloquentHasManyDeep\HasRelationships;
 
 /**
@@ -31,7 +34,7 @@ class Inventory extends AbstractModel
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function location()
+    public function location(): BelongsTo
     {
         return $this->belongsTo(Location::class);
     }
@@ -41,7 +44,7 @@ class Inventory extends AbstractModel
      *
      * @return \Staudenmeir\EloquentHasManyDeep\HasOneDeep
      */
-    public function order()
+    public function order(): HasOneDeep
     {
         return $this->hasOneDeepFromRelations(
                 $this->orderline(),
@@ -54,7 +57,7 @@ class Inventory extends AbstractModel
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasOneThrough
      */
-    public function orderline()
+    public function orderline(): HasOneThrough
     {
         return $this->hasOneThrough(
             OrderLine::class,

@@ -3,6 +3,7 @@
 namespace Just\Warehouse\Models;
 
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\DB;
 use Just\Warehouse\Exceptions\InvalidGtinException;
 use LogicException;
@@ -20,7 +21,7 @@ class Location extends AbstractModel
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function inventory()
+    public function inventory(): HasMany
     {
         return $this->hasMany(Inventory::class);
     }
@@ -92,7 +93,7 @@ class Location extends AbstractModel
      * @param  \Just\Warehouse\Models\Location  $location
      * @return array
      */
-    public function moveMany(array $values, self $location)
+    public function moveMany(array $values, self $location): array
     {
         $models = collect();
 
@@ -132,7 +133,7 @@ class Location extends AbstractModel
      *
      * @return int
      */
-    public function removeAllInventory()
+    public function removeAllInventory(): int
     {
         return $this->inventory()->delete();
     }
