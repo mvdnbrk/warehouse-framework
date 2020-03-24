@@ -6,9 +6,22 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateReservationTable extends Migration
 {
+    /** @var \Illuminate\Database\Schema\Builder */
+    protected $schema;
+
+    public function __construct()
+    {
+        $this->schema = Schema::connection($this->getConnection());
+    }
+
+    public function getConnection(): ?string
+    {
+        return config('warehouse.database_connection');
+    }
+
     public function up(): void
     {
-        Schema::create('reservation', function (Blueprint $table) {
+        $this->schema->create('reservation', function (Blueprint $table) {
             $table->foreignId('inventory_id')->nullable()->unique()->constrained();
             $table->foreignId('order_line_id')->nullable()->unique()->constrained();
             $table->timestamps();
@@ -17,6 +30,6 @@ class CreateReservationTable extends Migration
 
     public function down(): void
     {
-        Schema::dropIfExists('reservation');
+        $this->schema->dropIfExists('reservation');
     }
 }

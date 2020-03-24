@@ -6,9 +6,22 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateOrdersTable extends Migration
 {
+    /** @var \Illuminate\Database\Schema\Builder */
+    protected $schema;
+
+    public function __construct()
+    {
+        $this->schema = Schema::connection($this->getConnection());
+    }
+
+    public function getConnection(): ?string
+    {
+        return config('warehouse.database_connection');
+    }
+
     public function up(): void
     {
-        Schema::create('orders', function (Blueprint $table) {
+        $this->schema->create('orders', function (Blueprint $table) {
             $table->id();
             $table->string('order_number', 36);
             $table->json('meta')->nullable();
@@ -22,6 +35,6 @@ class CreateOrdersTable extends Migration
 
     public function down(): void
     {
-        Schema::dropIfExists('orders');
+        $this->schema->dropIfExists('orders');
     }
 }

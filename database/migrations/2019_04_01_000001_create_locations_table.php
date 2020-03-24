@@ -6,9 +6,22 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateLocationsTable extends Migration
 {
+    /** @var \Illuminate\Database\Schema\Builder */
+    protected $schema;
+
+    public function __construct()
+    {
+        $this->schema = Schema::connection($this->getConnection());
+    }
+
+    public function getConnection(): ?string
+    {
+        return config('warehouse.database_connection');
+    }
+
     public function up(): void
     {
-        Schema::create('locations', function (Blueprint $table) {
+        $this->schema->create('locations', function (Blueprint $table) {
             $table->id();
             $table->gtin('gln', 13)->unique()->nullable();
             $table->string('name', 24)->unique();
@@ -18,6 +31,6 @@ class CreateLocationsTable extends Migration
 
     public function down(): void
     {
-        Schema::dropIfExists('locations');
+        $this->schema->dropIfExists('locations');
     }
 }
