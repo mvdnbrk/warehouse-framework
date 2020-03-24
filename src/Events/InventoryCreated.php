@@ -15,7 +15,7 @@ class InventoryCreated
      *
      * @var \Just\Warehouse\Models\Inventory
      */
-    public $inventory;
+    public Inventory $inventory;
 
     public function __construct(Inventory $inventory)
     {

@@ -15,14 +15,14 @@ class OrderStatusUpdated
      *
      * @var \Just\Warehouse\Models\Order
      */
-    public $order;
+    public Order $order;
 
     /**
      * The original order status.
      *
      * @var string
      */
-    public $originalStatus;
+    public string $originalStatus;
 
     public function __construct(Order $order, string $originalStatus)
     {

@@ -17,21 +17,21 @@ class OrderLineReplaced
      *
      * @var \Just\Warehouse\Models\Order
      */
-    public $order;
+    public Order $order;
 
     /**
      * The inventory that was deleted.
      *
      * @var \Just\Warehouse\Models\Inventory
      */
-    public $inventory;
+    public Inventory $inventory;
 
     /**
      * The new order line that was created.
      *
      * @var \Just\Warehouse\Models\OrderLine
      */
-    public $line;
+    public OrdeLine $line;
 
     public function __construct(Order $order, Inventory $inventory, OrderLine $line)
     {

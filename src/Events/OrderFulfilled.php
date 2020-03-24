@@ -15,7 +15,7 @@ class OrderFulfilled
      *
      * @var \Just\Warehouse\Models\Order
      */
-    public $order;
+    public Order $order;
 
     public function __construct(Order $order)
     {

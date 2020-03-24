@@ -15,7 +15,7 @@ class OrderLineCreated
      *
      * @var \Just\Warehouse\Models\OrderLine
      */
-    public $line;
+    public OrderLine $line;
 
     public function __construct(OrderLine $line)
     {
