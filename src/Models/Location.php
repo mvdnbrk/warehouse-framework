@@ -90,7 +90,7 @@ class Location extends AbstractModel
      *
      * @param  array  $values
      * @param  \Just\Warehouse\Models\Location  $location
-     * @return  array
+     * @return array
      */
     public function moveMany(array $values, self $location)
     {
