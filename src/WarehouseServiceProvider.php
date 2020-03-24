@@ -39,6 +39,10 @@ class WarehouseServiceProvider extends ServiceProvider
             $this->publishes([
                 __DIR__.'/../config/warehouse.php' => config_path('warehouse.php'),
             ], 'warehouse-config');
+
+            $this->publishes([
+                __DIR__.'/../database/migrations' => database_path('migrations'),
+            ], 'warehouse-migrations');
         }
     }
 
