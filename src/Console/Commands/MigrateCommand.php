@@ -28,7 +28,6 @@ class MigrateCommand extends Command
     public function handle()
     {
         $this->call('migrate', [
-            '--database' => config('warehouse.database_connection'),
             '--path' => 'vendor/mvdnbrk/warehouse-framework/database/migrations',
             '--force' => $this->option('force'),
         ]);
