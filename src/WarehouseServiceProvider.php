@@ -29,8 +29,7 @@ class WarehouseServiceProvider extends ServiceProvider
     protected function configure(): void
     {
         $this->mergeConfigFrom(
-            __DIR__.'/../config/warehouse.php',
-            'warehouse'
+            __DIR__.'/../config/warehouse.php', 'warehouse'
         );
     }
 
