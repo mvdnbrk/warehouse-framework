@@ -22,11 +22,6 @@ class Inventory extends AbstractModel
         HasRelationships,
         SoftDeletes;
 
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
     protected $casts = [
         'location_id' => 'integer',
     ];
