@@ -13,7 +13,7 @@ class ScheduleInventoryPairing
      * @param  \Just\Warehouse\Events\InventoryCreated  $event
      * @return void
      */
-    public function handle(InventoryCreated $event)
+    public function handle(InventoryCreated $event): void
     {
         PairInventory::dispatch($event->inventory);
     }

@@ -14,7 +14,7 @@ class DeleteInventoryForOrder implements ShouldQueue
      * @param  \Just\Warehouse\Events\OrderFulfilled  $event
      * @return void
      */
-    public function handle(OrderFulfilled $event)
+    public function handle(OrderFulfilled $event): void
     {
         $event->order->lines->each(function (OrderLine $line) {
             $line->inventory->delete();
