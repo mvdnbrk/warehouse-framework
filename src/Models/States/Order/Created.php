@@ -9,5 +9,5 @@ class Created extends OrderState
      *
      * @var string
      */
-    public static $name = 'created';
+    public static string $name = 'created';
 }

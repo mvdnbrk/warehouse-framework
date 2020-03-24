@@ -9,7 +9,7 @@ class Backorder extends OrderState
      *
      * @var string
      */
-    public static $name = 'backorder';
+    public static string $name = 'backorder';
 
     /**
      * Get the displayable label of the state.

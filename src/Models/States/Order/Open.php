@@ -9,5 +9,5 @@ class Open extends OrderState
      *
      * @var string
      */
-    public static $name = 'open';
+    public static string $name = 'open';
 }

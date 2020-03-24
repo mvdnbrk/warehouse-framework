@@ -9,5 +9,5 @@ class Fulfilled extends OrderState
      *
      * @var string
      */
-    public static $name = 'fulfilled';
+    public static string $name = 'fulfilled';
 }

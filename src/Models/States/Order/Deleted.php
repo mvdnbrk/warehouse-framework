@@ -9,5 +9,5 @@ class Deleted extends OrderState
      *
      * @var string
      */
-    public static $name = 'deleted';
+    public static string $name = 'deleted';
 }

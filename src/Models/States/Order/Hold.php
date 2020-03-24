@@ -9,7 +9,7 @@ class Hold extends OrderState
      *
      * @var string
      */
-    public static $name = 'hold';
+    public static string $name = 'hold';
 
     /**
      * Get the displayable label of the state.
