@@ -12,7 +12,7 @@ abstract class OrderState extends State
      *
      * @return string
      */
-    public function label()
+    public function label(): string
     {
         return $this::$name ?? Str::snake(class_basename($this), ' ');
     }
@@ -22,7 +22,7 @@ abstract class OrderState extends State
      *
      * @return bool
      */
-    public function isCreated()
+    public function isCreated(): bool
     {
         return $this->is(Created::class);
     }
@@ -32,7 +32,7 @@ abstract class OrderState extends State
      *
      * @return bool
      */
-    public function isBackorder()
+    public function isBackorder(): bool
     {
         return $this->is(Backorder::class);
     }
@@ -42,7 +42,7 @@ abstract class OrderState extends State
      *
      * @return bool
      */
-    public function isOpen()
+    public function isOpen(): bool
     {
         return $this->is(Open::class);
     }
@@ -52,7 +52,7 @@ abstract class OrderState extends State
      *
      * @return bool
      */
-    public function isHold()
+    public function isHold(): bool
     {
         return $this->is(Hold::class);
     }
@@ -62,7 +62,7 @@ abstract class OrderState extends State
      *
      * @return bool
      */
-    public function isFulfilled()
+    public function isFulfilled(): bool
     {
         return $this->is(Fulfilled::class);
     }
@@ -72,7 +72,7 @@ abstract class OrderState extends State
      *
      * @return bool
      */
-    public function isDeleted()
+    public function isDeleted(): bool
     {
         return $this->is(Deleted::class);
     }

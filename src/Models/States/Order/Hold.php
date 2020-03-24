@@ -16,7 +16,7 @@ class Hold extends OrderState
      *
      * @return string
      */
-    public function label()
+    public function label(): string
     {
         return 'on hold';
     }
