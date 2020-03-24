@@ -15,7 +15,7 @@ abstract class AbstractModel extends Model
         });
     }
 
-    public function getConnectionName(): string
+    public function getConnectionName(): ?string
     {
         return config('warehouse.database_connection');
     }
