@@ -41,7 +41,7 @@ class Reservation extends Pivot
      *
      * @return string
      */
-    public function getConnectionName()
+    public function getConnectionName(): ?string
     {
         return config('warehouse.database_connection');
     }
