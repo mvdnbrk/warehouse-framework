@@ -10,18 +10,8 @@ class OrderStatusUpdated
 {
     use Dispatchable, SerializesModels;
 
-    /**
-     * The order that updated it's status.
-     *
-     * @var \Just\Warehouse\Models\Order
-     */
     public Order $order;
 
-    /**
-     * The original order status.
-     *
-     * @var string
-     */
     public string $originalStatus;
 
     public function __construct(Order $order, string $originalStatus)

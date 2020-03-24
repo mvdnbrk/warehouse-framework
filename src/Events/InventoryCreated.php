@@ -10,11 +10,6 @@ class InventoryCreated
 {
     use Dispatchable, SerializesModels;
 
-    /**
-     * The inventory model that was created.
-     *
-     * @var \Just\Warehouse\Models\Inventory
-     */
     public Inventory $inventory;
 
     public function __construct(Inventory $inventory)

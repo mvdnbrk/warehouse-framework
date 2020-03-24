@@ -10,11 +10,6 @@ class OrderLineCreated
 {
     use Dispatchable, SerializesModels;
 
-    /**
-     * The order line model that was created.
-     *
-     * @var \Just\Warehouse\Models\OrderLine
-     */
     public OrderLine $line;
 
     public function __construct(OrderLine $line)

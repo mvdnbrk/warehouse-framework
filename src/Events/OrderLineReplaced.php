@@ -14,22 +14,16 @@ class OrderLineReplaced
 
     /**
      * The order for which an order line is replaced.
-     *
-     * @var \Just\Warehouse\Models\Order
      */
     public Order $order;
 
     /**
      * The inventory that was deleted.
-     *
-     * @var \Just\Warehouse\Models\Inventory
      */
     public Inventory $inventory;
 
     /**
      * The new order line that was created.
-     *
-     * @var \Just\Warehouse\Models\OrderLine
      */
     public OrdeLine $line;
 

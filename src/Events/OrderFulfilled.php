@@ -10,11 +10,6 @@ class OrderFulfilled
 {
     use Dispatchable, SerializesModels;
 
-    /**
-     * The order that was fulfilled.
-     *
-     * @var \Just\Warehouse\Models\Order
-     */
     public Order $order;
 
     public function __construct(Order $order)
