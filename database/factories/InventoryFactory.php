@@ -8,9 +8,7 @@ use Just\Warehouse\Models\Location;
 $factory->define(Inventory::class, function (Faker $faker) {
     return [
         'gtin' => $faker->ean13,
-        'location_id' => function () {
-            return factory(Location::class)->create()->id;
-        },
+        'location_id' => factory(Location::class),
     ];
 });
 

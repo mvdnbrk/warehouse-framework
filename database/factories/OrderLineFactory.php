@@ -6,9 +6,7 @@ use Just\Warehouse\Models\OrderLine;
 
 $factory->define(OrderLine::class, function (Faker $faker) {
     return [
-        'order_id' => function () {
-            return factory(Order::class)->create()->id;
-        },
+        'order_id' => factory(Order::class),
         'gtin' => $faker->ean13,
     ];
 });
