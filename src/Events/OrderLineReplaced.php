@@ -25,7 +25,7 @@ class OrderLineReplaced
     /**
      * The new order line that was created.
      */
-    public OrdeLine $line;
+    public OrderLine $line;
 
     public function __construct(Order $order, Inventory $inventory, OrderLine $line)
     {
