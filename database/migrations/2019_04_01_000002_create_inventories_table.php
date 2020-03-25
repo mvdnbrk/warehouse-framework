@@ -2,12 +2,12 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Schema\Builder;
 use Illuminate\Support\Facades\Schema;
 
 class CreateInventoriesTable extends Migration
 {
-    /** @var \Illuminate\Database\Schema\Builder */
-    protected $schema;
+    protected Builder $schema;
 
     public function __construct()
     {
