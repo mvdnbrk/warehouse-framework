@@ -15,12 +15,7 @@ class PairInventory implements ShouldQueue
 
     public int $tries = 3;
 
-    /**
-     * The inventory to be paired with an order line.
-     *
-     * @var \Just\Warehouse\Models\Inventory
-     */
-    public $inventory;
+    public Inventory $inventory;
 
     public function __construct(Inventory $inventory)
     {

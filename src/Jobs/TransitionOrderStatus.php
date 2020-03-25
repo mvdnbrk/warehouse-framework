@@ -9,6 +9,7 @@ use Just\Warehouse\Models\Order;
 use Just\Warehouse\Models\OrderLine;
 use Just\Warehouse\Models\States\Order\Backorder;
 use Just\Warehouse\Models\States\Order\Open;
+use Just\Warehouse\Models\States\Order\OrderState;
 
 class TransitionOrderStatus implements ShouldQueue
 {
@@ -16,19 +17,9 @@ class TransitionOrderStatus implements ShouldQueue
 
     public int $tries = 1;
 
-    /**
-     * The order which is transitioning status.
-     *
-     * @var \Just\Warehouse\Models\Order
-     */
-    public $order;
+    public Order $order;
 
-    /**
-     * The new status to transition to.
-     *
-     * @var \Just\Warehouse\Models\States\Order\OrderState
-     */
-    protected $newStatus;
+    protected OrderState $newStatus;
 
     public function __construct(Order $order)
     {
