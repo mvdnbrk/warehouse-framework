@@ -14,10 +14,7 @@ use PHPUnit\Framework\TestCase;
 
 class OrderStateTest extends TestCase
 {
-    /**
-     * @var \Just\Warehouse\Models\Order
-     */
-    protected $model;
+    protected Order $model;
 
     protected function setUp(): void
     {
