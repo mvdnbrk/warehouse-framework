@@ -9,27 +9,13 @@ use Spatie\ModelStates\Transition;
 
 class OpenToFulfilled extends Transition
 {
-    /**
-     * @var \Just\Warehouse\Models\Order
-     */
-
-    /**
-     * Create a transition instance.
-     *
-     * @param  \Just\Warehouse\Models\Order  $order
-     * @return void
-     */
     private Order $order;
+
     public function __construct(Order $order)
     {
         $this->order = $order;
     }
 
-    /**
-     * Handle the transition.
-     *
-     * @return \Just\Warehouse\Models\Order
-     */
     public function handle(): Order
     {
         $this->order->fulfilled_at = now();
