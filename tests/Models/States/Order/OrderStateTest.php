@@ -25,6 +25,29 @@ class OrderStateTest extends TestCase
     }
 
     /** @test */
+    public function it_registers_states()
+    {
+        $this->assertCount(1, $this->model->getStates());
+        $this->assertTrue($this->model->getStates()->has('status'));
+        $this->assertEquals([
+            Backorder::class,
+            Created::class,
+            Deleted::class,
+            Fulfilled::class,
+            Hold::class,
+            Open::class,
+        ], $this->model->getStatesFor('status')->all());
+    }
+
+    /** @test */
+    public function it_has_a_default_state_of_created()
+    {
+        $this->assertCount(1, $this->model->getDefaultStates());
+        $this->assertTrue($this->model->getDefaultStates()->has('status'));
+        $this->assertEquals(Created::class, $this->model->getDefaultStateFor('status'));
+    }
+
+    /** @test */
     public function state_backorder_has_correct_name_and_label()
     {
         $state = new Backorder($this->model);
