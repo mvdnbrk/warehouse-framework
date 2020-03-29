@@ -12,7 +12,6 @@ class OpenToFulfilled extends Transition
     /**
      * @var \Just\Warehouse\Models\Order
      */
-    private $order;
 
     /**
      * Create a transition instance.
@@ -20,6 +19,7 @@ class OpenToFulfilled extends Transition
      * @param  \Just\Warehouse\Models\Order  $order
      * @return void
      */
+    private Order $order;
     public function __construct(Order $order)
     {
         $this->order = $order;
@@ -30,7 +30,7 @@ class OpenToFulfilled extends Transition
      *
      * @return \Just\Warehouse\Models\Order
      */
-    public function handle()
+    public function handle(): Order
     {
         $this->order->fulfilled_at = now();
         $this->order->status = new Fulfilled($this->order);
