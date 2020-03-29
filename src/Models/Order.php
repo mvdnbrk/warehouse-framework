@@ -124,7 +124,7 @@ class Order extends AbstractModel
      * @param  \DateTimeInterface|\DateInterval|int|null  $ttl
      * @return bool
      */
-    public function hold($ttl = null)
+    public function hold($ttl = null): bool
     {
         if ($this->lines->isEmpty()) {
             return false;
