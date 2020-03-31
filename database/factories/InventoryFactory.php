@@ -1,5 +1,7 @@
 <?php
 
+/** @var \Illuminate\Database\Eloquent\Factory $factory */
+
 use Faker\Generator as Faker;
 use Illuminate\Support\Carbon;
 use Just\Warehouse\Models\Inventory;
