@@ -38,6 +38,7 @@ class OrdersUnholdCommand extends Command
         }
 
         $this->info('Number of orders that will be placed back in process: '.$orders->count());
+
         $orders->each->unhold();
     }
 }
