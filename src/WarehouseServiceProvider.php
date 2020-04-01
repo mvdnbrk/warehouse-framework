@@ -14,12 +14,12 @@ class WarehouseServiceProvider extends ServiceProvider
         $this->registerCommands();
         $this->registerEvents();
         $this->registerObservers();
+        $this->offerPublishing();
     }
 
     public function register(): void
     {
         $this->configure();
-        $this->offerPublishing();
 
         $this->app->bind('stock', function () {
             return new Stock;
