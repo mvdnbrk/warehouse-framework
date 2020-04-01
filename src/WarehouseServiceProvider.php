@@ -11,6 +11,7 @@ class WarehouseServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
+        $this->registerCommands();
         $this->registerEvents();
         $this->registerObservers();
     }
@@ -19,7 +20,6 @@ class WarehouseServiceProvider extends ServiceProvider
     {
         $this->configure();
         $this->offerPublishing();
-        $this->registerCommands();
 
         $this->app->bind('stock', function () {
             return new Stock;
