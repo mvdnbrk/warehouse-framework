@@ -24,9 +24,9 @@
         "staudenmeir/eloquent-has-many-deep": "^1.11"
     },
     "require-dev": {
-        "nunomaduro/collision": "^4.1",
+        "nunomaduro/collision": "^4.2",
         "orchestra/testbench": "^5.0",
-        "phpunit/phpunit": "^9.0"
+        "phpunit/phpunit": "^9.1"
     },
     "config": {
         "sort-packages": true
