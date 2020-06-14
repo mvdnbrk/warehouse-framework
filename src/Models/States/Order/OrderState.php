@@ -7,6 +7,15 @@ use Spatie\ModelStates\State;
 
 abstract class OrderState extends State
 {
+    public static array $states = [
+        Backorder::class,
+        Created::class,
+        Deleted::class,
+        Fulfilled::class,
+        Hold::class,
+        Open::class,
+    ];
+
     public function label(): string
     {
         return $this::$name ?? Str::snake(class_basename($this), ' ');
