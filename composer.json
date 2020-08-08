@@ -18,15 +18,15 @@
     "require": {
         "php": "^7.4",
         "illuminate/support": "^7.2",
-        "mvdnbrk/gtin": "^2.5",
-        "mvdnbrk/laravel-model-expires": "^1.5",
+        "mvdnbrk/gtin": "^2.6",
+        "mvdnbrk/laravel-model-expires": "^1.6",
         "spatie/laravel-model-states": "^1.5",
         "staudenmeir/eloquent-has-many-deep": "^1.11"
     },
     "require-dev": {
         "nunomaduro/collision": "^4.2",
         "orchestra/testbench": "^5.0",
-        "phpunit/phpunit": "^9.1"
+        "phpunit/phpunit": "^9.3"
     },
     "config": {
         "sort-packages": true
