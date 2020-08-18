@@ -10,6 +10,7 @@ use LogicException;
 
 /**
  * @property int $id
+ * @property string $gln
  * @property string $name
  * @property \Illuminate\Support\Carbon $created_at
  * @property \Illuminate\Support\Carbon $updated_at
