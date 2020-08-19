@@ -10,6 +10,7 @@ use LogicException;
 
 /**
  * @property int $id
+ * @property string $gln
  * @property string $name
  * @property \Illuminate\Support\Carbon $created_at
  * @property \Illuminate\Support\Carbon $updated_at
@@ -50,7 +51,7 @@ class Location extends AbstractModel
      *
      * @param  string  $value
      * @param  \Just\Warehouse\Models\Location  $location
-     * @return \Just\Warehouse\Models\Inventory  $inventory
+     * @return \Just\Warehouse\Models\Inventory
      *
      * @throws \LogicException
      * @throws \Just\Warehouse\Exceptions\InvalidGtinException
