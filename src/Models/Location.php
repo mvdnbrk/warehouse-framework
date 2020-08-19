@@ -51,7 +51,7 @@ class Location extends AbstractModel
      *
      * @param  string  $value
      * @param  \Just\Warehouse\Models\Location  $location
-     * @return \Just\Warehouse\Models\Inventory  $inventory
+     * @return \Just\Warehouse\Models\Inventory
      *
      * @throws \LogicException
      * @throws \Just\Warehouse\Exceptions\InvalidGtinException
