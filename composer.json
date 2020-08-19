@@ -25,7 +25,7 @@
         "mvdnbrk/gtin": "^2.6",
         "mvdnbrk/laravel-model-expires": "^1.6",
         "spatie/laravel-model-states": "^1.5",
-        "staudenmeir/eloquent-has-many-deep": "^1.13"
+        "staudenmeir/eloquent-has-many-deep": "^1.12"
     },
     "require-dev": {
         "nunomaduro/collision": "^4.2",
