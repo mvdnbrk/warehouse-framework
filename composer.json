@@ -28,7 +28,7 @@
         "staudenmeir/eloquent-has-many-deep": "^1.12"
     },
     "require-dev": {
-        "laravel/legacy-factories": "^1.0",
+        "laravel/legacy-factories": "^1.0.4",
         "nunomaduro/collision": "^4.2 || ^5.0",
         "orchestra/testbench": "^5.4 || ^6.0",
         "phpunit/phpunit": "^9.3"
