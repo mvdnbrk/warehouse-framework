@@ -13,15 +13,10 @@ use LogicException;
 class OrderLineObserver
 {
     /**
-     * Handle the OrderLine "creating" event.
-     *
-     * @param  \Just\Warehouse\Models\OrderLine  $line
-     * @return void
-     *
      * @throws \Just\Warehouse\Exceptions\InvalidGtinException
      * @throws \LogicException
      */
-    public function creating(OrderLine $line)
+    public function creating(OrderLine $line): void
     {
         if (! is_gtin($line->gtin)) {
             throw new InvalidGtinException;
@@ -32,26 +27,15 @@ class OrderLineObserver
         }
     }
 
-    /**
-     * Handle the OrderLine "created" event.
-     *
-     * @param  \Just\Warehouse\Models\OrderLine  $line
-     * @return void
-     */
-    public function created(OrderLine $line)
+    public function created(OrderLine $line): void
     {
         OrderLineCreated::dispatch($line);
     }
 
     /**
-     * Handle the OrderLine "deleting" event.
-     *
-     * @param  \Just\Warehouse\Models\OrderLine  $line
-     * @return void
-     *
      * @throws \LogicException
      */
-    public function deleting(OrderLine $line)
+    public function deleting(OrderLine $line): void
     {
         if (! $line->order->status->isOneOf([Created::class, Hold::class])) {
             throw new LogicException('This order line can not be deleted.');
@@ -61,13 +45,9 @@ class OrderLineObserver
     }
 
     /**
-     * Handle the OrderLine "updating" event.
-     *
-     * @return void
-     *
      * @throws \LogicException
      */
-    public function updating()
+    public function updating(): void
     {
         throw new LogicException('An order line can not be updated.');
     }

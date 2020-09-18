@@ -12,27 +12,16 @@ use LogicException;
 class InventoryObserver
 {
     /**
-     * Handle the Inventory "creating" event.
-     *
-     * @param  \Just\Warehouse\Models\Inventory  $inventory
-     * @return void
-     *
      * @throws \Just\Warehouse\Exceptions\InvalidGtinException
      */
-    public function creating(Inventory $inventory)
+    public function creating(Inventory $inventory): void
     {
         if (! is_gtin($inventory->gtin)) {
             throw new InvalidGtinException;
         }
     }
 
-    /**
-     * Handle the Inventory "created" event.
-     *
-     * @param  \Just\Warehouse\Models\Inventory  $inventory
-     * @return void
-     */
-    public function created(Inventory $inventory)
+    public function created(Inventory $inventory): void
     {
         $inventory->reserve();
 
@@ -40,14 +29,9 @@ class InventoryObserver
     }
 
     /**
-     * Handle the Inventory "deleting" event.
-     *
-     * @param  \Just\Warehouse\Models\Inventory  $inventory
-     * @return void
-     *
      * @throws \LogicException
      */
-    public function deleting(Inventory $inventory)
+    public function deleting(Inventory $inventory): void
     {
         if (! $inventory->isReserved()) {
             return;
@@ -65,14 +49,9 @@ class InventoryObserver
     }
 
     /**
-     * Handle the Inventory "updating" event.
-     *
-     * @param  \Just\Warehouse\Models\Inventory  $inventory
-     * @return void
-     *
      * @throws \LogicException
      */
-    public function updating(Inventory $inventory)
+    public function updating(Inventory $inventory): void
     {
         if ($inventory->isDirty('gtin')) {
             throw new LogicException('The GTIN attribute can not be changed.');
@@ -80,14 +59,9 @@ class InventoryObserver
     }
 
     /**
-     * Handle the Inventory "restoring" event.
-     *
-     * @param  \Just\Warehouse\Models\Inventory  $inventory
-     * @return void
-     *
      * @throws \LogicException
      */
-    public function restoring(Inventory $inventory)
+    public function restoring(Inventory $inventory): void
     {
         if (! $inventory->isReserved()) {
             return;
@@ -96,13 +70,7 @@ class InventoryObserver
         throw new LogicException('This inventory item can not be restored.');
     }
 
-    /**
-     * Handle the Inventory "restored" event.
-     *
-     * @param  \Just\Warehouse\Models\Inventory  $inventory
-     * @return void
-     */
-    public function restored(Inventory $inventory)
+    public function restored(Inventory $inventory): void
     {
         $inventory->reserve();
 

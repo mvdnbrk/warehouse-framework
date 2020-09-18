@@ -9,10 +9,7 @@ use Just\Warehouse\Models\Reservation;
 
 class Stock
 {
-    /**
-     * @var string
-     */
-    protected $gtin;
+    protected ?string $gtin = null;
 
     public function available(): int
     {
@@ -46,14 +43,9 @@ class Stock
     }
 
     /**
-     * Set a GTIN.
-     *
-     * @param  string  $value
-     * @return $this
-     *
      * @throws \Just\Warehouse\Exceptions\InvalidGtinException
      */
-    public function gtin($value)
+    public function gtin(string $value): self
     {
         if (! is_gtin($value)) {
             throw new InvalidGtinException;

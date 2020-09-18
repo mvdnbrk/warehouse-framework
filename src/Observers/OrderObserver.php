@@ -14,27 +14,16 @@ use LogicException;
 class OrderObserver
 {
     /**
-     * Handle the Order "creating" event.
-     *
-     * @param  \Just\Warehouse\Models\Order  $order
-     * @return void
-     *
      * @throws \Just\Warehouse\Exceptions\InvalidOrderNumberException
      */
-    public function creating(Order $order)
+    public function creating(Order $order): void
     {
         if (empty($order->order_number)) {
             throw new InvalidOrderNumberException;
         }
     }
 
-    /**
-     * Handle the Order "updated" event.
-     *
-     * @param  \Just\Warehouse\Models\Order  $order
-     * @return void
-     */
-    public function updated(Order $order)
+    public function updated(Order $order): void
     {
         if ($order->wasChanged('status')) {
             OrderStatusUpdated::dispatch($order, $order->getOriginal('status'));
@@ -42,27 +31,16 @@ class OrderObserver
     }
 
     /**
-     * Handle the Order "deleting" event.
-     *
-     * @param  \Just\Warehouse\Models\Order  $order
-     * @return void
-     *
      * @throws \LogicException
      */
-    public function deleting(Order $order)
+    public function deleting(Order $order): void
     {
         if ($order->isForceDeleting()) {
             throw new LogicException('An order can not be force deleted.');
         }
     }
 
-    /**
-     * Handle the Order "deleted" event.
-     *
-     * @param  \Just\Warehouse\Models\Order  $order
-     * @return void
-     */
-    public function deleted(Order $order)
+    public function deleted(Order $order): void
     {
         $order->lines->each(function ($line) {
             ReleaseOrderLine::dispatch($line);
@@ -74,13 +52,7 @@ class OrderObserver
         ]);
     }
 
-    /**
-     * Handle the Order "restored" event.
-     *
-     * @param  \Just\Warehouse\Models\Order  $order
-     * @return void
-     */
-    public function restored(Order $order)
+    public function restored(Order $order): void
     {
         $order->lines->each(function ($line) {
             PairOrderLine::dispatch($line);
