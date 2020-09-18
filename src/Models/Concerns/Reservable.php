@@ -42,7 +42,7 @@ trait Reservable
         return $this->reservation->exists;
     }
 
-    public function isFulfilled()
+    public function isFulfilled(): bool
     {
         return ! is_null($this->reservation->inventory_id)
             && ! is_null($this->reservation->order_line_id);
