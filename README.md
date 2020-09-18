@@ -1,11 +1,10 @@
 # Laravel Warehouse Framework
 
+![PHP version][ico-php-version]
 [![Latest Version on Packagist][ico-version]][link-packagist]
 [![Software License][ico-license]](LICENSE.md)
-[![Build Status][ico-travis]][link-travis]
-[![Coverage Status][ico-scrutinizer]][link-scrutinizer]
-[![Quality Score][ico-code-quality]][link-code-quality]
-[![StyleCI][ico-style-ci]][link-style-ci]
+[![Tests][ico-tests]][link-tests]
+[![Code style][ico-code-style]][link-code-style]
 [![Total Downloads][ico-downloads]][link-downloads]
 
 ## Installation
@@ -232,9 +231,9 @@ Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recen
 
 Please see [CONTRIBUTING](.github/CONTRIBUTING.md) for details.
 
-## Security
+## Security Vulnerabilities
 
-If you discover any security related issues, please email mvdnbrk@gmail.com instead of using the issue tracker.
+Please review [our security policy](../../security/policy) on how to report security vulnerabilities.
 
 ## Credits
 
@@ -245,19 +244,16 @@ If you discover any security related issues, please email mvdnbrk@gmail.com inst
 
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
 
+[ico-php-version]: https://img.shields.io/packagist/php-v/mvdnbrk/warehouse-framework?style=flat-square
 [ico-version]: https://img.shields.io/packagist/v/mvdnbrk/warehouse-framework.svg?style=flat-square
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
-[ico-travis]: https://img.shields.io/travis/mvdnbrk/warehouse-framework/master.svg?style=flat-square
-[ico-scrutinizer]: https://img.shields.io/scrutinizer/coverage/g/mvdnbrk/warehouse-framework.svg?style=flat-square
-[ico-code-quality]: https://img.shields.io/scrutinizer/g/mvdnbrk/warehouse-framework.svg?style=flat-square
-[ico-style-ci]: https://styleci.io/repos/183472123/shield?branch=master
+[ico-tests]: https://img.shields.io/travis/mvdnbrk/warehouse-framework/master.svg?style=flat-square
+[ico-code-style]: https://styleci.io/repos/183472123/shield?branch=master
 [ico-downloads]: https://img.shields.io/packagist/dt/mvdnbrk/warehouse-framework.svg?style=flat-square
 
 [link-packagist]: https://packagist.org/packages/mvdnbrk/warehouse-framework
-[link-travis]: https://travis-ci.org/mvdnbrk/warehouse-framework
-[link-scrutinizer]: https://scrutinizer-ci.com/g/mvdnbrk/warehouse-framework/code-structure
-[link-code-quality]: https://scrutinizer-ci.com/g/mvdnbrk/warehouse-framework
-[link-style-ci]: https://styleci.io/repos/183472123
+[link-tests]: https://travis-ci.org/mvdnbrk/warehouse-framework
+[link-code-style]: https://styleci.io/repos/183472123
 [link-downloads]: https://packagist.org/packages/mvdnbrk/warehouse-framework
 [link-author]: https://github.com/mvdnbrk
 [link-contributors]: ../../contributors
