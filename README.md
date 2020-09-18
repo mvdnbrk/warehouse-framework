@@ -248,12 +248,12 @@ The MIT License (MIT). Please see [License File](LICENSE.md) for more informatio
 [ico-version]: https://img.shields.io/packagist/v/mvdnbrk/warehouse-framework.svg?style=flat-square
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
 [ico-tests]: https://img.shields.io/travis/mvdnbrk/warehouse-framework/master.svg?style=flat-square
-[ico-code-style]: https://styleci.io/repos/183472123/shield?branch=master
+[ico-code-style]: https://styleci.io/repos/183472123/shield?branch=main
 [ico-downloads]: https://img.shields.io/packagist/dt/mvdnbrk/warehouse-framework.svg?style=flat-square
 
 [link-packagist]: https://packagist.org/packages/mvdnbrk/warehouse-framework
 [link-tests]: https://travis-ci.org/mvdnbrk/warehouse-framework
-[link-code-style]: https://styleci.io/repos/183472123?branch=main
+[link-code-style]: https://styleci.io/repos/183472123
 [link-downloads]: https://packagist.org/packages/mvdnbrk/warehouse-framework
 [link-author]: https://github.com/mvdnbrk
 [link-contributors]: ../../contributors
