@@ -22,14 +22,9 @@ trait Reservable
         return $this->reservation->save();
     }
 
-    /**
-     * Release the model from being reserved.
-     *
-     * @return bool|null
-     */
-    public function release()
+    public function release(): bool
     {
-        return $this->reservation->delete();
+        return $this->reservation->delete() ?? false;
     }
 
     public function isAvailable(): bool
