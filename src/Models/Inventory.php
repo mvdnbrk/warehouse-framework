@@ -37,9 +37,9 @@ class Inventory extends AbstractModel
     public function order(): HasOneDeep
     {
         return $this->hasOneDeepFromRelations(
-                $this->orderline(),
-                (new OrderLine)->order()
-            );
+            $this->orderline(),
+            (new OrderLine)->order()
+        );
     }
 
     public function orderline(): HasOneThrough
@@ -55,14 +55,9 @@ class Inventory extends AbstractModel
     }
 
     /**
-     * Move the inventory model to another location.
-     *
-     * @param  \Just\Warehouse\Models\Location  $location
-     * @return bool
-     *
      * @throws \LogicException
      */
-    public function move(Location $location)
+    public function move(Location $location): bool
     {
         if (! $location->exists) {
             throw new LogicException('Location does not exist.');
