@@ -8,10 +8,10 @@ use Just\Warehouse\Models\States\Order\Hold;
 
 class OrdersUnholdCommand extends Command
 {
-    /**  @var string */
+    /** @var string */
     protected $signature = 'warehouse:orders:unhold';
 
-    /**  @var string */
+    /** @var string */
     protected $description = 'Un-hold orders which are expired.';
 
     public function handle(): int

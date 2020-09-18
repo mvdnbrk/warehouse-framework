@@ -6,10 +6,10 @@ use Illuminate\Console\Command;
 
 class FreshCommand extends Command
 {
-    /**  @var string */
+    /** @var string */
     protected $signature = 'warehouse:migrate:fresh {--force : Force the operation to run when in production}';
 
-    /**  @var string */
+    /** @var string */
     protected $description = 'Drop all tables and re-run all migrations';
 
     public function handle(): int

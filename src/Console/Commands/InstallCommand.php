@@ -6,10 +6,10 @@ use Illuminate\Console\Command;
 
 class InstallCommand extends Command
 {
-    /**  @var string */
+    /** @var string */
     protected $signature = 'warehouse:install';
 
-    /**  @var string */
+    /** @var string */
     protected $description = 'Install the warehouse application';
 
     public function handle(): int
