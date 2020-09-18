@@ -6,10 +6,10 @@ use Illuminate\Console\Command;
 
 class MigrateCommand extends Command
 {
-    /**  @var string */
+    /** @var string */
     protected $signature = 'warehouse:migrate {--force : Force the operation to run when in production}';
 
-    /**  @var string */
+    /** @var string */
     protected $description = 'Run the database migrations';
 
     public function handle(): int

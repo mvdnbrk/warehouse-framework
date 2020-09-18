@@ -8,10 +8,10 @@ use Just\Warehouse\Models\Location;
 
 class MakeLocationCommand extends Command
 {
-    /**  @var string */
+    /** @var string */
     protected $signature = 'warehouse:make:location';
 
-    /**  @var string */
+    /** @var string */
     protected $description = 'Create a new location';
 
     public function handle(): int
