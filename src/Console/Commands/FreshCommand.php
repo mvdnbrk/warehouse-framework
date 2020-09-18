@@ -6,30 +6,19 @@ use Illuminate\Console\Command;
 
 class FreshCommand extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
+    /**  @var string */
     protected $signature = 'warehouse:migrate:fresh {--force : Force the operation to run when in production}';
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
+    /**  @var string */
     protected $description = 'Drop all tables and re-run all migrations';
 
-    /**
-     * Execute the console command.
-     *
-     * @return mixed
-     */
-    public function handle()
+    public function handle(): int
     {
         $this->call('migrate:fresh', [
             '--path' => 'vendor/mvdnbrk/warehouse-framework/database/migrations',
             '--force' => $this->option('force'),
         ]);
+
+        return 0;
     }
 }

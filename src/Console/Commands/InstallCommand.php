@@ -6,26 +6,13 @@ use Illuminate\Console\Command;
 
 class InstallCommand extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
+    /**  @var string */
     protected $signature = 'warehouse:install';
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
+    /**  @var string */
     protected $description = 'Install the warehouse application';
 
-    /**
-     * Execute the console command.
-     *
-     * @return mixed
-     */
-    public function handle()
+    public function handle(): int
     {
         $this->comment('Publishing configuration...');
 
@@ -33,5 +20,7 @@ class InstallCommand extends Command
 
         $this->line('');
         $this->info('Warehouse was installed successfully.');
+
+        return 0;
     }
 }

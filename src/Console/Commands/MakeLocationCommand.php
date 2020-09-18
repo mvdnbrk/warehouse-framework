@@ -8,26 +8,13 @@ use Just\Warehouse\Models\Location;
 
 class MakeLocationCommand extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
+    /**  @var string */
     protected $signature = 'warehouse:make:location';
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
+    /**  @var string */
     protected $description = 'Create a new location';
 
-    /**
-     * Execute the console command.
-     *
-     * @return mixed
-     */
-    public function handle()
+    public function handle(): int
     {
         $validator = Validator::make(
             ['name' => $this->ask('What is the name of the location?')],
@@ -44,6 +31,8 @@ class MakeLocationCommand extends Command
         tap(Location::create($validator->valid()), function ($location) {
             $this->info("Location <comment>{$location->name}</comment> created successfully.");
         });
+
+        return 0;
     }
 
     protected function errorMessages(): array
