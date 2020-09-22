@@ -46,8 +46,7 @@ class OrderObserver
             ReleaseOrderLine::dispatch($line);
         });
 
-        $order->update([
-            'expires_at' => 0,
+        $order->discardExpiration()->update([
             'status' => Deleted::class,
         ]);
     }
