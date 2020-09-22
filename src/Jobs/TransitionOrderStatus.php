@@ -45,7 +45,7 @@ class TransitionOrderStatus implements ShouldQueue
             return;
         }
 
-        $this->order->setExpiresAtAttribute(0);
+        $this->order->discardExpiration();
         $this->order->status->transitionTo($this->newStatus);
     }
 }
