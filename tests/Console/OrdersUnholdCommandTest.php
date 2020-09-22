@@ -4,6 +4,7 @@ namespace Just\Warehouse\Tests\Console;
 
 use Facades\OrderFactory;
 use Illuminate\Support\Carbon;
+use Just\Warehouse\Models\Order;
 use Just\Warehouse\Tests\TestCase;
 
 class OrdersUnholdCommandTest extends TestCase
@@ -19,7 +20,7 @@ class OrdersUnholdCommandTest extends TestCase
             ->expectsOutput('Number of orders that will be placed back in process: 1')
             ->assertExitCode(0);
 
-        tap($order->fresh(), function ($order) {
+        tap($order->fresh(), function (Order $order) {
             $this->assertFalse($order->status->isHold());
             $this->assertFalse($order->willExpire());
         });
@@ -34,7 +35,7 @@ class OrdersUnholdCommandTest extends TestCase
             ->expectsOutput('Nothing to un-hold.')
             ->assertExitCode(0);
 
-        tap($order->fresh(), function ($order) {
+        tap($order->fresh(), function (Order $order) {
             $this->assertTrue($order->status->isHold());
             $this->assertTrue($order->willExpire());
         });
@@ -53,7 +54,7 @@ class OrdersUnholdCommandTest extends TestCase
 
         Carbon::setTestNow();
 
-        tap($order->fresh(), function ($order) {
+        tap($order->fresh(), function (Order $order) {
             $this->assertTrue($order->status->isCreated());
             $this->assertTrue($order->willExpire());
         });

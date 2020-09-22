@@ -4,11 +4,11 @@ namespace Just\Warehouse\Tests\Jobs;
 
 use Facades\InventoryFactory;
 use Facades\OrderLineFactory;
-use Illuminate\Contracts\Queue\ShouldQueue;
+use Just\Warehouse\Tests\TestCase;
 use Illuminate\Support\Facades\Queue;
 use Just\Warehouse\Jobs\PairInventory;
 use Just\Warehouse\Jobs\ReleaseOrderLine;
-use Just\Warehouse\Tests\TestCase;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
 class ReleaseOrderLineTest extends TestCase
 {
@@ -46,7 +46,7 @@ class ReleaseOrderLineTest extends TestCase
         Queue::fake();
         $line->delete();
 
-        Queue::assertPushed(PairInventory::class, function ($job) use ($inventory) {
+        Queue::assertPushed(PairInventory::class, function (PairInventory $job) use ($inventory) {
             return $job->inventory->is($inventory);
         });
     }

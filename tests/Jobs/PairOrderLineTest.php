@@ -49,7 +49,7 @@ class PairOrderLineTest extends TestCase
 
         event(new OrderLineCreated($line));
 
-        tap($line->fresh(), function ($line) {
+        tap($line->fresh(), function (OrderLine $line) {
             $this->assertTrue($line->isReserved());
             $this->assertFalse($line->isFulfilled());
         });

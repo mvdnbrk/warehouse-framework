@@ -44,7 +44,7 @@ class PairInventoryTest extends TestCase
             InventoryFactory::create();
         }, [InventoryCreated::class]);
 
-        tap(Inventory::first(), function ($inventory) {
+        tap(Inventory::first(), function (Inventory $inventory) {
             $this->assertFalse($inventory->isAvailable());
 
             PairInventory::dispatch($inventory);
@@ -71,7 +71,7 @@ class PairInventoryTest extends TestCase
         PairInventory::dispatch(Inventory::first());
 
         $this->assertCount(1, Reservation::all());
-        tap(Inventory::first(), function ($inventory) {
+        tap(Inventory::first(), function (Inventory $inventory) {
             $this->assertEquals('5678', $inventory->reservation->inventory_id);
             $this->assertEquals('1234', $inventory->reservation->order_line_id);
         });
@@ -95,7 +95,7 @@ class PairInventoryTest extends TestCase
             ]);
         });
 
-        tap(OrderLine::find(1), function ($line) {
+        tap(OrderLine::find(1), function (OrderLine $line) {
             $this->assertTrue($line->isFulfilled());
             $this->assertSame(1, $line->inventory->id);
         });
@@ -110,11 +110,11 @@ class PairInventoryTest extends TestCase
             'gtin' => '1300000000000',
         ]);
 
-        tap(OrderLine::find(1234), function ($line) {
+        tap(OrderLine::find(1234), function (OrderLine $line) {
             $this->assertTrue($line->isFulfilled());
             $this->assertSame(5678, $line->inventory->id);
         });
-        tap(OrderLine::find(1), function ($line) {
+        tap(OrderLine::find(1), function (OrderLine $line) {
             $this->assertTrue($line->isFulfilled());
             $this->assertSame(1, $line->inventory->id);
         });
@@ -139,10 +139,10 @@ class PairInventoryTest extends TestCase
             'gtin' => '1300000000000',
         ]);
 
-        tap(OrderLine::find(2), function ($line) {
+        tap(OrderLine::find(2), function (OrderLine $line) {
             $this->assertTrue($line->isFulfilled());
         });
-        tap(OrderLine::find(1), function ($line) {
+        tap(OrderLine::find(1), function (OrderLine $line) {
             $this->assertFalse($line->isFulfilled());
         });
     }
