@@ -17,9 +17,7 @@ class MakeLocationCommandTest extends TestCase
             ->assertExitCode(0);
 
         $this->assertCount(1, Location::all());
-        tap(Location::first(), function ($location) {
-            $this->assertEquals('test-name', $location->name);
-        });
+        $this->assertEquals('test-name', Location::first()->name);
     }
 
     /** @test */
